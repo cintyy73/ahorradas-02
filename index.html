@@ -222,7 +222,35 @@
             <!-- ---------------- -->
 
             <!-- Sección categorías-->
-            <section id="cont-category"></section>
+            <section id="cont-category" class="box container p-5 m-5 is-hidden">
+                <h1 class="title">Categorías</h1>
+                <div id="box-new-op">
+                    <label for="new-operation" class="label subtitle">Nombre</label>
+                    <div class=" container columns ">
+                        <div class="field column is-8 ">
+                            <div class="control ">
+                                <input class="input" id="new-operation" type="text">
+                            </div>
+                        </div>
+                        <button id="btn-new-op" class="button is-primary column is-4 " type="button">Agregar</button>
+                    </div>
+                    <div class="container">
+                        <ul id="list-category">
+                            <li class="is-hidden">
+                                <div class="container is-flex is-justify-content-space-between is-small">
+                                    <p class="is-left" id="item-category-list">ffffff</p>
+                                    <div class="buttons is-right">
+                                        <button id="btn-dlt-category-list" type="button" class="button is-small is-ghost">
+                                            Editar</button>
+                                        <button id="btn-add-category-list" type="button" class="button is-ghost is-small">Agregar</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </section>
             <!-- ----------------- -->
 
             <!-- Sección reporte -->
