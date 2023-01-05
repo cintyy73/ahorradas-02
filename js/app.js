@@ -5,15 +5,42 @@ const $ = (selector) => document.querySelector(selector);
 // $ html
 // $$ dinamicos
 
+//datos local storage
+let dateLocalSt = JSON.parse(localStorage.getItem("operationsOB"));
+
 //*nav
 const $btnBurger = $("#burger");
 const $modalNav = $("#modal-nav");
+
+//balance
+const $btnNewOp = $("#btn-new-op");
+const $btnAddNewOp = $("#btn-add-new-op");
+const $btnCancNewOp = $("#btn-canc-new-op");
+const $boxNewOp = $("#box-new-op");
+const $balance = $("#cont-balance");
+const $contInnerOp = $("#cont-inner-op");
+const $InewOpDescrip = $("#new-op-desc");
+const $InewOpCategory = $("#new-op-category-filter");
+const $InewOpDate = $("#new-op-date");
+const $InewOpAmount = $("#new-op-amount");
+const $InewOpType = $("#new-op-type-filter");
 
 // Secciones 
 const $viewBalance = $("#cont-balance");
 const $viewCategory = $("#cont-category");
 const $viewReport = $("#cont-report");
 
+//variables datos 
+
+let operations = dateLocalSt || [];
+let operation = {
+    nameOp : "",
+    amountOp : 0,
+    typeOp : "",
+    categOp : "",
+    dateOp : "",
+    colorAmount: "",
+};
 
 
 
@@ -52,6 +79,66 @@ const viewsBalance = () =>{
     $viewCategory.classList.add("is-hidden");
 }
 
+//Functions BALANCE
+
+//oculta o muestra vistas segun btn nueva operacion
+const closeBalance = () => {
+    $balance.classList.add("is-hidden");
+}
+
+const openBalance = () => {
+    $balance.classList.remove("is-hidden");
+}
+
+const boxNewOp = () => {
+   $boxNewOp.classList.remove("is-hidden");
+}
+
+const closeBoxNewOp = () => {
+    $boxNewOp.classList.add("is-hidden");
+    openBalance()
+}
+//Funciones CATEGORIA
+
+// doy valor a las variables segun los inputs
+const inputsDate = (e) =>{
+    nameOp  = $InewOpDescrip.value 
+    amountOp = $InewOpAmount.value
+    typeOp = $InewOpType.value
+    categOp= $InewOpCategory.value
+    dateOp = $InewOpDate.value
+}
+
+//guarda datos en local storage
+const addLocalStorage = () =>{
+    const   inputsValues = {...operation};
+    inputsValues.nameOp = nameOp;  
+    inputsValues.amountOp = Number(amountOp);     
+    inputsValues.typeOp = typeOp;
+    inputsValues.categOp = categOp;
+    inputsValues.dateOp = dateOp;
+    operations.push(inputsValues);
+    localStorage.setItem("operationsOB", JSON.stringify(operations));
+}
+
+//ejecuto funciones necesarias para abrir modal btn nueva operacion
+
+const addNewOp = () => {
+    boxNewOp()
+    closeBalance()
+}
+
+//ejecuto funciones necesarias añadir operacion
+
+const addOp = () =>{
+    closeBoxNewOp()
+    inputsDate()
+    addLocalStorage()
+   // mountFact(ttlF)
+    //mountGain(ttlG)
+    //ttlViewBalance()
+   // addHtmlBlc()
+}
 
 /************EVENTS*****************/
 //Events nav
@@ -59,3 +146,7 @@ $btnBurger.addEventListener("click", burgerActive);
 $$btnReport.addEventListener("click", viewsReport);
 $$btnCategory.addEventListener("click",viewsCategory );
 $$btnBalance.addEventListener("click", viewsBalance);
+//Events BALANCE
+$btnNewOp.addEventListener("click", addNewOp );
+$btnCancNewOp.addEventListener("click", closeBoxNewOp);
+$btnAddNewOp.addEventListener("click", addOp);
