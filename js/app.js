@@ -30,7 +30,7 @@ const $InewOpType = $("#new-op-type-filter");
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
 const $btnBlc =("#cont-btn")
-const $descrpBlc = $("#descrip-blc")
+const $descripBlc = $("#modal-list-op")
 const $categBlc = $("#categ-blc")
 const $dateBlc = $("#date-blc")
 const $amountBlc = $("#amount-blc")
@@ -137,7 +137,7 @@ const addHtmlBlc = () => {
         console.log(operation);
         $modalListBlc.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
-        $descrpBlc.innerHTML += `<li>${operation.nameOp}<li>`
+        $descripBlc.innerHTML += `<li>${operation.nameOp}<li>`
         $categBlc.innerHTML += `<li>${operation.categOp}<li>`
         $dateBlc.innerHTML += `<li>${operation.dateOp}<li>`
         $amountBlc.innerHTML += `<li>${operation.amountOp}<li>`
