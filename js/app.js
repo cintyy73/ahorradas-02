@@ -26,11 +26,14 @@ const $InewOpCategory = $("#new-op-category-filter");
 const $InewOpDate = $("#new-op-date");
 const $InewOpAmount = $("#new-op-amount");
 const $InewOpType = $("#new-op-type-filter");
+const $ttlGain = $("#ttl-gain");
+const $ttlFact = $("#ttl-factures");
+const $ttl = $("#ttl");
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
 const $btnBlc =("#cont-btn")
-const $descrpBlc = $("#descrip-blc")
+const $descrpBlc = $("#desc-blc")
 const $categBlc = $("#categ-blc")
 const $dateBlc = $("#date-blc")
 const $amountBlc = $("#amount-blc")
@@ -40,7 +43,17 @@ const $viewBalance = $("#cont-balance");
 const $viewCategory = $("#cont-category");
 const $viewReport = $("#cont-report");
 
-//variables datos 
+
+//variables datos
+
+//montos ganancias / gastos /total
+let ttlGain = 0;
+let ttlFact = 0;
+let ttlAmount = 0;
+
+// arrya de montos ganacias y gastos 
+let ttlF = [];
+let ttlG =[];  
 
 let operations = dateLocalSt || [];
 let operation = {
@@ -112,11 +125,11 @@ const closeBoxNewOp = () => {
 
 // doy valor a las variables segun los inputs
 const inputsDate = (e) =>{
-    nameOp  = $InewOpDescrip.value 
-    amountOp = $InewOpAmount.value
-    typeOp = $InewOpType.value
+    nameOp  = $InewOpDescrip.value || "Sin descripción"
+    amountOp = $InewOpAmount.value || 0
+    typeOp = $InewOpType.value 
     categOp= $InewOpCategory.value
-    dateOp = $InewOpDate.value
+    dateOp = $InewOpDate.value || "--/--/--"
 }
 
 //guarda datos en local storage
@@ -131,21 +144,42 @@ const addLocalStorage = () =>{
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
+//creo botones de añadir y eliminar / <li>
+const buttonDlt = document.createElement("button");
+const buttonAdd = document.createElement("button");
+//les doy atributos
+buttonAdd.innerText = "Editar";
+buttonDlt.innerText = "Eliminar";
+
+
+
 //añade info a vista de operaciones en balance
 const addHtmlBlc = () => {
+    $descrpBlc.innerHTML += ``
+    $categBlc.innerHTML +=  ``
+    $dateBlc.innerHTML += ``
+    $amountBlc.innerHTML += ``
     for (const operation of operations) {
-        console.log(operation);
         $modalListBlc.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
-        $descrpBlc.innerHTML += `<li>${operation.nameOp}<li>`
-        $categBlc.innerHTML += `<li>${operation.categOp}<li>`
-        $dateBlc.innerHTML += `<li>${operation.dateOp}<li>`
-        $amountBlc.innerHTML += `<li>${operation.amountOp}<li>`
-        $btnBlc.innerHTML + `
-        <button class="button is-small is-ghost">Editar</button>
-        <button class="button is-small is-ghost">Eliminar</button>`
+        $descrpBlc.innerHTML += `<li>${operation.nameOp}  </li>`
+        $categBlc.innerHTML += `<li>${operation.categOp}  </li>`
+        $dateBlc.innerHTML += `<li>${operation.dateOp}  </li>`
+        $amountBlc.innerHTML += `<li>${operation.amountOp}  </li>`
+        $btnBlc.innerHTML += `<li>${buttonAdd} ${buttonDlt}</li>`
+
     }
 }
+// //`
+// <button class="button is-small is-ghost">Editar</button>
+// <button class="button is-small is-ghost">Eliminar</button>`
+
+//muestra valores de gastos y ganancias en aside de balance
+// const ttlViewBalance = () => {
+//     $ttlFact.innerHTML = ttlFact;
+//     $ttlGain.innerHTML = ttlGain;
+//     $ttl.innerHTML = ttlAmount;
+// }
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
@@ -165,6 +199,14 @@ const addOp = () =>{
     //ttlViewBalance()
     addHtmlBlc()
 }
+
+//ejecuto funciones necesarias para mostrar totales al abrir la pagina
+// const openApp = () =>{
+//     ttlViewBalance()
+
+// }
+// openApp()
+
 
 /************EVENTS*****************/
 //Events nav
