@@ -63,6 +63,7 @@ let operation = {
     categOp : "",
     dateOp : "",
     colorAmount: "",
+    id: self.crypto.randomUUID()
 };
 
 
@@ -122,6 +123,9 @@ const closeBoxNewOp = () => {
     openBalance()
 }
 //Funciones CATEGORIA
+// deleteOp = () => {
+//     console.log("agregar la funcionalidad para remover operacion");
+// }
 
 // doy valor a las variables segun los inputs
 const inputsDate = (e) =>{
@@ -151,14 +155,22 @@ const buttonAdd = document.createElement("button");
 buttonAdd.innerText = "Editar";
 buttonDlt.innerText = "Eliminar";
 
+buttonAdd.classList.add("is-ghost");
+buttonDlt.classList.add("is-ghost");
+buttonAdd.classList.add("is-small");
+buttonDlt.classList.add("is-small");
+
+// buttonDlt.onclick = funtion () = {
+//     deleteOp()
+// }
 
 
 //añade info a vista de operaciones en balance
 const addHtmlBlc = () => {
-    $descrpBlc.innerHTML += ``
-    $categBlc.innerHTML +=  ``
-    $dateBlc.innerHTML += ``
-    $amountBlc.innerHTML += ``
+    $descrpBlc.innerHTML = ``
+    $categBlc.innerHTML =  ``
+    $dateBlc.innerHTML = ``
+    $amountBlc.innerHTML = ``
     for (const operation of operations) {
         $modalListBlc.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
@@ -167,7 +179,7 @@ const addHtmlBlc = () => {
         $dateBlc.innerHTML += `<li>${operation.dateOp}  </li>`
         $amountBlc.innerHTML += `<li>${operation.amountOp}  </li>`
         $btnBlc.innerHTML += `<li>${buttonAdd} ${buttonDlt}</li>`
-
+        //ver porque no agrega buttons
     }
 }
 // //`
