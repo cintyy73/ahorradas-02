@@ -148,22 +148,37 @@ const addLocalStorage = () =>{
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
-//creo botones de añadir y eliminar / <li>
-const buttonDlt = document.createElement("button");
-const buttonAdd = document.createElement("button");
-//les doy atributos
-buttonAdd.innerText = "Editar";
-buttonDlt.innerText = "Eliminar";
+// //creo botones de añadir y eliminar / <li>
+// const buttonDlt = document.createElement("button");
+// const buttonAdd = document.createElement("button");
+// //les doy atributos
+// buttonAdd.innerText = "Editar";
+// buttonDlt.innerText = "Eliminar";
 
-buttonAdd.classList.add("is-ghost");
-buttonDlt.classList.add("is-ghost");
-buttonAdd.classList.add("is-small");
-buttonDlt.classList.add("is-small");
+// buttonAdd.classList.add("is-ghost");
+// buttonDlt.classList.add("is-ghost");
+// buttonAdd.classList.add("is-small");
+// buttonDlt.classList.add("is-small");
+// buttonAdd.classList.add("btn-add");
+// buttonDlt.classList.add("btn-dlt");
+
+// //agrego a li los botones
+// li.appenChild(buttonAdd)
+// li.appenChild(buttonDlt)
+
 
 // buttonDlt.onclick = funtion () = {
 //     deleteOp()
 // }
-
+const color = () =>{
+    for (const operation of operations) {
+    $amountBlc.classList.add("has-text-danger")
+        if(operation.typeOp ==="new-op-factures") {
+            $amountBlc.classList.remove("has-text-danger")
+            $amountBlc.classList.add("has-text-primary") 
+        }
+    }
+}
 
 //añade info a vista de operaciones en balance
 const addHtmlBlc = () => {
@@ -171,20 +186,27 @@ const addHtmlBlc = () => {
     $categBlc.innerHTML =  ``
     $dateBlc.innerHTML = ``
     $amountBlc.innerHTML = ``
+    $btnBlc.innerHTML = ``
     for (const operation of operations) {
         $modalListBlc.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
         $descrpBlc.innerHTML += `<li>${operation.nameOp}  </li>`
         $categBlc.innerHTML += `<li>${operation.categOp}  </li>`
         $dateBlc.innerHTML += `<li>${operation.dateOp}  </li>`
-        $amountBlc.innerHTML += `<li>${operation.amountOp}  </li>`
-        $btnBlc.innerHTML += `<li>${buttonAdd} ${buttonDlt}</li>`
-        //ver porque no agrega buttons
+        $amountBlc.innerHTML += `<li>$ ${operation.amountOp}  </li>`
+        //$btnBlc.innerHTML += `<li>${buttonAdd} ${buttonDlt}</li>`
+        
+        $btnBlc.innerHTML += 
+        `   <li>$ 
+                <button id="${operation.id}"class="button is-small is-ghost">Editar</button>
+                <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
+            </li>`
+         //ver porque no agrega buttons
     }
 }
-// //`
+
 // <button class="button is-small is-ghost">Editar</button>
-// <button class="button is-small is-ghost">Eliminar</button>`
+// <button class="button is-small is-ghost">Eliminar</button>
 
 //muestra valores de gastos y ganancias en aside de balance
 // const ttlViewBalance = () => {
