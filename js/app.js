@@ -211,17 +211,6 @@ const addHtmlBlc = () => {
     
 }
 
-// const color = () =>{
-//     $amountBlc = $("#amount-blc")
-
-//     $amountBlc.classList.add("has-text-danger")
-//     for (const operation of operations) {
-//         if(operation.typeOp ==="new-op-gain") {
-//             $amountBlc.classList.remove("has-text-danger")
-//             $amountBlc.classList.add("has-text-primary") 
-//         }
-//     }
-// }
 
 //muestra valores de gastos y ganancias en aside de balance
 // const ttlViewBalance = () => {
