@@ -188,6 +188,7 @@ const addHtmlBlc = () => {
             </div>
             <div class="column is-3">
                 <p id="categ-blc">
+
                     ${operation.categOp} 
                 </p>
             </div>
@@ -202,22 +203,67 @@ const addHtmlBlc = () => {
                 </p>
             </div>
             <div class="column is-2">
-                <div id="cont-btn" class="buttons is-flex">
-                        <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
+                <div id="cont-btn" class="buttons ">
+                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
                     <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
                 </div>
             </div>`
     }
     
 }
+//filtra las operaciones segun parametro de tipo de op. gasto/ganancia
+const typeFilter = (type) => {
+    return operations.filter(operation=>operation.typeOp === type)
+}
 
+
+
+    //sumo montos de ganancias
+    const mountGain = () =>{
+
+    ttlG = typeFilter("new-op-gain")//filtro ganacias
+    ttlGain = 0
+    for (const operation of ttlG) {
+        const {amountOp} = operation
+        ttlGain += amountOp
+        ttlAmount = ttlGain-ttlFact;
+    }
+}
+//sumo montos de gastos
+const mountFact = () =>{
+    ttlF = typeFilter("new-op-factures") //filtro gastos
+    ttlFact = 0
+    for (const operation of ttlF) {
+        const {amountOp} = operation
+        ttlFact += amountOp
+        ttlAmount = ttlGain-ttlFact;
+    }
+}
+
+// const mountGainBlc = () =>{
+    
+//     for (const operation of ttlG) {
+//         const {amountOp} = operation
+//         ttlGain += amountOp
+//         ttlAmount = ttlGain-ttlFact;
+//     }
+// }
+// //sumo montos de gastos
+// const mountFactBlc = () =>{
+    
+//     for (const operation of ttlF) {
+//         const {amountOp} = operation
+//         ttlFact += amountOp
+//         ttlAmount = ttlGain-ttlFact;
+//     }
+// }
 
 //muestra valores de gastos y ganancias en aside de balance
-// const ttlViewBalance = () => {
-//     $ttlFact.innerHTML = ttlFact;
-//     $ttlGain.innerHTML = ttlGain;
-//     $ttl.innerHTML = ttlAmount;
-// }
+const ttlViewBalance = () => {
+    $ttlFact.innerHTML = ttlFact;
+    $ttlGain.innerHTML = ttlGain;
+    $ttl.innerHTML = ttlAmount;
+}
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
@@ -232,19 +278,19 @@ const addOp = () =>{
     closeBoxNewOp()
     inputsDate()
     addLocalStorage()
-   // mountFact(ttlF)
-    //mountGain(ttlG)
-    //ttlViewBalance()
+    mountFact()
+    mountGain()
+    ttlViewBalance()
     addHtmlBlc()
-    // color()
 }
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
-// const openApp = () =>{
-//     ttlViewBalance()
-
-// }
-// openApp()
+const openApp = () =>{
+    mountFact()
+    mountGain()
+    ttlViewBalance()
+}
+openApp()
 
 
 /************EVENTS*****************/
