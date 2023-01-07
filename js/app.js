@@ -32,11 +32,12 @@ const $ttl = $("#ttl");
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
-const $btnBlc =("#cont-btn")
+const $btnBlc =$("#cont-btn")
 const $descrpBlc = $("#desc-blc")
 const $categBlc = $("#categ-blc")
 const $dateBlc = $("#date-blc")
-const $amountBlc = $("#amount-blc")
+let $amountBlc ="";
+const $viewListOp = $("#view-list-op")
 
 // Secciones 
 const $viewBalance = $("#cont-balance");
@@ -170,43 +171,57 @@ const addLocalStorage = () =>{
 // buttonDlt.onclick = funtion () = {
 //     deleteOp()
 // }
-const color = () =>{
-    for (const operation of operations) {
-    $amountBlc.classList.add("has-text-danger")
-        if(operation.typeOp ==="new-op-factures") {
-            $amountBlc.classList.remove("has-text-danger")
-            $amountBlc.classList.add("has-text-primary") 
-        }
-    }
-}
+
 
 //añade info a vista de operaciones en balance
 const addHtmlBlc = () => {
-    $descrpBlc.innerHTML = ``
-    $categBlc.innerHTML =  ``
-    $dateBlc.innerHTML = ``
-    $amountBlc.innerHTML = ``
-    $btnBlc.innerHTML = ``
+    $modalListBlc.innerHTML = ``
     for (const operation of operations) {
-        $modalListBlc.classList.remove("is-hidden");
+        $viewListOp.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
-        $descrpBlc.innerHTML += `<li>${operation.nameOp}  </li>`
-        $categBlc.innerHTML += `<li>${operation.categOp}  </li>`
-        $dateBlc.innerHTML += `<li>${operation.dateOp}  </li>`
-        $amountBlc.innerHTML += `<li>$ ${operation.amountOp}  </li>`
-        //$btnBlc.innerHTML += `<li>${buttonAdd} ${buttonDlt}</li>`
-        
-        $btnBlc.innerHTML += 
-        `   <li>$ 
-                <button id="${operation.id}"class="button is-small is-ghost">Editar</button>
-                <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
-            </li>`
-         //ver porque no agrega buttons
+        $modalListBlc.innerHTML +=  `
+        <div  class="container columns ">
+            <div class="column is-3">
+                <p id="desc-blc">
+                    ${operation.nameOp}        
+                </p>
+            </div>
+            <div class="column is-3">
+                <p id="categ-blc">
+                    ${operation.categOp} 
+                </p>
+            </div>
+            <div class="column is-2">
+                <p id="amount-blc" class= ${operation.typeOp ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
+                    $${operation.amountOp} 
+                </p>
+                </div>
+                <div class="column is-2">
+                <p id="date-blc">
+                    ${operation.dateOp} 
+                </p>
+            </div>
+            <div class="column is-2">
+                <div id="cont-btn" class="buttons is-flex">
+                        <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
+                    <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
+                </div>
+            </div>`
     }
+    
 }
 
-// <button class="button is-small is-ghost">Editar</button>
-// <button class="button is-small is-ghost">Eliminar</button>
+// const color = () =>{
+//     $amountBlc = $("#amount-blc")
+
+//     $amountBlc.classList.add("has-text-danger")
+//     for (const operation of operations) {
+//         if(operation.typeOp ==="new-op-gain") {
+//             $amountBlc.classList.remove("has-text-danger")
+//             $amountBlc.classList.add("has-text-primary") 
+//         }
+//     }
+// }
 
 //muestra valores de gastos y ganancias en aside de balance
 // const ttlViewBalance = () => {
@@ -232,6 +247,7 @@ const addOp = () =>{
     //mountGain(ttlG)
     //ttlViewBalance()
     addHtmlBlc()
+    // color()
 }
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
