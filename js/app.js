@@ -29,6 +29,7 @@ const $InewOpType = $("#new-op-type-filter");
 const $ttlGain = $("#ttl-gain");
 const $ttlFact = $("#ttl-factures");
 const $ttl = $("#ttl");
+const $modalEditOp = $("#box-edit-op")
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
@@ -123,6 +124,15 @@ const closeBoxNewOp = () => {
     $boxNewOp.classList.add("is-hidden");
     openBalance()
 }
+
+const open = (modal) => {
+    modal.classList.remove("is-hidden");
+}
+
+const close = (modal) => {
+    modal.classList.remove("is-hidden");
+ }
+
 //Funciones CATEGORIA
 // deleteOp = () => {
 //     console.log("agregar la funcionalidad para remover operacion");
@@ -204,13 +214,19 @@ const addHtmlBlc = () => {
             </div>
             <div class="column is-2">
                 <div id="cont-btn" class="buttons ">
-                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
+                    <button id="${operation.id}"class="button btn-edit is-small   is-ghost">Editar</button>
                     <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
                 </div>
             </div>`
+            
     }
     
 }
+
+// de botones 
+//const $btnBlc = document.querySelectorAll(".btn-edit")
+
+console.log($btnBlc)
 //filtra las operaciones segun parametro de tipo de op. gasto/ganancia
 const typeFilter = (type) => {
     return operations.filter(operation=>operation.typeOp === type)
@@ -292,6 +308,7 @@ const openApp = () =>{
 }
 openApp()
 
+////ejecuto funciones necesarias para editar operacion
 
 /************EVENTS*****************/
 //Events nav
@@ -303,6 +320,16 @@ $$btnBalance.addEventListener("click", viewsBalance);
 $btnNewOp.addEventListener("click", addNewOp );
 $btnCancNewOp.addEventListener("click", closeBoxNewOp);
 $btnAddNewOp.addEventListener("click", addOp);
+
+
+// const editOp = () => {
+//     closeModal($viewBalance)
+//     openModal($modalEditOp)
+// }
+
+
+
+//btnEditOp.addEventListener("click", editOp);
 
 
 
