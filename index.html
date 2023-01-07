@@ -273,7 +273,59 @@
                 </div>
             </div>
             <!-- --------------------- -->
-            
+                        <!--modal editar operacion balance -->
+                        <div id="box-edit-op" class="box container p-5 m-5 is-hidden">
+                            <h1 class="title">Editar operación</h1>
+                            <div class="field">
+                                <label for="edit-op-desc" class="label subtitle">Descripción</label>
+                                <div class="control ">
+                                    <input class="input" id="edit-op-desc" type="text">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="edit-op-amount" class="label subtitle">Monto</label>
+                                <div class="control ">
+                                    <input class="input" id="edit-op-amount" type="number">
+                                </div>
+                            </div>
+                            <div class="field ">
+                                <label for="type-filter" class="label subtitle">Tipo</label>
+                                <div class="control ">
+                                    <div class="select is-fullwidth">
+                                        <select name="type-filter" id="edit-op-type-filter">
+                                            <option value="edit-op-factures">Gasto</option>
+                                            <option value="edit-op-gain">Ganancia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="edit-op-category-filter" class="label subtitle">Categoría</label>
+                                <div class="control ">
+                                    <div class="select is-fullwidth">
+                                        <select type="radio" name="category" id="edit-op-category-filter">
+                                            <option value="edit-op-all">Todas</option>
+                                            <option value="comida">Comida</option>
+                                            <option value="Servicios">Servicios</option>
+                                            <option value="Salida">Salida</option>
+                                            <option value="Education">Educación</option>
+                                            <option value="Transporte">Transporte</option>
+                                            <option value="Trabajo">Trabajo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="edit-op-date" class="label subtitle">Fecha</label>
+                                <div class="control ">
+                                    <input class="input" id="edit-op-date" type="date">
+                                </div>
+                            </div>
+                            <div class="buttons is-right">
+                                <div id="btn-canc-edit-op" type="button" class="button">Cancelar</div>
+                                <div id="btn-add-edit-op" type="button" class="button is-primary">Editar</div>
+                            </div>
+                        </div>
             </section>
             <!-- ---------------- -->
 
