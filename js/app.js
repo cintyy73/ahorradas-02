@@ -29,7 +29,6 @@ const $InewOpType = $("#new-op-type-filter");
 const $ttlGain = $("#ttl-gain");
 const $ttlFact = $("#ttl-factures");
 const $ttl = $("#ttl");
-const $modalEditOp = $("#box-edit-op")
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
@@ -44,6 +43,9 @@ const $viewListOp = $("#view-list-op")
 const $viewBalance = $("#cont-balance");
 const $viewCategory = $("#cont-category");
 const $viewReport = $("#cont-report");
+
+//filtros
+const filterType = $("#type-filter")
 
 
 //variables datos
@@ -67,7 +69,8 @@ let operation = {
     colorAmount: "",
     id: self.crypto.randomUUID()
 };
-
+//array de operaciones para filtros
+let list = []
 
 
 /************FUNCIONES*****************/
@@ -124,15 +127,6 @@ const closeBoxNewOp = () => {
     $boxNewOp.classList.add("is-hidden");
     openBalance()
 }
-
-const open = (modal) => {
-    modal.classList.remove("is-hidden");
-}
-
-const close = (modal) => {
-    modal.classList.remove("is-hidden");
- }
-
 //Funciones CATEGORIA
 // deleteOp = () => {
 //     console.log("agregar la funcionalidad para remover operacion");
@@ -184,9 +178,9 @@ const addLocalStorage = () =>{
 
 
 //añade info a vista de operaciones en balance
-const addHtmlBlc = () => {
+const addHtmlBlc= (listOperations) => {
     $modalListBlc.innerHTML = ``
-    for (const operation of operations) {
+    for (const operation of listOperations) {
         $viewListOp.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
         $modalListBlc.innerHTML +=  `
@@ -214,19 +208,13 @@ const addHtmlBlc = () => {
             </div>
             <div class="column is-2">
                 <div id="cont-btn" class="buttons ">
-                    <button id="${operation.id}"class="button btn-edit is-small   is-ghost">Editar</button>
+                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
                     <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
                 </div>
             </div>`
-            
     }
     
 }
-
-// de botones 
-//const $btnBlc = document.querySelectorAll(".btn-edit")
-
-console.log($btnBlc)
 //filtra las operaciones segun parametro de tipo de op. gasto/ganancia
 const typeFilter = (type) => {
     return operations.filter(operation=>operation.typeOp === type)
@@ -256,36 +244,77 @@ const mountFact = () =>{
     }
 }
 
-// const mountGainBlc = () =>{
-    
-//     for (const operation of ttlG) {
-//         const {amountOp} = operation
-//         ttlGain += amountOp
-//         ttlAmount = ttlGain-ttlFact;
-//     }
-// }
-// //sumo montos de gastos
-// const mountFactBlc = () =>{
-    
-//     for (const operation of ttlF) {
-//         const {amountOp} = operation
-//         ttlFact += amountOp
-//         ttlAmount = ttlGain-ttlFact;
-//     }
-// }
 
 //muestra valores de gastos y ganancias en aside de balance
+
 const ttlViewBalance = () => {
     $ttlFact.innerHTML = ttlFact;
     $ttlGain.innerHTML = ttlGain;
     $ttl.innerHTML = ttlAmount;
 }
 
+//filtro el array de operaciones segun gasto / ganancia
+const valueList = () =>{
+    if (filterType.value ==="new-op-gain"){
+        list = typeFilter("new-op-gain")
+    }
+    else if ( filterType.value ==="new-op-factures"  ) {
+        list = typeFilter("new-op-factures")    
+
+    } 
+    else {
+        list = [...operations]
+    }    
+
+}
+
+ //llena vista de balnce segun filtroa
+ const addHtmlFylter= (list) => {
+    $modalListBlc.innerHTML = ``
+    for (const operation of list) {
+        $viewListOp.classList.remove("is-hidden");
+        $contInnerOp.classList.add("is-hidden");
+        $boxNewOp.classList.add("is-hidden");
+        $modalListBlc.innerHTML +=  `
+        <div  class="container columns ">
+            <div class="column is-3">
+                <p id="desc-blc">
+                    ${operation.nameOp}        
+                </p>
+            </div>
+            <div class="column is-3">
+                <p id="categ-blc">
+
+                    ${operation.categOp} 
+                </p>
+            </div>
+            <div class="column is-2">
+                <p id="amount-blc" class= ${operation.typeOp} ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
+                    $${operation.amountOp} 
+                </p>
+                </div>
+                <div class="column is-2">
+                <p id="date-blc">
+                    ${operation.dateOp} 
+                </p>
+            </div>
+            <div class="column is-2">
+                <div id="cont-btn" class="buttons ">
+                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
+                    <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
+                </div>
+            </div>`
+    }
+    
+}
+
+
+
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
 const addNewOp = () => {
-    boxNewOp()
-    closeBalance()
+      boxNewOp()
+      closeBalance()
 }
 
 //ejecuto funciones necesarias añadir operacion
@@ -297,7 +326,13 @@ const addOp = () =>{
     mountFact()
     mountGain()
     ttlViewBalance()
-    addHtmlBlc()
+    addHtmlBlc(operations)
+}
+
+//ejecuto funciones necesarias para mostrar balnca segun filtros
+const viewFylter = () => {
+    valueList()
+    addHtmlFylter(list) 
 }
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
@@ -308,7 +343,7 @@ const openApp = () =>{
 }
 openApp()
 
-////ejecuto funciones necesarias para editar operacion
+
 
 /************EVENTS*****************/
 //Events nav
@@ -320,78 +355,5 @@ $$btnBalance.addEventListener("click", viewsBalance);
 $btnNewOp.addEventListener("click", addNewOp );
 $btnCancNewOp.addEventListener("click", closeBoxNewOp);
 $btnAddNewOp.addEventListener("click", addOp);
-
-
-// const editOp = () => {
-//     closeModal($viewBalance)
-//     openModal($modalEditOp)
-// }
-
-
-
-//btnEditOp.addEventListener("click", editOp);
-
-
-
-
-// const $ = (selector) => document.querySelector(selector);
-
-// //Elementos 
-
-// // $ html
-// // $$ dinamicos
-
-// //*nav
-// const $btnBurger = $("#burger");
-// const $modalNav = $("#modal-nav");
-
-// // Secciones 
-// const $viewBalance = $("#cont-balance");
-// const $viewCategory = $("#cont-category");
-// const $viewReport = $("#cont-report");
-
-
-
-
-// /************FUNCIONES*****************/
-
-
-// //Funciones NAV
-// // menu 
-// const burgerActive = ()=>{
-//     $btnBurger.classList.toggle("is-active");
-//     $modalNav.classList.toggle("is-active");
-// }
-
-// //Botones menu 
-
-// const $$btnBalance= $("#balance");
-// const $$btnReport= $("#report");
-// const $$btnCategory= $("#category");
-
-// //activa vistas y/o oculta segun btn
-// const viewsReport = () =>{
-//     $viewBalance.classList.add("is-hidden");
-//     $viewReport.classList.remove("is-hidden");
-//     $viewCategory.classList.add("is-hidden");
-// }
-
-// const viewsCategory = () =>{
-//     $viewBalance.classList.add("is-hidden");
-//     $viewReport.classList.add("is-hidden");
-//     $viewCategory.classList.remove("is-hidden");
-// }
-
-// const viewsBalance = () =>{
-//     $viewBalance.classList.remove("is-hidden");
-//     $viewReport.classList.add("is-hidden");
-//     $viewCategory.classList.add("is-hidden");
-// }
-
-
-// /************EVENTS*****************/
-// //Events nav
-// $btnBurger.addEventListener("click", burgerActive);
-// $$btnReport.addEventListener("click", viewsReport);
-// $$btnCategory.addEventListener("click",viewsCategory );
-// $$btnBalance.addEventListener("click", viewsBalance);
+//Eventos filtros
+filterType.addEventListener("click",viewFylter)
