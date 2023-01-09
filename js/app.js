@@ -47,7 +47,7 @@ const $viewReport = $("#cont-report");
 //filtros
 const $filterType = $("#type-filter")
 const $categoryFilterI = $("#category-filter")
-
+const $orderMI = $("#sort-by")
 //variables datos
 
 //montos ganancias / gastos /total
@@ -281,6 +281,38 @@ const categoryList = () =>{
     }
 
 }
+//filtrar los montos en un array
+// const amountsU = ()=>{
+    //     for(operation of operations){
+//         amounts.push(operation.amountOp) 
+//     }
+// }
+
+
+
+// ordenar por 
+// const ordenFilterMin = () => {
+//     return operations.sort((x, y) => (x - y))
+// }
+// // console.log(ordenFilterMin( ));
+// const ordenFilterMax = () => {
+//     return  amounts.sort((x, y) => (y - x))
+// }
+// console.log(ordenFilterMax());
+
+let amounts = [...operations]
+
+const ordenFilterMax = () => {
+    amounts.sort((x, y) => (y.amountOp - x.amountOp))    
+}
+
+
+
+//filtra montos  menor a mayor
+const ordenFilterMin = () => {  
+    amounts.sort((x, y) => (x.amountOp - y.amountOp))    
+}
+// console.log(ordenFilter())
 
 //llena vista de balnce segun filtros
 const addHtmlFylter = (list) => {
@@ -346,7 +378,8 @@ const addOp = () => {
     addHtmlBlc(operations)
 }
 
-//ejecuto funciones necesarias para mostrar balnca segun filtros
+//ejecuto funciones necesarias para mostrar balance segun filtros
+
 
 //gasto / ganancia
 const viewFylter = () => {
@@ -360,6 +393,30 @@ const viewCategory = () => {
     addHtmlFylter(list)
 }
 
+//ordenar por:
+/*mayor monto*/
+const viewOrdenMax = () => {
+    ordenFilterMax()
+    console.log(amounts)
+    addHtmlFylter(amounts)
+}
+
+/*menor monto*/ 
+const viewOrdenMin = () => {
+    ordenFilterMin()
+    console.log(amounts)
+    addHtmlFylter(amounts)
+}
+
+const viewOrder = () => {
+    let valueInput = $orderMI.value
+    if(valueInput ==="higher-amount"){
+        viewOrdenMax()
+    }
+    else if (valueInput === "lower-amount") {
+        viewOrdenMin()
+    }
+}
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
     mountFact()
@@ -383,3 +440,4 @@ $btnAddNewOp.addEventListener("click", addOp);
 //Eventos filtros
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
+$orderMI.addEventListener("click",viewOrder)
