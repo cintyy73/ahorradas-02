@@ -71,6 +71,8 @@ let operation = {
 };
 //array de operaciones para filtros
 let list = []
+//montos
+let opXfilter = [...operations]
 
 
 /************FUNCIONES*****************/
@@ -271,6 +273,7 @@ const valueList = () => {
 const categoryFilter = (type) => {
     return operations.filter(operation => operation.categOp === type)
 }
+
 const categoryList = () =>{
     if  ($categoryFilterI.value !== "Todas") {
         list = categoryFilter($categoryFilterI.value)      
@@ -281,39 +284,53 @@ const categoryList = () =>{
     }
 
 }
-//filtrar los montos en un array
-// const amountsU = ()=>{
-    //     for(operation of operations){
-//         amounts.push(operation.amountOp) 
-//     }
-// }
 
-
-
-// ordenar por 
-// const ordenFilterMin = () => {
-//     return operations.sort((x, y) => (x - y))
-// }
-// // console.log(ordenFilterMin( ));
-// const ordenFilterMax = () => {
-//     return  amounts.sort((x, y) => (y - x))
-// }
-// console.log(ordenFilterMax());
-
-let amounts = [...operations]
-
+//ordena montos mayor a menor  
 const ordenFilterMax = () => {
-    amounts.sort((x, y) => (y.amountOp - x.amountOp))    
+    opXfilter.sort((x, y) => (y.amountOp - x.amountOp))    
 }
 
-
-
-//filtra montos  menor a mayor
+//ordena montos  menor a mayor
 const ordenFilterMin = () => {  
-    amounts.sort((x, y) => (x.amountOp - y.amountOp))    
+    opXfilter.sort((x, y) => (x.amountOp - y.amountOp))    
 }
-// console.log(ordenFilter())
 
+//ordena alfabeticamente segun categoria
+const ordenFilterAZ = () => {  
+    opXfilter.sort((x, y)=> {
+        const categoryX = x.categOp.toLowerCase()
+        const categoryY = y.categOp.toLowerCase()
+        if (categoryX < categoryY) {
+            return -1
+        }
+        if (categoryX > categoryY) {
+            return 1
+        }
+        return 0
+    }
+    )
+    console.log("a-z")
+
+}
+
+//ordena alfabeticamente segun categoria
+const ordenFilterZA = () => {  
+    opXfilter.sort((x, y)=> {
+        const categoryX = x.categOp.toLowerCase()
+        const categoryY = y.categOp.toLowerCase()
+        if (categoryX < categoryY) {
+            return 1
+        }
+        if (categoryX > categoryY) {
+            return -1
+        }
+        return 0
+    }
+    )
+    console.log("z-a")
+}
+
+// opXfilter.sort((x, y) => (y.categOp - x.categOp))    
 //llena vista de balnce segun filtros
 const addHtmlFylter = (list) => {
     $modalListBlc.innerHTML = ``
@@ -397,17 +414,28 @@ const viewCategory = () => {
 /*mayor monto*/
 const viewOrdenMax = () => {
     ordenFilterMax()
-    console.log(amounts)
-    addHtmlFylter(amounts)
+    addHtmlFylter(opXfilter)
 }
 
 /*menor monto*/ 
 const viewOrdenMin = () => {
     ordenFilterMin()
-    console.log(amounts)
-    addHtmlFylter(amounts)
+    addHtmlFylter(opXfilter)
 }
 
+/* alfab a/z */
+const viewOrdenZA = () => {
+    ordenFilterZA()
+    addHtmlFylter(opXfilter)
+}
+/* alfab a/z */
+
+const viewOrdenAZ = () => {
+    ordenFilterAZ()
+    addHtmlFylter(opXfilter)
+}
+
+//segun valor select ejecuto la funcion
 const viewOrder = () => {
     let valueInput = $orderMI.value
     if(valueInput ==="higher-amount"){
@@ -416,6 +444,14 @@ const viewOrder = () => {
     else if (valueInput === "lower-amount") {
         viewOrdenMin()
     }
+    else if (valueInput === "z-a") {
+        viewOrdenZA()
+    } 
+    else if (valueInput === "a-z") {
+        viewOrdenAZ()
+
+    }
+  
 }
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
