@@ -48,6 +48,9 @@ const $viewReport = $("#cont-report");
 const $filterType = $("#type-filter")
 const $categoryFilterI = $("#category-filter")
 const $orderMI = $("#sort-by")
+
+//categorias
+const $btnNewCategory = $("#btn-new-categ")
 //variables datos
 
 //montos ganancias / gastos /total
@@ -375,7 +378,22 @@ const addHtmlFylter = (list) => {
 
 //     $modalListBlc.innerHTML += `<p class="title has-text-danger>No hay operaciones para mostrar</p>`
 // }
+const $categoryNewI = $("#new-name-category")
+const $listNameCateg =$("#list-name-category")
+const addCAtegory = () => {
+    //agragar option value a categorias de nueva operacioons y recorre con for of para llenar la lista con este codigo html
+    $listNameCateg.innerHTML += `
+    <div class="container is-flex is-justify-content-space-between is-small">
+    <p class="is-left" id="item-category-list">${$categoryNewI.value}</p>
+    <div class="buttons is-right">
+        <button id="btn-dlt-category-list" type="button" class="button is-small is-ghost">
+            Editar</button>
+        <button id="btn-add-category-list" type="button" class="button is-ghost is-small">Agregar<button>
+    </div>
+</div>`
+}
 
+$btnNewCategory.addEventListener("click", addCAtegory)
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
 const addNewOp = () => {
