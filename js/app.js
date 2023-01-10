@@ -158,37 +158,32 @@ const addLocalStorage = () => {
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 const $contBtn =$("#container-btn")
-//const contBtnChild =$("#cont-btn")  
-// //creo botones de añadir y eliminar / <div>
-const div = document.createElement("div")
-const buttonDlt = document.createElement("button");
-const buttonAdd = document.createElement("button");
-//les doy atributos
-buttonAdd.innerText = "Editar";
-buttonDlt.innerText = "Eliminar";
+// //const contBtnChild =$("#cont-btn")  
+// // //creo botones de añadir y eliminar / <div>
+// const buttonDlt = document.createElement("button");
+// const buttonAdd = document.createElement("button");
+// //les doy atributos
+// buttonAdd.innerText = "Editar";
+// buttonDlt.innerText = "Eliminar";
 
-buttonAdd.classList.add("is-ghost");
-buttonDlt.classList.add("is-ghost");
-buttonAdd.classList.add("is-small");
-buttonDlt.classList.add("is-small");
-buttonAdd.classList.add("btn-add");
-buttonDlt.classList.add("btn-dlt");
+// buttonAdd.classList.add("is-ghost");
+// buttonDlt.classList.add("is-ghost");
+// buttonAdd.classList.add("is-small");
+// buttonDlt.classList.add("is-small");
+// buttonAdd.classList.add("btn-add");
+// buttonDlt.classList.add("btn-dlt");
 
-// //agrego botones al div los botones
- $contBtn.appenChild(buttonAdd)
- $contBtn.appenChild(buttonDlt)
+// // //agrego botones al div los botones
+//  div.appendChild(buttonAdd)
+//  div.appendChild(buttonDlt)
 
-            // <div class="column is-2">
-            //     <div id="cont-btn" class="buttons ">
-            //         <button id="${operation.id}" class="button btn-delete
-            //         <button id="${operation.id}" class="button is-small is-ghost">Eliminar</button>
-            //     </div>
-            // </div>
+
 
 // buttonDlt.onclick = funtion () = {
 //     deleteOp()
 // }
 
+const divContainer = document.createElement("div")
 
 //añade info a vista de operaciones en balance
 const addHtmlBlc = (listOperations) => {
@@ -196,7 +191,8 @@ const addHtmlBlc = (listOperations) => {
     for (const operation of listOperations) {
         $viewListOp.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
-        $modalListBlc.innerHTML += `
+        $modalListBlc.appendChild(divContainer)
+       divContainer.innerHTML += `      
         <div  class="container columns ">
             <div class="column is-3">
                 <p id="desc-blc">
@@ -218,11 +214,21 @@ const addHtmlBlc = (listOperations) => {
                 <p id="date-blc">
                     ${operation.dateOp} 
                 </p>
-            </div>`
- 
-    }
-  
+            </div>
+            <div id="cont-btn" class="buttons cont-btn ">
+                <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
+                <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+            </div>
+        </div>`                            
+    } 
 }
+
+const buttonDlt = divContainer.querySelector("div.container div.cont-btn.btn-add");
+console.log(buttonDlt);
+const buttonAdd = divContainer.querySelector(".btn-edit");
+console.log(buttonAdd);
+
+
 //filtra las operaciones segun parametro 
 const typeFilter = (type) => {
     return operations.filter(operation => operation.typeOp === type)
