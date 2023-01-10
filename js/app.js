@@ -157,7 +157,6 @@ const addLocalStorage = () => {
     operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
-const $contBtn =$("#container-btn")
 // //const contBtnChild =$("#cont-btn")  
 // // //creo botones de añadir y eliminar / <div>
 // const buttonDlt = document.createElement("button");
@@ -166,34 +165,42 @@ const $contBtn =$("#container-btn")
 // buttonAdd.innerText = "Editar";
 // buttonDlt.innerText = "Eliminar";
 
-// buttonAdd.classList.add("is-ghost");
-// buttonDlt.classList.add("is-ghost");
-// buttonAdd.classList.add("is-small");
-// buttonDlt.classList.add("is-small");
-// buttonAdd.classList.add("btn-add");
-// buttonDlt.classList.add("btn-dlt");
-
-// // //agrego botones al div los botones
-//  div.appendChild(buttonAdd)
-//  div.appendChild(buttonDlt)
+// buttonAdd.className = "btn-add is-ghost is-small"
+// buttonDlt.className = "btn-dlt is-ghost is-small"
 
 
 
-// buttonDlt.onclick = funtion () = {
-//     deleteOp()
-// }
 
-const divContainer = document.createElement("div")
 
-//añade info a vista de operaciones en balance
-const addHtmlBlc = (listOperations) => {
-    $modalListBlc.innerHTML = ``
-    for (const operation of listOperations) {
+    // const $contBtn =$("#container-btn")
+    // const divContainer = document.createElement("div")
+    // divContainer.className ="columns container"
+    // // divContainer.classList.add("contain"er;
+    // const divContainerButtons = document.createElement("div")
+    // divContainerButtons.className = "column buttons is-2"
+    // // //agrego botones al div los botones
+    // divContainerButtons.appendChild(buttonAdd)
+    // divContainerButtons.appendChild(buttonDlt)
+   
+
+    const $contBtn =$("#container-btn")
+    const deleteOp = () =>{
+        
+        console.log(boton.id)
+    } 
+    
+    //añade info a vista de operaciones en balance
+    const addHtmlBlc = (listOperations) => {
+        $modalListBlc.innerHTML = ``
+        
         $viewListOp.classList.remove("is-hidden");
         $contInnerOp.classList.add("is-hidden");
-        $modalListBlc.appendChild(divContainer)
-       divContainer.innerHTML += `      
-        <div  class="container columns ">
+        
+        for (const operation of listOperations) {
+        const divContainer = document.createElement("div")
+        divContainer.className ="columns container"   
+
+        divContainer.innerHTML += `      
             <div class="column is-3">
                 <p id="desc-blc">
                     ${operation.nameOp}        
@@ -214,19 +221,38 @@ const addHtmlBlc = (listOperations) => {
                 <p id="date-blc">
                     ${operation.dateOp} 
                 </p>
-            </div>
-            <div id="cont-btn" class="buttons cont-btn ">
-                <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
-                <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
-            </div>
-        </div>`                            
-    } 
+            </div>          
+            <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
+            <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+            `
+           // divContainer.appendChild(divContainerButtons)
+      
+        const buttonDlt = divContainer.querySelector(".btn-add");
+        const buttonEdit = divContainer.querySelector(".btn-edit");
+        buttonDlt.onclick = () => {
+            deleteOp()
+        } 
+
+        buttonEdit.onclick = () => {
+            deleteOp()
+        } 
+
+        // for(const buttonD of buttonsDlt)
+        // buttonD.onclick = () => {
+        //    deleteOp()
+        // } 
+
+        // for(const buttonE of buttonsEdit)
+        // buttonE.onclick = () => {
+        //    deleteOp()
+        // }
+       
+      
+        $modalListBlc.appendChild(divContainer)
+        } 
+
 }
 
-const buttonDlt = divContainer.querySelector("div.container div.cont-btn.btn-add");
-console.log(buttonDlt);
-const buttonAdd = divContainer.querySelector(".btn-edit");
-console.log(buttonAdd);
 
 
 //filtra las operaciones segun parametro 
@@ -366,15 +392,22 @@ const addHtmlFylter = (list) => {
                 <p id="amount-blc" class= ${operation.typeOp} ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
                     $${operation.amountOp} 
                 </p>
-                </div>
-                <div class="column is-2">
+            </div>
+            <div class="column is-2">
                 <p id="date-blc">
                     ${operation.dateOp} 
-                </p>`
-                //copiar y pegar copdigo de botones */
+                </p>
+            </div>
+//aca van los botones comentados para qla otra funcion no interfire 
+        
+        </div> 
+`
 
-    }
-
+     }
+    // <div id="cont-btn" class="buttons cont-btn ">
+    //             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
+    //             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+    //         </div> 
 }
 
 // const text = () => {
