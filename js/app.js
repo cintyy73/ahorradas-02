@@ -157,25 +157,33 @@ const addLocalStorage = () => {
     operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
+const $contBtn =$("#container-btn")
+//const contBtnChild =$("#cont-btn")  
+// //creo botones de añadir y eliminar / <div>
+const div = document.createElement("div")
+const buttonDlt = document.createElement("button");
+const buttonAdd = document.createElement("button");
+//les doy atributos
+buttonAdd.innerText = "Editar";
+buttonDlt.innerText = "Eliminar";
 
-// //creo botones de añadir y eliminar / <li>
-// const buttonDlt = document.createElement("button");
-// const buttonAdd = document.createElement("button");
-// //les doy atributos
-// buttonAdd.innerText = "Editar";
-// buttonDlt.innerText = "Eliminar";
+buttonAdd.classList.add("is-ghost");
+buttonDlt.classList.add("is-ghost");
+buttonAdd.classList.add("is-small");
+buttonDlt.classList.add("is-small");
+buttonAdd.classList.add("btn-add");
+buttonDlt.classList.add("btn-dlt");
 
-// buttonAdd.classList.add("is-ghost");
-// buttonDlt.classList.add("is-ghost");
-// buttonAdd.classList.add("is-small");
-// buttonDlt.classList.add("is-small");
-// buttonAdd.classList.add("btn-add");
-// buttonDlt.classList.add("btn-dlt");
+// //agrego botones al div los botones
+ $contBtn.appenChild(buttonAdd)
+ $contBtn.appenChild(buttonDlt)
 
-// //agrego a li los botones
-// li.appenChild(buttonAdd)
-// li.appenChild(buttonDlt)
-
+            // <div class="column is-2">
+            //     <div id="cont-btn" class="buttons ">
+            //         <button id="${operation.id}" class="button btn-delete
+            //         <button id="${operation.id}" class="button is-small is-ghost">Eliminar</button>
+            //     </div>
+            // </div>
 
 // buttonDlt.onclick = funtion () = {
 //     deleteOp()
@@ -210,15 +218,10 @@ const addHtmlBlc = (listOperations) => {
                 <p id="date-blc">
                     ${operation.dateOp} 
                 </p>
-            </div>
-            <div class="column is-2">
-                <div id="cont-btn" class="buttons ">
-                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
-                    <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
-                </div>
             </div>`
+ 
     }
-
+  
 }
 //filtra las operaciones segun parametro 
 const typeFilter = (type) => {
@@ -280,7 +283,6 @@ const categoryFilter = (type) => {
 const categoryList = () =>{
     if  ($categoryFilterI.value !== "Todas") {
         list = categoryFilter($categoryFilterI.value)      
-        console.log(list);
     }
     else{
         list = [...operations]
@@ -312,7 +314,6 @@ const ordenFilterAZ = () => {
         return 0
     }
     )
-    console.log("a-z")
 
 }
 
@@ -330,10 +331,11 @@ const ordenFilterZA = () => {
         return 0
     }
     )
-    console.log("z-a")
 }
 
-// opXfilter.sort((x, y) => (y.categOp - x.categOp))    
+
+
+
 //llena vista de balnce segun filtros
 const addHtmlFylter = (list) => {
     $modalListBlc.innerHTML = ``
@@ -362,14 +364,9 @@ const addHtmlFylter = (list) => {
                 <div class="column is-2">
                 <p id="date-blc">
                     ${operation.dateOp} 
-                </p>
-            </div>
-            <div class="column is-2">
-                <div id="cont-btn" class="buttons ">
-                    <button id="${operation.id}"class="button is-small   is-ghost">Editar</button>
-                    <button id="${operation.id}"class="button is-small is-ghost">Eliminar</button>
-                </div>
-            </div>`
+                </p>`
+                //copiar y pegar copdigo de botones */
+
     }
 
 }
@@ -381,7 +378,7 @@ const addHtmlFylter = (list) => {
 const $categoryNewI = $("#new-name-category")
 const $listNameCateg =$("#list-name-category")
 const addCAtegory = () => {
-    //agragar option value a categorias de nueva operacioons y recorre con for of para llenar la lista con este codigo html
+    //agragar option value a categorias de nuevas operaciones y recorre con for of para llenar la lista con este codigo html
     $listNameCateg.innerHTML += `
     <div class="container is-flex is-justify-content-space-between is-small">
     <p class="is-left" id="item-category-list">${$categoryNewI.value}</p>
@@ -393,7 +390,6 @@ const addCAtegory = () => {
 </div>`
 }
 
-$btnNewCategory.addEventListener("click", addCAtegory)
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
 const addNewOp = () => {
@@ -467,10 +463,16 @@ const viewOrder = () => {
     } 
     else if (valueInput === "a-z") {
         viewOrdenAZ()
-
     }
   
 }
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+
+/*******************************hasta aca funciona ok  */
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
     mountFact()
@@ -495,3 +497,14 @@ $btnAddNewOp.addEventListener("click", addOp);
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
+$btnNewCategory.addEventListener("click", addCAtegory)
+
+// const amountCategory = () => {
+//     for (const {categOp, amountOp} of [...operations]) {
+//      //ver de sumar x categoria
+
+        
+//     }
+// }
+// amountCategory()
+/*sin commit solo hice preubas*/
