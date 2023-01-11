@@ -157,8 +157,7 @@ const addLocalStorage = () => {
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
-    
-    //añade info a vista de operaciones en balance
+//añade info a vista de operaciones en balance
 const addHtmlBlc = (listOperations) => {
     $modalListBlc.innerHTML = ``
         
@@ -237,9 +236,10 @@ const mountFact = () => {
 //muestra valores de gastos y ganancias en aside de balance
 
 const ttlViewBalance = () => {
-    $ttlFact.innerHTML = ttlFact;
-    $ttlGain.innerHTML = ttlGain;
-    $ttl.innerHTML = ttlAmount;
+    $ttlFact.innerHTML = `$ +${ttlFact}`;
+    $ttlGain.innerHTML = `$ -${ttlGain}`;
+    $ttl.innerHTML = ttlAmount 
+    $ttl.classList.add(ttlAmount < 0 ? "has-text-danger" : "has-text-primary")
 }
 
 //filtro el array de operaciones segun gasto / ganancia
