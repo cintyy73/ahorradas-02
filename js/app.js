@@ -2,10 +2,7 @@
 ///ahorradas 2
 const $ = (selector) => document.querySelector(selector);
 
-//Elementos 
-
-// $ html
-// $$ dinamicos
+//Elementos *********
 
 //datos local storage
 let dateLocalSt = JSON.parse(localStorage.getItem("operationsOB"));
@@ -29,6 +26,7 @@ const $InewOpType = $("#new-op-type-filter");
 const $ttlGain = $("#ttl-gain");
 const $ttlFact = $("#ttl-factures");
 const $ttl = $("#ttl");
+
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
@@ -61,7 +59,6 @@ let ttlAmount = 0;
 // arrya de montos ganacias y gastos 
 let ttlF = [];
 let ttlG = [];
-
 let operations = dateLocalSt || [];
 let operation = {
     nameOp: "",
@@ -72,14 +69,15 @@ let operation = {
     colorAmount: "",
     id: self.crypto.randomUUID()
 };
+
 //array de operaciones para filtros
 let list = []
+
 //montos
 let opXfilter = [...operations]
 
 
 /************FUNCIONES*****************/
-
 
 //Funciones NAV
 // menu 
@@ -133,9 +131,10 @@ const closeBoxNewOp = () => {
     openBalance()
 }
 //Funciones CATEGORIA
-// deleteOp = () => {
-//     console.log("agregar la funcionalidad para remover operacion");
-// }
+const deleteOp = () =>{
+        
+    console.log("git funciona")
+} 
 
 // doy valor a las variables segun los inputs
 const inputsDate = (e) => {
@@ -157,49 +156,18 @@ const addLocalStorage = () => {
     operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
-// //const contBtnChild =$("#cont-btn")  
-// // //creo botones de añadir y eliminar / <div>
-// const buttonDlt = document.createElement("button");
-// const buttonAdd = document.createElement("button");
-// //les doy atributos
-// buttonAdd.innerText = "Editar";
-// buttonDlt.innerText = "Eliminar";
 
-// buttonAdd.className = "btn-add is-ghost is-small"
-// buttonDlt.className = "btn-dlt is-ghost is-small"
-
-
-
-
-
-    // const $contBtn =$("#container-btn")
-    // const divContainer = document.createElement("div")
-    // divContainer.className ="columns container"
-    // // divContainer.classList.add("contain"er;
-    // const divContainerButtons = document.createElement("div")
-    // divContainerButtons.className = "column buttons is-2"
-    // // //agrego botones al div los botones
-    // divContainerButtons.appendChild(buttonAdd)
-    // divContainerButtons.appendChild(buttonDlt)
-   
-
-    const $contBtn =$("#container-btn")
-    const deleteOp = () =>{
-        
-        console.log("git funciona")
-    } 
     
     //añade info a vista de operaciones en balance
-    const addHtmlBlc = (listOperations) => {
-        $modalListBlc.innerHTML = ``
+const addHtmlBlc = (listOperations) => {
+    $modalListBlc.innerHTML = ``
         
-        $viewListOp.classList.remove("is-hidden");
-        $contInnerOp.classList.add("is-hidden");
+    $viewListOp.classList.remove("is-hidden");
+    $contInnerOp.classList.add("is-hidden");
         
-        for (const operation of listOperations) {
+    for (const operation of listOperations) {
         const divContainer = document.createElement("div")
         divContainer.className ="columns container"   
-
         divContainer.innerHTML += `      
             <div class="column is-3">
                 <p id="desc-blc">
@@ -216,8 +184,8 @@ const addLocalStorage = () => {
                 <p id="amount-blc" class= ${operation.typeOp === "new-op-factures" ? "has-text-danger" : "has-text-primary"} >
                     $${operation.amountOp} 
                 </p>
-                </div>
-                <div class="column is-2">
+            </div>
+            <div class="column is-2">
                 <p id="date-blc">
                     ${operation.dateOp} 
                 </p>
@@ -225,35 +193,18 @@ const addLocalStorage = () => {
             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
             `
-           // divContainer.appendChild(divContainerButtons)
-      
         const buttonDlt = divContainer.querySelector(".btn-add");
+        buttonDlt.onclick = function ()  {
+            deleteOp()
+        } 
         const buttonEdit = divContainer.querySelector(".btn-edit");
-        buttonDlt.onclick = () => {
+        buttonEdit.onclick = function () {
             deleteOp()
         } 
-
-        buttonEdit.onclick = () => {
-            deleteOp()
-        } 
-
-        // for(const buttonD of buttonsDlt)
-        // buttonD.onclick = () => {
-        //    deleteOp()
-        // } 
-
-        // for(const buttonE of buttonsEdit)
-        // buttonE.onclick = () => {
-        //    deleteOp()
-        // }
-       
-      
         $modalListBlc.appendChild(divContainer)
-        } 
+    } 
 
 }
-
-
 
 //filtra las operaciones segun parametro 
 const typeFilter = (type) => {
@@ -319,7 +270,6 @@ const categoryList = () =>{
     else{
         list = [...operations]
     }
-
 }
 
 //ordena montos mayor a menor  
@@ -366,54 +316,56 @@ const ordenFilterZA = () => {
 }
 
 
-
-
 //llena vista de balnce segun filtros
-const addHtmlFylter = (list) => {
-    $modalListBlc.innerHTML = ``
-    for (const operation of list) {
-        $viewListOp.classList.remove("is-hidden");
-        $contInnerOp.classList.add("is-hidden");
-        $boxNewOp.classList.add("is-hidden");
-        $modalListBlc.innerHTML += `
-        <div  class="container columns ">
-            <div class="column is-3">
-                <p id="desc-blc">
-                    ${operation.nameOp}        
-                </p>
-            </div>
-            <div class="column is-3">
-                <p id="categ-blc">
+// const addHtmlFylter = (list) => {
+//     $modalListBlc.innerHTML = ``
+//     for (const operation of list) {
+//         $viewListOp.classList.remove("is-hidden");
+//         $contInnerOp.classList.add("is-hidden");
+//         $boxNewOp.classList.add("is-hidden");
+//         $modalListBlc.innerHTML += `
+//         <div  class="container columns ">
+//             <div class="column is-3">
+//                 <p id="desc-blc">
+//                     ${operation.nameOp}        
+//                 </p>
+//             </div>
+//             <div class="column is-3">
+//                 <p id="categ-blc">
 
-                    ${operation.categOp} 
-                </p>
-            </div>
-            <div class="column is-2">
-                <p id="amount-blc" class= ${operation.typeOp} ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
-                    $${operation.amountOp} 
-                </p>
-            </div>
-            <div class="column is-2">
-                <p id="date-blc">
-                    ${operation.dateOp} 
-                </p>
-            </div>
-//aca van los botones comentados para qla otra funcion no interfire 
+//                     ${operation.categOp} 
+//                 </p>
+//             </div>
+//             <div class="column is-2">
+//                 <p id="amount-blc" class= ${operation.typeOp} ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
+//                     $${operation.amountOp} 
+//                 </p>
+//             </div>
+//             <div class="column is-2">
+//                 <p id="date-blc">
+//                     ${operation.dateOp} 
+//                 </p>
+//             </div>
+//             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
+//             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
         
-        </div> 
-`
+//         </div> 
+// `
 
-     }
-    // <div id="cont-btn" class="buttons cont-btn ">
-    //             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
-    //             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
-    //         </div> 
-}
+//      }
+//     // <div id="cont-btn" class="buttons cont-btn ">
+//     //             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
+//     //             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+//     //         </div> 
+// }
 
 // const text = () => {
 
 //     $modalListBlc.innerHTML += `<p class="title has-text-danger>No hay operaciones para mostrar</p>`
 // }
+
+
+
 const $categoryNewI = $("#new-name-category")
 const $listNameCateg =$("#list-name-category")
 const addCAtegory = () => {
@@ -454,38 +406,38 @@ const addOp = () => {
 //gasto / ganancia
 const viewFylter = () => {
     valueList()
-    addHtmlFylter(list)
+    addHtmlBlc (list)
 }
 
 //categoria
 const viewCategory = () => {
     categoryList()
-    addHtmlFylter(list)
+    addHtmlBlc (list)
 }
 
 //ordenar por:
 /*mayor monto*/
 const viewOrdenMax = () => {
     ordenFilterMax()
-    addHtmlFylter(opXfilter)
+    addHtmlBlc (opXfilter)
 }
 
 /*menor monto*/ 
 const viewOrdenMin = () => {
     ordenFilterMin()
-    addHtmlFylter(opXfilter)
+    addHtmlBlc (opXfilter)
 }
 
 /* alfab a/z */
 const viewOrdenZA = () => {
     ordenFilterZA()
-    addHtmlFylter(opXfilter)
+    addHtmlBlc (opXfilter)
 }
 /* alfab a/z */
 
 const viewOrdenAZ = () => {
     ordenFilterAZ()
-    addHtmlFylter(opXfilter)
+    addHtmlBlc (opXfilter)
 }
 
 //segun valor select ejecuto la funcion
@@ -502,16 +454,9 @@ const viewOrder = () => {
     } 
     else if (valueInput === "a-z") {
         viewOrdenAZ()
-    }
-  
+    }  
 }
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
 
-/*******************************hasta aca funciona ok  */
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
     mountFact()
@@ -519,8 +464,6 @@ const openApp = () => {
     ttlViewBalance()
 }
 openApp()
-
-
 
 /************EVENTS*****************/
 //Events nav
@@ -537,6 +480,15 @@ $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
 $btnNewCategory.addEventListener("click", addCAtegory)
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+
 
 // const amountCategory = () => {
 //     for (const {categOp, amountOp} of [...operations]) {
