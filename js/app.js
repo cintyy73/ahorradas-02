@@ -186,7 +186,7 @@ const addLocalStorage = () => {
     const $contBtn =$("#container-btn")
     const deleteOp = () =>{
         
-        console.log(boton.id)
+        console.log("git funciona")
     } 
     
     //añade info a vista de operaciones en balance
