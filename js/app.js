@@ -6,6 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 
 //datos local storage
 let dateLocalSt = JSON.parse(localStorage.getItem("operationsOB"));
+let categoryLocalSt = JSON.parse(localStorage.getItem("categories"));
 
 //*nav
 const $btnBurger = $("#burger");
@@ -49,7 +50,12 @@ const $orderMI = $("#sort-by")
 
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
+const $categoryNewI = $("#new-name-category")
+const $listNameCateg =$("#list-name-category")
+const  editOpCategoryFilter = $("#edit-op-category-filter") 
+
 //variables datos
+
 
 //montos ganancias / gastos /total
 let ttlGain = 0;
@@ -59,6 +65,7 @@ let ttlAmount = 0;
 // arrya de montos ganacias y gastos 
 let ttlF = [];
 let ttlG = [];
+
 let operations = dateLocalSt || [];
 let operation = {
     nameOp: "",
@@ -69,6 +76,8 @@ let operation = {
     colorAmount: "",
     id: self.crypto.randomUUID()
 };
+const $$category = categoryLocalSt || [] 
+
 
 //array de operaciones para filtros
 let list = []
@@ -236,11 +245,11 @@ const mountFact = () => {
 //muestra valores de gastos y ganancias en aside de balance
 
 const ttlViewBalance = () => {
-    $ttlFact.innerHTML = `$ +${ttlFact}`;
-    $ttlGain.innerHTML = `$ -${ttlGain}`;
+    $ttlFact.innerHTML = `$ -${ttlFact}`;
+    $ttlGain.innerHTML = `$ +${ttlGain}`;
     $ttl.innerHTML = ttlAmount 
-    $ttl.classList.add(ttlAmount < 0 ? "has-text-danger" : "has-text-primary")
-}
+    $ttl.classList.add(ttlFact > ttlGain ? "has-text-danger" : "has-text-primary")
+  }
 
 //filtro el array de operaciones segun gasto / ganancia
 const valueList = () => {
@@ -315,70 +324,90 @@ const ordenFilterZA = () => {
     )
 }
 
+//seccion nueva categorias
 
-//llena vista de balnce segun filtros
-// const addHtmlFylter = (list) => {
-//     $modalListBlc.innerHTML = ``
-//     for (const operation of list) {
-//         $viewListOp.classList.remove("is-hidden");
-//         $contInnerOp.classList.add("is-hidden");
-//         $boxNewOp.classList.add("is-hidden");
-//         $modalListBlc.innerHTML += `
-//         <div  class="container columns ">
-//             <div class="column is-3">
-//                 <p id="desc-blc">
-//                     ${operation.nameOp}        
-//                 </p>
-//             </div>
-//             <div class="column is-3">
-//                 <p id="categ-blc">
+//creo elementos
+const divNameCateg = document.createElement("div")
+const divBtnCateg = document.createElement("div")
+const nameCategoryNew = document.createElement("div")
+const btnDltCategoryName = document.createElement("button")
+const btnEditCategoryName = document.createElement("button")
 
-//                     ${operation.categOp} 
-//                 </p>
-//             </div>
-//             <div class="column is-2">
-//                 <p id="amount-blc" class= ${operation.typeOp} ==="new-op-factures" ? "has-text-danger" : "has-text-primary"} >
-//                     $${operation.amountOp} 
-//                 </p>
-//             </div>
-//             <div class="column is-2">
-//                 <p id="date-blc">
-//                     ${operation.dateOp} 
-//                 </p>
-//             </div>
-//             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
-//             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+divBtnCateg.appendChild(btnEditCategoryName)
+divBtnCateg.appendChild(btnDltCategoryName)
+//doy clases
+nameCategoryNew.className ="container is-small"
+btnEditCategoryName.className="button edit-category is-rigth is-ghost is-small"
+btnDltCategoryName.className="button dlt-category is-rigth is-ghost is-small"
+btnEditCategoryName.innerText = "Editar"
+btnDltCategoryName.innerText = "Eliminar"
+
+// edita categoria
+const editCategoryName = () => {
+    console.log("edit")
+}
+
+//elimina categoria
+const deleteCategoryName = () => {
+    console.log("delete")
+}
+
+//funcion para btn editar categoria
+btnEditCategoryName.onclick = ()=>{
+    editCategoryName() //cambiar funcion
+}
+
+//funcion para btn eliminar categoria
+btnDltCategoryName.onclick = ()=>{
+    deleteCategoryName() //cambiar funcion
+}
+
+
+
+
+//guardo datos de categorias  en local storage
+const localSCategory = () =>{   
+    //solo deja las letras minusculas para value option
+    const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
+
+    const newId = self.crypto.randomUUID()
+    if (categoryValue!=="" ){
+    $$category.push(
+        {name: $categoryNewI.value ,
+         id:newId,
+         value:categoryValue
+        }
+        )
+    }
+    localStorage.setItem("categories", JSON.stringify($$category));
         
-//         </div> 
-// `
+}
 
-//      }
-//     // <div id="cont-btn" class="buttons cont-btn ">
-//     //             <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
-//     //             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
-//     //         </div> 
-// }
-
-// const text = () => {
-
-//     $modalListBlc.innerHTML += `<p class="title has-text-danger>No hay operaciones para mostrar</p>`
-// }
-
-
-
-const $categoryNewI = $("#new-name-category")
-const $listNameCateg =$("#list-name-category")
-const addCAtegory = () => {
-    //agragar option value a categorias de nuevas operaciones y recorre con for of para llenar la lista con este codigo html
-    $listNameCateg.innerHTML += `
-    <div class="container is-flex is-justify-content-space-between is-small">
-    <p class="is-left" id="item-category-list">${$categoryNewI.value}</p>
-    <div class="buttons is-right">
-        <button id="btn-dlt-category-list" type="button" class="button is-small is-ghost">
-            Editar</button>
-        <button id="btn-add-category-list" type="button" class="button is-ghost is-small">Agregar<button>
-    </div>
-</div>`
+// lleno vistas de categorias y opciones a los select 
+const addCAtegory = () => {   
+   
+    nameCategoryNew.innerHTML = ''
+    for (const {id, name, value} of $$category) {
+        
+        $listNameCateg.appendChild(nameCategoryNew)   
+        
+        //const newId = self.crypto.randomUUID()
+        // $categoryNewI.value.replace(/\s+/g,'') === '' ?  alert("ingrese un nombre a")  : 
+        nameCategoryNew.innerHTML += `
+        <p class="is-left" id="${id}">${name}<p>` 
+        nameCategoryNew.appendChild(divBtnCateg)
+        
+        $InewOpCategory.innerHTML += `
+        <option value="${value}">${name}</option>`
+        
+        $categoryFilterI.innerHTML += `
+        <option value="${value}">${name}</option>`
+        
+        editOpCategoryFilter.innerHTML += `
+        <option value="${value}">${name}</option>`
+        
+    }
+    
 }
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
@@ -401,7 +430,6 @@ const addOp = () => {
 }
 
 //ejecuto funciones necesarias para mostrar balance segun filtros
-
 
 //gasto / ganancia
 const viewFylter = () => {
@@ -457,6 +485,11 @@ const viewOrder = () => {
     }  
 }
 
+//ejecuto funciones necesarias para añadir categoria
+const addCategories = () =>{
+    localSCategory()
+    addCAtegory()
+}
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
     mountFact()
@@ -479,23 +512,8 @@ $btnAddNewOp.addEventListener("click", addOp);
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
-$btnNewCategory.addEventListener("click", addCAtegory)
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
+$btnNewCategory.addEventListener("click", addCategories)
+
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
 
-// const amountCategory = () => {
-//     for (const {categOp, amountOp} of [...operations]) {
-//      //ver de sumar x categoria
-
-        
-//     }
-// }
-// amountCategory()
-/*sin commit solo hice preubas*/
