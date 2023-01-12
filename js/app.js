@@ -341,11 +341,10 @@ nameCategoryNew.className ="container is-small"
 // btnDltCategoryName.className="button dlt-category is-rigth is-ghost is-small"
 // btnEditCategoryName.innerText = "Editar"
 // btnDltCategoryName.innerText = "Eliminar"
+const $modalEditCategory = $("#modal-edit-category")
+const $editNameCategoryI = $("#edit-name-category")
+const $btnCancelName = $ ("#btn-cancel-name")
 
-// edita categoria
-const editCategoryName = () => {
-    console.log("edit")
-}
 
 //elimina categoria
 const deleteCategoryName = () => {
@@ -366,8 +365,7 @@ const localSCategory = () =>{
         }
         )
     }
-    localStorage.setItem("categories", JSON.stringify($$category));
-        
+    localStorage.setItem("categories", JSON.stringify($$category));       
 }
 
 // lleno vistas de categorias y opciones a los select 
@@ -381,19 +379,20 @@ const addCAtegory = () => {
         //const newId = self.crypto.randomUUID()
         // $categoryNewI.value.replace(/\s+/g,'') === '' ?  alert("ingrese un nombre a")  : 
         nameCategoryNew.innerHTML += `
-        <p class="is-left" id="${id}">${name}<p>
-        <button id="${operation.id}" class="button dlt-categoryName is-small is-ghost">Eliminar</button>
-        <button id="${operation.id}" class="button edit-categoryName is-small is-ghost">Editar</button>` 
+        <p class="is-left">${name}<p>
+        <button id="${id}" class="button dlt-categoryName is-small is-ghost">Eliminar</button>
+        <button id="${id}" class="button edit-categoryName is-small is-ghost">Editar</button>` 
+
+
         //nameCategoryNew.appendChild(divBtnCateg)
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
         btnDltCategoryName.onclick  = function ()  {
-   
-            deleteCategoryName() //cambiar funcion
-        
+            deleteCategoryName() //cambiar funcion       
         }
 
         btnEditCategoryName.onclick =  function ()  {
+        
             editCategoryName() //cambiar funcion
         }
 
@@ -409,6 +408,24 @@ const addCAtegory = () => {
     }
     
 }
+
+let categoryEdit;
+// edita categoria
+const editCategoryName = () => {
+    $modalEditCategory.classList.remove("is-hidden")
+    $viewCategory.classList.add("is-hidden")
+
+    // for (const category of $$category) {
+    //     if(category.id === id){//ver carrito
+    //         category.value=$editNameCategoryI.value
+    //     }
+        
+    // }
+    //usar metodo para editar el nombre del la catgeotir
+    // categoryEdit = $$category.find((category) => $editNameCategoryI.value.replace(/\s+/g,'').toLowerCase() === category.value)
+    // $editNameCategoryI.value = categoryEdit["name"]
+}
+
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
@@ -440,7 +457,7 @@ const viewFylter = () => {
 //categoria
 const viewCategory = () => {
     categoryList()
-    addHtmlBlc (list)
+    addHtmlBlc(list)
 }
 
 //ordenar por:
@@ -490,11 +507,20 @@ const addCategories = () =>{
     localSCategory()
     addCAtegory()
 }
+
+//cancela edicion de categoria
+const cancelEdit = () =>{
+    $modalEditCategory.classList.add("is-hidden")
+    $viewCategory.classList.remove("is-hidden")
+}
+
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
     mountFact()
     mountGain()
     ttlViewBalance()
+    addCAtegory()
+
 }
 openApp()
 
@@ -513,15 +539,12 @@ $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
 $btnNewCategory.addEventListener("click", addCategories)
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  */
+$btnCancelName.addEventListener("click", cancelEdit)
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+
 
 
 // const amountCategory = () => {
