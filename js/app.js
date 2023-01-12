@@ -327,20 +327,20 @@ const ordenFilterZA = () => {
 //seccion nueva categorias
 
 //creo elementos
-const divNameCateg = document.createElement("div")
-const divBtnCateg = document.createElement("div")
+//const divNameCateg = document.createElement("div")
+// const divBtnCateg = document.createElement("div")
 const nameCategoryNew = document.createElement("div")
-const btnDltCategoryName = document.createElement("button")
-const btnEditCategoryName = document.createElement("button")
+// const btnDltCategoryName = document.createElement("button")
+// const btnEditCategoryName = document.createElement("button")
 
-divBtnCateg.appendChild(btnEditCategoryName)
-divBtnCateg.appendChild(btnDltCategoryName)
+// divBtnCateg.appendChild(btnEditCategoryName)
+// divBtnCateg.appendChild(btnDltCategoryName)
 //doy clases
 nameCategoryNew.className ="container is-small"
-btnEditCategoryName.className="button edit-category is-rigth is-ghost is-small"
-btnDltCategoryName.className="button dlt-category is-rigth is-ghost is-small"
-btnEditCategoryName.innerText = "Editar"
-btnDltCategoryName.innerText = "Eliminar"
+// btnEditCategoryName.className="button edit-category is-rigth is-ghost is-small"
+// btnDltCategoryName.className="button dlt-category is-rigth is-ghost is-small"
+// btnEditCategoryName.innerText = "Editar"
+// btnDltCategoryName.innerText = "Eliminar"
 
 // edita categoria
 const editCategoryName = () => {
@@ -351,19 +351,6 @@ const editCategoryName = () => {
 const deleteCategoryName = () => {
     console.log("delete")
 }
-
-//funcion para btn editar categoria
-btnEditCategoryName.onclick = ()=>{
-    editCategoryName() //cambiar funcion
-}
-
-//funcion para btn eliminar categoria
-btnDltCategoryName.onclick = ()=>{
-    deleteCategoryName() //cambiar funcion
-}
-
-
-
 
 //guardo datos de categorias  en local storage
 const localSCategory = () =>{   
@@ -394,9 +381,22 @@ const addCAtegory = () => {
         //const newId = self.crypto.randomUUID()
         // $categoryNewI.value.replace(/\s+/g,'') === '' ?  alert("ingrese un nombre a")  : 
         nameCategoryNew.innerHTML += `
-        <p class="is-left" id="${id}">${name}<p>` 
-        nameCategoryNew.appendChild(divBtnCateg)
+        <p class="is-left" id="${id}">${name}<p>
+        <button id="${operation.id}" class="button dlt-categoryName is-small is-ghost">Eliminar</button>
+        <button id="${operation.id}" class="button edit-categoryName is-small is-ghost">Editar</button>` 
+        //nameCategoryNew.appendChild(divBtnCateg)
+        const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
+        const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
+        btnDltCategoryName.onclick  = function ()  {
+   
+            deleteCategoryName() //cambiar funcion
         
+        }
+
+        btnEditCategoryName.onclick =  function ()  {
+            editCategoryName() //cambiar funcion
+        }
+
         $InewOpCategory.innerHTML += `
         <option value="${value}">${name}</option>`
         
@@ -513,7 +513,23 @@ $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
 $btnNewCategory.addEventListener("click", addCategories)
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
+// const amountCategory = () => {
+//     for (const {categOp, amountOp} of [...operations]) {
+//      //ver de sumar x categoria
 
+        
+//     }
+// }
+// amountCategory()
+/*sin commit solo hice preubas*/
