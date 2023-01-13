@@ -417,7 +417,7 @@ const editCategoryName = (id) => {
             category.name=$editNameCategoryI.value}
         else{
             return categoryEdit
-        } 
+        } //solo edita la ultima
 })
 }
 
