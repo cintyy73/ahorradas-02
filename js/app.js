@@ -418,6 +418,7 @@ const editCategoryName = (id) => {
         else{
             return categoryEdit
         } //solo edita la ultima
+        
 })
 }
 
