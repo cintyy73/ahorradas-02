@@ -53,6 +53,7 @@ const $btnNewCategory = $("#btn-new-categ")
 const $categoryNewI = $("#new-name-category")
 const $listNameCateg =$("#list-name-category")
 const  editOpCategoryFilter = $("#edit-op-category-filter") 
+let idCategoryEdit;
 
 //variables datos
 
@@ -327,43 +328,28 @@ const ordenFilterZA = () => {
 //seccion nueva categorias
 
 //creo elementos
-//const divNameCateg = document.createElement("div")
-// const divBtnCateg = document.createElement("div")
-const nameCategoryNew = document.createElement("div")
-// const btnDltCategoryName = document.createElement("button")
-// const btnEditCategoryName = document.createElement("button")
 
-// divBtnCateg.appendChild(btnEditCategoryName)
-// divBtnCateg.appendChild(btnDltCategoryName)
-//doy clases
-nameCategoryNew.className ="container is-small"
-// btnEditCategoryName.className="button edit-category is-rigth is-ghost is-small"
-// btnDltCategoryName.className="button dlt-category is-rigth is-ghost is-small"
-// btnEditCategoryName.innerText = "Editar"
-// btnDltCategoryName.innerText = "Eliminar"
+
 const $modalEditCategory = $("#modal-edit-category")
 const $editNameCategoryI = $("#edit-name-category")
 const $btnCancelName = $ ("#btn-cancel-name")
 
 
-//elimina categoria
-const deleteCategoryName = () => {
-    console.log("delete")
-}
+
 
 //guardo datos de categorias  en local storage
 const localSCategory = () =>{   
     //solo deja las letras minusculas para value option
     const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
-
+    
     const newId = self.crypto.randomUUID()
+    
     if (categoryValue!=="" ){
     $$category.push(
         {name: $categoryNewI.value ,
          id:newId,
          value:categoryValue
-        }
-        )
+        })
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
 }
@@ -371,31 +357,32 @@ const localSCategory = () =>{
 // lleno vistas de categorias y opciones a los select 
 const addCAtegory = () => {   
    
-    nameCategoryNew.innerHTML = ''
+    $listNameCateg.innerHTML = ''
     for (const {id, name, value} of $$category) {
-        
-        $listNameCateg.appendChild(nameCategoryNew)   
+        const nameCategoryNew = document.createElement("div")
+        nameCategoryNew.className ="container is-small"
+        idCategoryEdit=id
         
         //const newId = self.crypto.randomUUID()
         // $categoryNewI.value.replace(/\s+/g,'') === '' ?  alert("ingrese un nombre a")  : 
         nameCategoryNew.innerHTML += `
-        <p class="is-left">${name}<p>
-        <button id="${id}" class="button dlt-categoryName is-small is-ghost">Eliminar</button>
-        <button id="${id}" class="button edit-categoryName is-small is-ghost">Editar</button>` 
-
-
+        <p id=${id} class="is-left">${name}<p>
+        <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
+        <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
+        
         //nameCategoryNew.appendChild(divBtnCateg)
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
+        //boton para editar
         btnDltCategoryName.onclick  = function ()  {
             deleteCategoryName() //cambiar funcion       
         }
-
+        //boton para eliminar
         btnEditCategoryName.onclick =  function ()  {
-        
-            editCategoryName() //cambiar funcion
+            editCategoryNameAll()
+             //cambiar funcion
         }
-
+        
         $InewOpCategory.innerHTML += `
         <option value="${value}">${name}</option>`
         
@@ -405,27 +392,43 @@ const addCAtegory = () => {
         editOpCategoryFilter.innerHTML += `
         <option value="${value}">${name}</option>`
         
+        $listNameCateg.appendChild(nameCategoryNew)   
     }
     
 }
 
 let categoryEdit;
 // edita categoria
-const editCategoryName = () => {
+const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
     $viewCategory.classList.add("is-hidden")
 
-    // for (const category of $$category) {
-    //     if(category.id === id){//ver carrito
-    //         category.value=$editNameCategoryI.value
-    //     }
-        
-    // }
-    //usar metodo para editar el nombre del la catgeotir
-    // categoryEdit = $$category.find((category) => $editNameCategoryI.value.replace(/\s+/g,'').toLowerCase() === category.value)
-    // $editNameCategoryI.value = categoryEdit["name"]
+}
+const editCategoryName = (id) => {
+    categoryEdit = $$category.map((category) => {
+        if(category.id === id){
+    category.name=$editNameCategoryI.value}
+        else{
+            return categoryEdit
+        } 
+})
+}
+const $editNameOk = $("#btn-edit-name")
+//btn ok para editar 
+const editNameOk = () =>{
+    $modalEditCategory.classList.add("is-hidden")
+    $viewCategory.classList.remove("is-hidden")
+    editCategoryName(idCategoryEdit)
+    localSCategory()
+    addCAtegory()
+}
+//ejecuto funciones necesarias para editar categoria
+const editCategoryNameAll = () => {
+    openEditCategory()
+    editCategoryName(idCategoryEdit)
 }
 
+//eliminar categoria
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 
@@ -538,8 +541,10 @@ $btnAddNewOp.addEventListener("click", addOp);
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
+//eventos categorias
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
+$editNameOk.addEventListener("click", editNameOk);
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
