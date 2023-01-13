@@ -53,15 +53,16 @@ const $btnNewCategory = $("#btn-new-categ")
 const $categoryNewI = $("#new-name-category")
 const $listNameCateg =$("#list-name-category")
 const  editOpCategoryFilter = $("#edit-op-category-filter") 
-let idCategoryEdit;
-let categoryEdit;
-
 const $modalEditCategory = $("#modal-edit-category")
 const $editNameCategoryI = $("#edit-name-category")
 const $btnCancelName = $ ("#btn-cancel-name")
 const $editNameOk = $("#btn-edit-name")
-//variables datos
+//variables datos categorias nuevas
+let idCategoryEdit;
+let categoryEdit;
 
+
+//variables datos 
 
 //montos ganancias / gastos /total
 let ttlGain = 0;
@@ -82,7 +83,7 @@ let operation = {
     colorAmount: "",
     id: self.crypto.randomUUID()
 };
-const $$category = categoryLocalSt || [] 
+let $$category = categoryLocalSt || [] 
 
 
 //array de operaciones para filtros
@@ -353,6 +354,9 @@ const localSCategory = () =>{
 const addCAtegory = () => {   
    
     $listNameCateg.innerHTML = ''
+    $InewOpCategory.innerHTML = ''
+    $categoryFilterI.innerHTML = '' 
+    editOpCategoryFilter.innerHTML = ''
     for (const {id, name, value} of $$category) {
         const nameCategoryNew = document.createElement("div")
         nameCategoryNew.className ="container is-small"
@@ -368,12 +372,11 @@ const addCAtegory = () => {
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
         //boton para editar
         btnDltCategoryName.onclick  = function ()  {
-            deleteCategoryName() //cambiar funcion       
+            deleteCategoryNameAll() //cambiar funcion       
         }
         //boton para eliminar
         btnEditCategoryName.onclick =  function ()  {
             editCategoryNameAll()
-             //cambiar funcion
         }
         
         $InewOpCategory.innerHTML += `
@@ -389,6 +392,19 @@ const addCAtegory = () => {
     }    
 }
 
+const deleteCategoryName = (idX) =>{
+    $$category = $$category.filter(category => category.id !== idX)
+    localStorage.setItem("categories", JSON.stringify($$category));
+    //ver porque elimina la ultima cat
+}
+
+//ejecuto funciones necesarias para eliminar categoria
+const deleteCategoryNameAll = () =>{
+    deleteCategoryName(idCategoryEdit)
+    openApp()
+    
+}
+
 // edita categoria
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
@@ -398,7 +414,7 @@ const openEditCategory = () => {
 const editCategoryName = (id) => {
     categoryEdit = $$category.map((category) => {
         if(category.id === id){
-    category.name=$editNameCategoryI.value}
+            category.name=$editNameCategoryI.value}
         else{
             return categoryEdit
         } 
@@ -416,7 +432,7 @@ const editNameOk = () =>{
     cancelEdit()
     editCategoryName(idCategoryEdit)
     localSCategory()
-    addCAtegory()
+    openApp()
 }
 
 //ejecuto funciones necesarias para editar categoria
@@ -535,12 +551,9 @@ $orderMI.addEventListener("click",viewOrder)
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
-
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
 // const amountCategory = () => {
 //     for (const {categOp, amountOp} of [...operations]) {
