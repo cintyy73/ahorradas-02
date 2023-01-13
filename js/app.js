@@ -54,7 +54,12 @@ const $categoryNewI = $("#new-name-category")
 const $listNameCateg =$("#list-name-category")
 const  editOpCategoryFilter = $("#edit-op-category-filter") 
 let idCategoryEdit;
+let categoryEdit;
 
+const $modalEditCategory = $("#modal-edit-category")
+const $editNameCategoryI = $("#edit-name-category")
+const $btnCancelName = $ ("#btn-cancel-name")
+const $editNameOk = $("#btn-edit-name")
 //variables datos
 
 
@@ -327,21 +332,11 @@ const ordenFilterZA = () => {
 
 //seccion nueva categorias
 
-//creo elementos
-
-
-const $modalEditCategory = $("#modal-edit-category")
-const $editNameCategoryI = $("#edit-name-category")
-const $btnCancelName = $ ("#btn-cancel-name")
-
-
-
-
 //guardo datos de categorias  en local storage
 const localSCategory = () =>{   
     //solo deja las letras minusculas para value option
     const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
-    
+    //creo id
     const newId = self.crypto.randomUUID()
     
     if (categoryValue!=="" ){
@@ -362,9 +357,7 @@ const addCAtegory = () => {
         const nameCategoryNew = document.createElement("div")
         nameCategoryNew.className ="container is-small"
         idCategoryEdit=id
-        
-        //const newId = self.crypto.randomUUID()
-        // $categoryNewI.value.replace(/\s+/g,'') === '' ?  alert("ingrese un nombre a")  : 
+    
         nameCategoryNew.innerHTML += `
         <p id=${id} class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
@@ -393,11 +386,9 @@ const addCAtegory = () => {
         <option value="${value}">${name}</option>`
         
         $listNameCateg.appendChild(nameCategoryNew)   
-    }
-    
+    }    
 }
 
-let categoryEdit;
 // edita categoria
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
@@ -413,15 +404,21 @@ const editCategoryName = (id) => {
         } 
 })
 }
-const $editNameOk = $("#btn-edit-name")
-//btn ok para editar 
-const editNameOk = () =>{
+
+//cancela edicion de categoria
+const cancelEdit = () =>{
     $modalEditCategory.classList.add("is-hidden")
     $viewCategory.classList.remove("is-hidden")
+}
+
+//ejecuto funciones necasarias para btn ok edicion 
+const editNameOk = () =>{
+    cancelEdit()
     editCategoryName(idCategoryEdit)
     localSCategory()
     addCAtegory()
 }
+
 //ejecuto funciones necesarias para editar categoria
 const editCategoryNameAll = () => {
     openEditCategory()
@@ -431,14 +428,12 @@ const editCategoryNameAll = () => {
 //eliminar categoria
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
-
 const addNewOp = () => {
     boxNewOp()
     closeBalance()
 }
 
 //ejecuto funciones necesarias añadir operacion
-
 const addOp = () => {
     closeBoxNewOp()
     inputsDate()
@@ -511,11 +506,7 @@ const addCategories = () =>{
     addCAtegory()
 }
 
-//cancela edicion de categoria
-const cancelEdit = () =>{
-    $modalEditCategory.classList.add("is-hidden")
-    $viewCategory.classList.remove("is-hidden")
-}
+
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
@@ -523,7 +514,6 @@ const openApp = () => {
     mountGain()
     ttlViewBalance()
     addCAtegory()
-
 }
 openApp()
 
