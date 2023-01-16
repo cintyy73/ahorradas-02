@@ -177,6 +177,7 @@ const inputsDate = (e) => {
     typeOp = $InewOpType.value
     categOp = $InewOpCategory.value
     dateOp = $InewOpDate.value || "--/--/--"
+
 }
 
 //guarda datos en local storage
@@ -188,6 +189,7 @@ const addLocalStorage = () => {
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
     operations.push(inputsValues);
+    
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
@@ -209,7 +211,6 @@ const addHtmlBlc = (listOperations) => {
             </div>
             <div class="column is-3">
                 <p id="categ-blc">
-
                     ${operation.categOp} 
                 </p>
             </div>
@@ -319,8 +320,8 @@ const ordenFilterMin = () => {
 //ordena alfabeticamente segun categoria
 const ordenFilterAZ = () => {  
     opXfilter.sort((x, y)=> {
-        const categoryX = x.categOp.toLowerCase()
-        const categoryY = y.categOp.toLowerCase()
+        const categoryX = x.categOp.replace(/\s+/g,'').toLowerCase()
+        const categoryY = y.categOp.replace(/\s+/g,'').toLowerCase()
         if (categoryX < categoryY) {
             return -1
         }
@@ -336,8 +337,8 @@ const ordenFilterAZ = () => {
 //ordena alfabeticamente segun categoria
 const ordenFilterZA = () => {  
     opXfilter.sort((x, y)=> {
-        const categoryX = x.categOp.toLowerCase()
-        const categoryY = y.categOp.toLowerCase()
+        const categoryX = x.categOp.replace(/\s+/g,'').toLowerCase()
+        const categoryY = y.categOp.replace(/\s+/g,'').toLowerCase()
         if (categoryX < categoryY) {
             return 1
         }
@@ -353,19 +354,14 @@ const ordenFilterZA = () => {
 
 //guardo datos de categorias  en local storage
 const localSCategory = () =>{   
-    //solo deja las letras minusculas para value option
-    const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
-    //creo id
-  
     let newId = self.crypto.randomUUID()
     
     if (categoryValue!=="" ){
-    $$category.push(
-        {name: $categoryNewI.value ,
-         id:newId,
-         value:categoryValue,
-        })
-        console.log(newId);
+        $$category.push(
+            {name: $categoryNewI.value ,
+                id:newId,
+                // value:categoryValue,
+            })            
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
 }
@@ -376,11 +372,11 @@ const addCAtegory = () => {
     $InewOpCategory.innerHTML = 
     $categoryFilterI.innerHTML = '' 
     editOpCategoryFilter.innerHTML = ''
-    for (const {id, name, value} of $$category) {
+    for (const {id, name} of $$category) {
         const nameCategoryNew = document.createElement("div")
         nameCategoryNew.className ="container is-small"
         idCategoryEdit=id
-        
+
         nameCategoryNew.innerHTML += `
         <p id=${idCategoryEdit} class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
@@ -399,13 +395,13 @@ const addCAtegory = () => {
         }
         
         $InewOpCategory.innerHTML += `
-        <option value="${value}">${name}</option>`
+        <option value="${name}">${name}</option>`
         
         $categoryFilterI.innerHTML += `
-        <option value="${value}">${name}</option>`
+        <option value="${name}">${name}</option>`
         
         editOpCategoryFilter.innerHTML += `
-        <option value="${value}">${name}</option>`
+        <option value="${name}">${name}</option>`
         
         $listNameCateg.appendChild(nameCategoryNew)   
     }    
