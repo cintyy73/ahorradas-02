@@ -78,62 +78,59 @@
                     <div id="modal-filters-blc" class="box column p-4 ">
                         <div class="container is-flex is-align-items-center">
                             <h1 class="has-text-weight-bold has-text-left ">Filtros</h1>
-                            <button class="button is-ghost is-small is-right">Ocultar filtros</button>
+                            <button id="filter-hidden" class="button is-ghost is-small is-right">Ocultar
+                                filtros</button>
                         </div>
                         <!-- tipo de dato -->
-                        <div class="field ">
-                            <label for="type-filter" class="label subtitle">Tipo</label>
-                            <div class="control ">
-                                <div class="select is-fullwidth">
-                                    <select name="type-filter" id="type-filter">
-                                        <option value="all">Todos</option>
-                                        <option value="new-op-factures">Gasto</option>
-                                        <option value="new-op-gain">Ganancia</option>
-                                    </select>
+                        <div class="filter-hidden">
+                            <div class="field ">
+                                <label for="type-filter" class="label subtitle">Tipo</label>
+                                <div class="control ">
+                                    <div class="select is-fullwidth">
+                                        <select name="type-filter" id="type-filter">
+                                            <option value="all">Todos</option>
+                                            <option value="new-op-factures">Gasto</option>
+                                            <option value="new-op-gain">Ganancia</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- --------------------- -->
+                            <!-- --------------------- -->
 
-                        <!-- categoria -->
-                        <div class="field">
-                            <label for="category-filter" class="label subtitle">Categoría</label>
-                            <div class="control ">
-                                <div class="select is-fullwidth">
-                                    <select type="radio" name="category" id="category-filter">
+                            <!-- categoria -->
+                            <div class="field">
+                                <label for="category-filter" class="label subtitle">Categoría</label>
+                                <div class="control ">
+                                    <div class="select is-fullwidth">
+                                        <select type="radio" name="category" id="category-filter">
 
-                                        <!-- <option value="Comida">Comida</option>
-                                        <option value="Servicios">Servicios</option>
-                                        <option value="Salida">Salida</option>
-                                        <option value="nEducación">Educación</option>
-                                        <option value="Transporte">Transporte</option>
-                                        <option value="Trabajo">Trabajo</option> -->
-                                    </select>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="since" class="label subtitle">Desde</label>
+                                <div class="control ">
+                                    <input class="input" id="since" type="date">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="sort-by" class="label subtitle">Ordenar por</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="sort-by" id="sort-by">
+                                            <option value="more-recent">Más recientes</option>
+                                            <option value="less-recent">Menos recientes</option>
+                                            <option value="higher-amount">Mayor monto</option>
+                                            <option value="lower-amount">Menor monto</option>
+                                            <option value="a-z">A/Z</option>
+                                            <option value="z-a">Z/A</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="field">
-                            <label for="since" class="label subtitle">Desde</label>
-                            <div class="control ">
-                                <input class="input" id="since" type="date">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="sort-by" class="label subtitle">Ordenar por</label>
-                            <div class="control">
-                                <div class="select is-fullwidth">
-                                    <select name="sort-by" id="sort-by">
-                                        <option value="more-recent">Más recientes</option>
-                                        <option value="less-recent">Menos recientes</option>
-                                        <option value="higher-amount">Mayor monto</option>
-                                        <option value="lower-amount">Menor monto</option>
-                                        <option value="a-z">A/Z</option>
-                                        <option value="z-a">Z/A</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- --------------------- -->
+                    <!-- --------------------- -->
                     </div>
                     <!-- --------------------- -->
 
@@ -319,133 +316,133 @@
 
 
     </section>
-        <div id="modal-edit-category" class="box container p-5 m-5 is-hidden">
-            <h1 class="title">Editar categorías</h1>
-            <div id="box-edit-name">
-                <label for="new-operation" class="label subtitle">Nombre</label>
-                <div class="field has-addons">
-                    <div class="control is-expanded">
-                        <input class="input" id="edit-name-category" type="text">
-                    </div>
-                    <button id="btn-edit-name" class="button  is-primary px-5 ml-3  is-4 " type="button">Editar</button>
-                    <button id="btn-cancel-name" class="button px-5 ml-3  is-4 " type="button">Cancelar</button>
+    <div id="modal-edit-category" class="box container p-5 m-5 is-hidden">
+        <h1 class="title">Editar categorías</h1>
+        <div id="box-edit-name">
+            <label for="new-operation" class="label subtitle">Nombre</label>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" id="edit-name-category" type="text">
+                </div>
+                <button id="btn-edit-name" class="button  is-primary px-5 ml-3  is-4 " type="button">Editar</button>
+                <button id="btn-cancel-name" class="button px-5 ml-3  is-4 " type="button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- ----------------- -->
+
+    <!-- Sección reporte -->
+
+    <section id="cont-report" class="container columns p-5  is-hidden">
+        <div id="modal-report" class="box column ">
+            <h1 class="title">Reportes</h1>
+            <div id="cont-img-report"
+                class="container is-flex is-justify-content-center is-centered is-flex-direction-column is-align-items-center">
+                <figure class="image is-128x128 container p-5">
+                    <img src="./assets/report.svg" alt="imagen alusiva a nuevos reportes">
+                </figure>
+                <p class="subtitle has-text-center">Operaciones insuficientes</p>
+                <p class="subtitle has-text-center">Prueba agregando más operaciones</p>
+            </div>
+            <div id="complete-report" class="is-hidden"></div>
+
+            <div id="report-resume container" class="container pb-5 ">
+                <h3 class="subtitle">Resumen</h3>
+                <div class="columns is-flex">
+                    <h3 class="column is-4 subtitle">Categoría con mayor ganancia</h3>
+                    <p id="cat-gain" class="column is-4  has-text-primary has-text-right">///</p>
+                    <p id="max-gain" class="column is-4 has-text-primary has-text-right">$0</p>
+                </div>
+                <div class="columns is-flex">
+                    <h3 class="column is-4 subtitle">Categoría con mayor gasto</h3>
+                    <p id="cat-fact" class="column is-4 has-text-danger has-text-right">///</p>
+                    <p id="max-fact" class="column is-4 has-text-danger has-text-right">$0</p>
+                </div>
+                <div class="columns is-flex">
+                    <h3 class="column is-4 subtitle">Categoría con mayor balance</h3>
+                    <p id="cat-blc" class="column is-4  has-text-right">///</p>
+                    <p id="max-blc" class="column is-4 has-text-primary has-text-right">$0</p>
+                </div>
+                <div class="columns is-flex">
+                    <h3 class="column is-4 ">Mes con mayor ganancia</h3>
+                    <p id="mes-gain" class="column is-4  has-text-right">///</p>
+                    <p id="mes-gain" class="column is-4 has-text-primary has-text-right">0</p>
+                </div>
+                <div class="columns is-flex">
+                    <h3 class="column is-4 ">Mes con mayor gasto</h3>
+                    <p id="mes-factures" class="column is-4 has-text-dark has-text-right">///</p>
+                    <p id="mes-gain" class="column is-4 has-text-danger has-text-right">0</p>
                 </div>
             </div>
-        </div>    
-        <!-- ----------------- -->
+            <div class="container pb-5">
+                <h3 class="subtitle">Total por categorías</h3>
+                <div id="ttl-cat" class="columns is-flex">
+                    <div class="column is-3">
+                        <h3>Categoría</h3>
+                        <ul id="category-x-category">
 
-        <!-- Sección reporte -->
-
-        <section id="cont-report" class="container columns p-5  is-hidden">
-            <div id="modal-report" class="box column ">
-                <h1 class="title">Reportes</h1>
-                <div id="cont-img-report"
-                    class="container is-flex is-justify-content-center is-centered is-flex-direction-column is-align-items-center">
-                    <figure class="image is-128x128 container p-5">
-                        <img src="./assets/report.svg" alt="imagen alusiva a nuevos reportes">
-                    </figure>
-                    <p class="subtitle has-text-center">Operaciones insuficientes</p>
-                    <p class="subtitle has-text-center">Prueba agregando más operaciones</p>
-                </div>
-                <div id="complete-report" class="is-hidden"></div>
-                
-                    <div id="report-resume container" class="container pb-5 ">
-                        <h3 class="subtitle">Resumen</h3>
-                        <div class="columns is-flex">
-                            <h3 class="column is-4 subtitle">Categoría con mayor ganancia</h3>
-                            <p id="cat-gain" class="column is-4  has-text-primary has-text-right">///</p>
-                            <p id="max-gain" class="column is-4 has-text-primary has-text-right">$0</p>
-                        </div>
-                        <div class="columns is-flex">
-                            <h3 class="column is-4 subtitle">Categoría con mayor gasto</h3>
-                            <p id="cat-fact" class="column is-4 has-text-danger has-text-right">///</p>
-                            <p id="max-fact" class="column is-4 has-text-danger has-text-right">$0</p>
-                        </div>
-                        <div class="columns is-flex">
-                            <h3 class="column is-4 subtitle">Categoría con mayor balance</h3>
-                            <p id="cat-blc" class="column is-4  has-text-right">///</p>
-                            <p id="max-blc" class="column is-4 has-text-primary has-text-right">$0</p>
-                        </div>
-                        <div class="columns is-flex">
-                            <h3 class="column is-4 ">Mes con mayor ganancia</h3>
-                            <p id="mes-gain" class="column is-4  has-text-right">///</p>
-                            <p id="mes-gain" class="column is-4 has-text-primary has-text-right">0</p>
-                        </div>
-                        <div class="columns is-flex">
-                            <h3 class="column is-4 ">Mes con mayor gasto</h3>
-                            <p id="mes-factures" class="column is-4 has-text-dark has-text-right">///</p>
-                            <p id="mes-gain" class="column is-4 has-text-danger has-text-right">0</p>
-                        </div>
+                        </ul>
                     </div>
-                    <div class="container pb-5">
-                        <h3 class="subtitle">Total por categorías</h3>
-                        <div id="ttl-cat" class="columns is-flex">
-                            <div class="column is-3">
-                                <h3>Categoría</h3>
-                                <ul id="category-x-category">
+                    <div class="column is-3">
+                        <h3>Ganancia</h3>
+                        <ul id="gain-x-category" class="has-text-primary">
 
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Ganancia</h3>
-                                <ul id="gain-x-category" class="has-text-primary">
-
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Gastos</h3>
-                                <ul id="facture-x-category" class="has-text-danger">
-
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Balance</h3>
-                                <ul id="balance-x-category">
-
-                                </ul>
-                            </div>
-                        </div>
+                        </ul>
                     </div>
-                    <div class="container ">
-                        <h3 class="subtitle">Total por mes</h3>
-                        <div id="ttl-x-mounth" class="columns is-flex">
-                            <div class="column is-3">
-                                <h3>Mes</h3>
-                                <ul id="mounth-x-mounth">
+                    <div class="column is-3">
+                        <h3>Gastos</h3>
+                        <ul id="facture-x-category" class="has-text-danger">
 
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Ganancia</h3>
-                                <ul id="gain-x-mounth" class="has-text-primary">
+                        </ul>
+                    </div>
+                    <div class="column is-3">
+                        <h3>Balance</h3>
+                        <ul id="balance-x-category">
 
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Gastos</h3>
-                                <ul id="facture-x-mounth" class="has-text-danger">
-
-                                </ul>
-                            </div>
-                            <div class="column is-3">
-                                <h3>Balance</h3>
-                                <ul id="balance-x-mounth">
-
-                                </ul>
-                            </div>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
+            <div class="container ">
+                <h3 class="subtitle">Total por mes</h3>
+                <div id="ttl-x-mounth" class="columns is-flex">
+                    <div class="column is-3">
+                        <h3>Mes</h3>
+                        <ul id="mounth-x-mounth">
 
-        </section>
-        <!-- --------------- -->
+                        </ul>
+                    </div>
+                    <div class="column is-3">
+                        <h3>Ganancia</h3>
+                        <ul id="gain-x-mounth" class="has-text-primary">
 
-        </main>
-        <!-- --------------- -->
-        </section>
-        <!-- --------------- -->
-        <script src="./js/app.js"></script>
+                        </ul>
+                    </div>
+                    <div class="column is-3">
+                        <h3>Gastos</h3>
+                        <ul id="facture-x-mounth" class="has-text-danger">
+
+                        </ul>
+                    </div>
+                    <div class="column is-3">
+                        <h3>Balance</h3>
+                        <ul id="balance-x-mounth">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </section>
+    <!-- --------------- -->
+
+    </main>
+    <!-- --------------- -->
+    </section>
+    <!-- --------------- -->
+    <script src="./js/app.js"></script>
 </body>
 
 </html>

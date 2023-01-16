@@ -47,6 +47,8 @@ const $viewReport = $("#cont-report");
 const $filterType = $("#type-filter")
 const $categoryFilterI = $("#category-filter")
 const $orderMI = $("#sort-by")
+const $filterHidden = $(".filter-hidden")
+const $btnFilterHidden = $("#filter-hidden")
 
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
@@ -478,6 +480,10 @@ const addOp = () => {
 
 //ejecuto funciones necesarias para mostrar balance segun filtros
 
+const filterClose = () =>{
+    $filterHidden.classList.toggle("is-hidden")
+    
+}
 //gasto / ganancia
 const viewFylter = () => {
     valueList()
@@ -564,10 +570,12 @@ $btnAddNewOp.addEventListener("click", addOp);
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
 $orderMI.addEventListener("click",viewOrder)
+$btnFilterHidden.addEventListener("click", filterClose)
 //eventos categorias
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
+//*********REPORT FUNCIONES */
 let mountMaxG =0
 let mountMaxF =0
 
@@ -639,23 +647,8 @@ const listReportBlc = (array) => {
 
     }//falta ver id de categorias para poder hacer blc
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
-
+//*******FUNCIONANDO */
+//*******FUNCIONANDO */
+//*******FUNCIONANDO */
+//*******FUNCIONANDO */
+//*******FUNCIONANDO */
