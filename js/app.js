@@ -94,6 +94,7 @@ let opXfilter = [...operations]
 //reporte
 let infoReportCatF=[];
 let infoReportCatG=[];
+let infoRportBlc=[]
 
 /************FUNCIONES*****************/
 
@@ -110,13 +111,26 @@ const $$btnBalance = $("#balance");
 const $$btnReport = $("#report");
 const $$btnCategory = $("#category");
 
+
+const $viewImgSection = $("#cont-img-report")
+
+const $viewListSection = $("#complete-report")
 //activa vistas y/o oculta segun btn
 const viewsReport = () => {
     $viewBalance.classList.add("is-hidden");
     $viewReport.classList.remove("is-hidden");
     $viewCategory.classList.add("is-hidden");
-reportCategories()
+    reporList()
+    operations===[] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
+    operations===[] ?  $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
+    
 
+}
+
+const reporList = () => {
+    reportCategories()
+    listReportGain(infoReportCatG)
+    listReportFact(infoReportCatF)
 }
 
 const viewsCategory = () => {
@@ -342,6 +356,7 @@ const localSCategory = () =>{
     //solo deja las letras minusculas para value option
     const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
     //creo id
+  
     let newId = self.crypto.randomUUID()
     
     if (categoryValue!=="" ){
@@ -356,10 +371,9 @@ const localSCategory = () =>{
 }
 
 // lleno vistas de categorias y opciones a los select 
-const addCAtegory = () => {   
-   
+const addCAtegory = () => {       
     $listNameCateg.innerHTML = ''
-    $InewOpCategory.innerHTML = ''
+    $InewOpCategory.innerHTML = 
     $categoryFilterI.innerHTML = '' 
     editOpCategoryFilter.innerHTML = ''
     for (const {id, name, value} of $$category) {
@@ -385,15 +399,12 @@ const addCAtegory = () => {
         }
         
         $InewOpCategory.innerHTML += `
-        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         $categoryFilterI.innerHTML += `
-        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         editOpCategoryFilter.innerHTML += `
-        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         $listNameCateg.appendChild(nameCategoryNew)   
@@ -561,34 +572,83 @@ $orderMI.addEventListener("click",viewOrder)
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
+let mountMaxG =0
+let mountMaxF =0
+
+let mountMin =0
+let balanceMax=0
 
 //doy valor a array de ganancias y gastos para reporte
 const reportCategories = () =>{
     for (const op of operations) {
         if(op.typeOp === "new-op-gain"){
-            let mountMAx = op.amountOp
             infoReportCatG.push({
-                mountMin:op.amountOp,
+                mount:op.amountOp,
                 category:op.categOp,
-                month:op.dateOp,
+               month:op.dateOp,
                 balance:ttlAmount
-               
-            })}
+            })
+        }
         else{
             infoReportCatF.push({
-                mountMin:op.amountOp,
+                mount:op.amountOp,
                 category:op.categOp,
-                month:op.dateOp,
+               month:op.dateOp,
                 balance:ttlAmount
             })   
+
         }
        
 
     }
 }
-const listReport = () =>{
+const $pCatGain = $("#cat-gain")
+const $pGain = $("#max-gain")
+const $pCatFact = $("#cat-fact")
+const $pFact = $("#max-fact")
+const $pCatBlc = $("#cat-blc")
+const $pBlc = $("#max-blc")
 
+const listReportGain = (array) => {
+    for (const {mount, category} of array) {
+        mountMaxG =mount > mountMaxG ? mountMaxG =mount : mountMaxG
+
+        if (mount===mountMaxG) {
+            $pCatGain.innerHTML= `$${category}`
+            $pGain.innerHTML= `$${mountMaxG}`
+        }    
+
+    }
 }
+
+const listReportFact = (array) => {
+    for (const {mount, category} of array) {
+        mountMaxF = mount > mountMaxF ? mountMaxF =mount : mountMaxF
+        if (mount===mountMaxF) {
+            $pCatFact.innerHTML= `${category}`
+            $pFact.innerHTML= `$${mountMaxF}`
+        } 
+    }
+}
+
+const listReportBlc = (array) => {
+    for (const {mount, category} of array) {
+         
+        if (mount === balanceMax){
+            $pCatBlc.innerHTML = `$${balanceMax}`
+            $pBlc.innerHTML = `${category}`
+            console.log("balance");
+
+        }
+
+    }//falta ver id de categorias para poder hacer blc
+}
+
+
+
+
+
+
 
 
 
