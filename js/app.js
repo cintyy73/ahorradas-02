@@ -91,7 +91,9 @@ let list = []
 
 //montos
 let opXfilter = [...operations]
-
+//reporte
+let infoReportCatF=[];
+let infoReportCatG=[];
 
 /************FUNCIONES*****************/
 
@@ -113,6 +115,8 @@ const viewsReport = () => {
     $viewBalance.classList.add("is-hidden");
     $viewReport.classList.remove("is-hidden");
     $viewCategory.classList.add("is-hidden");
+reportCategories()
+
 }
 
 const viewsCategory = () => {
@@ -338,14 +342,15 @@ const localSCategory = () =>{
     //solo deja las letras minusculas para value option
     const categoryValue = $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
     //creo id
-    const newId = self.crypto.randomUUID()
+    let newId = self.crypto.randomUUID()
     
     if (categoryValue!=="" ){
     $$category.push(
         {name: $categoryNewI.value ,
          id:newId,
-         value:categoryValue
+         value:categoryValue,
         })
+        console.log(newId);
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
 }
@@ -361,9 +366,9 @@ const addCAtegory = () => {
         const nameCategoryNew = document.createElement("div")
         nameCategoryNew.className ="container is-small"
         idCategoryEdit=id
-    
+        
         nameCategoryNew.innerHTML += `
-        <p id=${id} class="is-left">${name}<p>
+        <p id=${idCategoryEdit} class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
         <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
         
@@ -380,12 +385,15 @@ const addCAtegory = () => {
         }
         
         $InewOpCategory.innerHTML += `
+        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         $categoryFilterI.innerHTML += `
+        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         editOpCategoryFilter.innerHTML += `
+        <option value="Todas">Todas</option>
         <option value="${value}">${name}</option>`
         
         $listNameCateg.appendChild(nameCategoryNew)   
@@ -411,13 +419,13 @@ const openEditCategory = () => {
     $viewCategory.classList.add("is-hidden")
 
 }
-const editCategoryName = (id) => {
+const editCategoryName = (idX) => {
     categoryEdit = $$category.map((category) => {
-        if(category.id === id){
+        if(category.id === idX){
             category.name=$editNameCategoryI.value}
         else{
             return categoryEdit
-        } //solo edita la ultima
+        } //solo agrega una mas
         
 })
 }
@@ -531,6 +539,7 @@ const openApp = () => {
     mountGain()
     ttlViewBalance()
     addCAtegory()
+    
 }
 openApp()
 
@@ -553,15 +562,44 @@ $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
 
+//doy valor a array de ganancias y gastos para reporte
+const reportCategories = () =>{
+    for (const op of operations) {
+        if(op.typeOp === "new-op-gain"){
+            let mountMAx = op.amountOp
+            infoReportCatG.push({
+                mountMin:op.amountOp,
+                category:op.categOp,
+                month:op.dateOp,
+                balance:ttlAmount
+               
+            })}
+        else{
+            infoReportCatF.push({
+                mountMin:op.amountOp,
+                category:op.categOp,
+                month:op.dateOp,
+                balance:ttlAmount
+            })   
+        }
+       
+
+    }
+}
+const listReport = () =>{
+
+}
+
+
+
+
+
+
+
+
+
+
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
+/*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 /*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  *//*******************************hasta aca funciona ok  */
 
-// const amountCategory = () => {
-//     for (const {categOp, amountOp} of [...operations]) {
-//      //ver de sumar x categoria
-
-        
-//     }
-// }
-// amountCategory()
-/*sin commit solo hice preubas*/
