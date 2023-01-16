@@ -83,7 +83,7 @@ let operation = {
     categOp: "",
     dateOp: "",
     colorAmount: "",
-    id: self.crypto.randomUUID(),
+    id: "",
     datesOp:"",
     // dateMonth:"",
     // dateYear: ""
@@ -192,9 +192,9 @@ const addLocalStorage = () => {
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
     inputsValues.datesOp = new Date (dateOp);
-    operations.push(inputsValues);
-    console.log((inputsValues));
-    
+    inputsValues.idOP=self.crypto.randomUUID()
+    operations.push(inputsValues); 
+    console.log(idOP);  
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
@@ -205,6 +205,7 @@ const deleteOp = () =>{
 }
 const dlt = (idX) =>{
     return operations = operations.filter((op)=>op.id!==idX)
+    
     //no elimina :-(
    
 }
@@ -259,8 +260,7 @@ const addHtmlBlc = (listOperations) => {
             editOp()
         } 
         $modalListBlc.appendChild(divContainer)
-        idOP=operation.id
-        // console.log(idOP);
+
     } 
 
 }
@@ -458,35 +458,11 @@ const localSCategory = () =>{
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
 }
-
-// lleno vistas de categorias y opciones a los select 
-const addCAtegory = () => {       
-    $listNameCateg.innerHTML = ''
+const addSelect = () =>{
     $InewOpCategory.innerHTML = 
     $categoryFilterI.innerHTML = '' 
     editOpCategoryFilter.innerHTML = ''
     for (const {id, name} of $$category) {
-        const nameCategoryNew = document.createElement("div")
-        nameCategoryNew.className ="container is-small"
-        idCategoryEdit=id
-
-        nameCategoryNew.innerHTML += `
-        <p id=${idCategoryEdit} class="is-left">${name}<p>
-        <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
-        <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
-        
-        //nameCategoryNew.appendChild(divBtnCateg)
-        const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
-        const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
-        //boton para editar
-        btnDltCategoryName.onclick  = function ()  {
-            deleteCategoryNameAll() //cambiar funcion       
-        }
-        //boton para eliminar
-        btnEditCategoryName.onclick =  function ()  {
-            editCategoryNameAll()
-        }
-        
         $InewOpCategory.innerHTML += `
         <option value="${name}">${name}</option>`
         
@@ -495,23 +471,45 @@ const addCAtegory = () => {
         
         editOpCategoryFilter.innerHTML += `
         <option value="${name}">${name}</option>`
+    }
+}
+// lleno vistas de categorias y opciones a los select 
+const addCAtegory = () => {       
+    $listNameCateg.innerHTML = ''
+    for (const {id, name} of $$category) {
+        const nameCategoryNew = document.createElement("div")
+        nameCategoryNew.className ="container is-small"
+        idCategoryEdit=id
+
+        nameCategoryNew.innerHTML += `
+        <p id=${id} class="is-left">${name}<p>
+        <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
+        <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
         
-        $listNameCateg.appendChild(nameCategoryNew)   
+        //nameCategoryNew.appendChild(divBtnCateg)
+        const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
+        const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
+        //boton para editar
+        btnDltCategoryName.onclick  = function ()  {
+            deleteCategoryName(id)
+        }
+        //boton para eliminar
+        btnEditCategoryName.onclick =  function ()  {
+            editCategoryNameAll()
+        }
+        
+         $listNameCateg.appendChild(nameCategoryNew)   
     }    
 }
 
+//funcion para eliminar categoria en onclick
 const deleteCategoryName = (idX) =>{
     $$category = $$category.filter(category => category.id !== idX)
     localStorage.setItem("categories", JSON.stringify($$category));
-    //ver porque elimina la ultima cat
+    openApp()
 }
 
-//ejecuto funciones necesarias para eliminar categoria
-const deleteCategoryNameAll = () =>{
-    deleteCategoryName(idCategoryEdit)
-    openApp()
-    
-}
+
 
 // edita categoria
 const openEditCategory = () => {
@@ -655,6 +653,7 @@ const viewOrder = () => {
 const addCategories = () =>{
     localSCategory()
     addCAtegory()
+    addSelect()
 }
 
 
@@ -665,6 +664,7 @@ const openApp = () => {
     mountGain()
     ttlViewBalance()
     addCAtegory()
+    addSelect()
     
 }
 openApp()
