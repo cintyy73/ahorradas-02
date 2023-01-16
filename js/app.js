@@ -76,6 +76,7 @@ let ttlF = [];
 let ttlG = [];
 
 let operations = dateLocalSt || [];
+let idOP = ''
 let operation = {
     nameOp: "",
     amountOp: 0,
@@ -166,11 +167,7 @@ const closeBoxNewOp = () => {
     $boxNewOp.classList.add("is-hidden");
     openBalance()
 }
-//Funciones CATEGORIA
-const deleteOp = () =>{
-        
-    console.log("git funciona")
-} 
+
 
 // doy valor a las variables segun los inputs
 const inputsDate = (e) => {
@@ -195,6 +192,23 @@ const addLocalStorage = () => {
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
+//eliminar ooperacion
+const deleteOp = () =>{
+    dlt(idOP)
+   console.log("delete");
+}
+const dlt = (idX) =>{
+    return operations = operations.filter((op)=>op.id!==idX)
+    //no elimina :-(
+   
+}
+
+// btn cancelar ediciion de operaciones
+const cancelEditOP = () =>{
+    $boxEditOp.classList.add("is-hidden")
+    $balance.classList.remove("is-hidden")
+}
+
 //añade info a vista de operaciones en balance
 const addHtmlBlc = (listOperations) => {
     $modalListBlc.innerHTML = ``
@@ -203,6 +217,7 @@ const addHtmlBlc = (listOperations) => {
     $contInnerOp.classList.add("is-hidden");
         
     for (const operation of listOperations) {
+        
         const divContainer = document.createElement("div")
         divContainer.className ="columns container"   
         divContainer.innerHTML += `      
@@ -226,20 +241,46 @@ const addHtmlBlc = (listOperations) => {
                     ${operation.dateOp} 
                 </p>
             </div>          
-            <button id="${operation.id}" class="button btn-add is-small is-ghost">Editar</button>
-            <button id="${operation.id}" class="button btn-edit is-small is-ghost">Eliminar</button>
+            <button id="${operation.id}" class="button btn-edit is-small is-ghost">Editar</button>
+            <button id="${operation.id}" class="button btn-dlt is-small is-ghost">Eliminar</button>
             `
-        const buttonDlt = divContainer.querySelector(".btn-add");
+        const buttonDlt = divContainer.querySelector(".btn-dlt");
         buttonDlt.onclick = function ()  {
             deleteOp()
         } 
         const buttonEdit = divContainer.querySelector(".btn-edit");
         buttonEdit.onclick = function () {
-            deleteOp()
+            editOp()
         } 
         $modalListBlc.appendChild(divContainer)
+        idOP=operation.id
+        console.log(idOP);
     } 
 
+}
+// btn editar operation
+const $boxEditOp = $("#box-edit-op")
+const $IEditOpDescrip = $("#edit-op-desc");
+const $IEditOpCategory = $("#edit-op-category-filter");
+const $IEditOpDate = $("#edit-op-date");
+const $IEditOpAmount = $("#edit-op-amount");
+const $IEditOpType = $("#edit-op-type-filter");
+const $btnEditOpOK = $("#btn-add-edit-op")
+const $btnEditOpCancel = $("#btn-canc-edit-op")
+
+//doy valor a los nuevos inputs
+// const InputsEditOp = () =>{
+//     nameOp = $IEditOpDescrip.value || nameOp
+//     amountOp = $IEditOpAmount.value || amountOp
+//     typeOp = $IEditOpType.value || typeOp
+//     categOp = $IEditOpCategory.value || categOp
+//     dateOp = $IEditOpDate.value || dateOp
+// }
+
+editOp = () =>{
+    $boxEditOp.classList.remove("is-hidden")
+    $balance.classList.add("is-hidden")
+    // InputsEditOp()
 }
 
 //filtra las operaciones segun parametro 
@@ -357,12 +398,12 @@ const ordenFilterZA = () => {
 //guardo datos de categorias  en local storage
 const localSCategory = () =>{   
     let newId = self.crypto.randomUUID()
-    
+    const categoryValue=  $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
     if (categoryValue!=="" ){
         $$category.push(
             {name: $categoryNewI.value ,
                 id:newId,
-                // value:categoryValue,
+                 value:categoryValue,
             })            
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
@@ -566,6 +607,8 @@ $$btnBalance.addEventListener("click", viewsBalance);
 $btnNewOp.addEventListener("click", addNewOp);
 $btnCancNewOp.addEventListener("click", closeBoxNewOp);
 $btnAddNewOp.addEventListener("click", addOp);
+//editar opracion
+$btnEditOpCancel.addEventListener("click", cancelEditOP)
 //Eventos filtros
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
