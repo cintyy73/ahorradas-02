@@ -60,8 +60,7 @@ const $btnCancelName = $ ("#btn-cancel-name")
 const $editNameOk = $("#btn-edit-name")
 //variables datos categorias nuevas
 let idCategoryEdit;
-let categoryEdit;
-
+let categoryEdit = {}
 
 //variables datos 
 
@@ -453,7 +452,7 @@ const localSCategory = () =>{
         $$category.push(
             {name: $categoryNewI.value ,
                 id:newId,
-                 value:categoryValue,
+                value:categoryValue,
             })            
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
@@ -495,7 +494,8 @@ const addCAtegory = () => {
         }
         //boton para eliminar
         btnEditCategoryName.onclick =  function ()  {
-            editCategoryNameAll()
+            openEditCategory()
+            editCategoryName(id)
         }
         
          $listNameCateg.appendChild(nameCategoryNew)   
@@ -509,24 +509,19 @@ const deleteCategoryName = (idX) =>{
     openApp()
 }
 
-
-
 // edita categoria
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
     $viewCategory.classList.add("is-hidden")
 
 }
+
 const editCategoryName = (idX) => {
-    categoryEdit = $$category.map((category) => {
-        if(category.id === idX){
-            category.name=$editNameCategoryI.value}
-        else{
-            return categoryEdit
-        } //solo agrega una mas
-        
-})
+    categoryEdit = $$category.find((category)=>category.id ===idX )
+    $editNameCategoryI.value=categoryEdit["name"]
+    console.log(categoryEdit);
 }
+
 
 //cancela edicion de categoria
 const cancelEdit = () =>{
@@ -536,19 +531,29 @@ const cancelEdit = () =>{
 
 //ejecuto funciones necasarias para btn ok edicion 
 const editNameOk = () =>{
-    cancelEdit()
-    editCategoryName(idCategoryEdit)
+    categoryEdit.name = $editNameCategoryI.value
+    categoryEdit.value = $editNameCategoryI.value.replace(/\s+/g,'').toLowerCase()
+    //     $$category = $$category.map((category) => {
+    //     if(category.id === categoryEdit.id){
+            
+    //         return categoryEdit
+    //     }
+    //     else{
+    //         return category
+    //     }
+    // })
+    // console.log($$category);
+    
     localSCategory()
     openApp()
+    cancelEdit()
 }
 
 //ejecuto funciones necesarias para editar categoria
-const editCategoryNameAll = () => {
-    openEditCategory()
-    editCategoryName(idCategoryEdit)
-}
+// const editCategoryNameAll = () => {
+//     openEditCategory()
+// }
 
-//eliminar categoria
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 const addNewOp = () => {
