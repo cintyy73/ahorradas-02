@@ -49,7 +49,6 @@ const $categoryFilterI = $("#category-filter")
 const $orderMI = $("#sort-by")
 const $filterHidden = $(".filter-hidden")
 const $btnFilterHidden = $("#filter-hidden")
-
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
 const $categoryNewI = $("#new-name-category")
@@ -84,7 +83,10 @@ let operation = {
     categOp: "",
     dateOp: "",
     colorAmount: "",
-    id: self.crypto.randomUUID()
+    id: self.crypto.randomUUID(),
+    datesOp:"",
+    // dateMonth:"",
+    // dateYear: ""
 };
 let $$category = categoryLocalSt || [] 
 
@@ -175,8 +177,10 @@ const inputsDate = (e) => {
     amountOp = $InewOpAmount.value || 0
     typeOp = $InewOpType.value
     categOp = $InewOpCategory.value
-    dateOp = $InewOpDate.value || "--/--/--"
+    dateOp = $InewOpDate.value || "11/11/11"
+    datesOp = new Date($InewOpDate)
 
+    console.log($InewOpDate.value)
 }
 
 //guarda datos en local storage
@@ -187,7 +191,9 @@ const addLocalStorage = () => {
     inputsValues.typeOp = typeOp;
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
+    inputsValues.datesOp = new Date (dateOp);
     operations.push(inputsValues);
+    console.log((inputsValues));
     
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
@@ -254,7 +260,7 @@ const addHtmlBlc = (listOperations) => {
         } 
         $modalListBlc.appendChild(divContainer)
         idOP=operation.id
-        console.log(idOP);
+        // console.log(idOP);
     } 
 
 }
@@ -392,6 +398,50 @@ const ordenFilterZA = () => {
     }
     )
 }
+//obtener mes y año
+// const dates = () =>{
+//     for (const op of operations) {
+//         dateMonth = op.datesOp.getMonth()
+//         dateYear = op.datesOp.getFullYear()
+//         console.log(op.datesOp);  
+//         console.log(dateMonth);  
+//         console.log(dateYear);  
+//     }
+// }
+// dates()
+
+//funciones para filtarr segun mas o menos recientes
+const orderFilterMoreRecent = () => opXfilter.sort((x, y) => x.datesOp - y.datesOp)
+const orderFilterLessRecent = () => opXfilter.sort((x, y) => y.datesOp - x.datesOp)
+//********no ordena!!!!!!!!!! */
+//{
+//         const dateX = x.datesOp
+//         const dateY = y.datesOp
+//         opXfilter.sort((x, y)=> {
+//         if (dateX < dateY) {
+//             return -1
+//         }
+//         if (dateX > dateY) {
+//             return 1
+//         }
+//         return 0
+//     }
+//     )
+// }
+// const orderFilterLessRecent = () =>{
+//     opXfilter.sort((x, y)=> {
+//         const dateX = x.datesOp
+//         const dateY = y.datesOp
+//         if (dateX < dateY) {
+//             return -1
+//         }
+//         if (dateX > dateY) {
+//             return 1
+//         }
+//         return 0
+//         }
+//     )
+// }
 
 //seccion nueva categorias
 
@@ -562,6 +612,21 @@ const viewOrdenAZ = () => {
     addHtmlBlc (opXfilter)
 }
 
+/*mas recientes*/
+const viewMoreRecent=() =>{
+    // orderFilterMoreRecent()
+    // addHtmlBlc (opXfilter)
+    console.log(opXfilter)
+
+}
+const viewLessRecent=() =>{
+    // orderFilterLessRecent()
+    // addHtmlBlc (opXfilter)
+    console.log("menois")
+    console.log(opXfilter)
+
+
+}
 //segun valor select ejecuto la funcion
 const viewOrder = () => {
     let valueInput = $orderMI.value
@@ -577,6 +642,13 @@ const viewOrder = () => {
     else if (valueInput === "a-z") {
         viewOrdenAZ()
     }  
+    else if (valueInput === "more-recent"){
+
+        viewMoreRecent()
+    }
+    else if (valueInput === "less-recent"){
+        viewLessRecent()
+    }
 }
 
 //ejecuto funciones necesarias para añadir categoria
