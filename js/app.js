@@ -86,6 +86,13 @@ const $categoryXmonth = $("#category-x-category")
 const $categoryGain = $("#gain-x-category")
 const $categoryFacture = $("#facture-x-category")
 const $categoryBalance = $("#balance-x-category")
+const $pCatGain = $("#cat-gain")
+const $pGain = $("#max-gain")
+const $pCatFact = $("#cat-fact")
+const $pFact = $("#max-fact")
+const $pCatBlc = $("#cat-blc")
+const $pBlc = $("#max-blc")
+
 //variables datos categorias nuevas
 let idCategoryEdit;
 let categoryEdit = {}
@@ -153,6 +160,8 @@ const reporList = () => {
     reportCategories()
     listReportGain(infoReportCatG)
     listReportFact(infoReportCatF)
+    listReportMonth()
+    listReportCategory()
 }
 
 const viewsCategory = () => {
@@ -523,6 +532,125 @@ const deleteCategoryName = (idX) => {
     openApp()
 }
 
+//*********REPORT FUNCIONES */
+let mountMaxG = 0
+let mountMaxF = 0
+
+let mountMin = 0
+let balanceMax = 0
+
+//doy valor a array de ganancias y gastos para reporte
+const reportCategories = () => {
+    for (const op of operations) {
+        if (op.typeOp === "gain") {
+            infoReportCatG.push({
+                mount: op.amountOp,
+                category: op.categOp,
+                month: op.dateOp,
+                balance: ttlAmount
+            })
+        }
+        else {
+            infoReportCatF.push({
+                mount: op.amountOp,
+                category: op.categOp,
+                month: op.dateOp,
+                balance: ttlAmount
+            })
+        }
+    }
+}
+
+const listReportGain = (array) => {
+    for (const { mount, category } of array) {
+        mountMaxG = mount > mountMaxG ? mountMaxG = mount : mountMaxG
+        if (mount === mountMaxG) {
+            $pCatGain.innerHTML = `$${category}`
+            $pGain.innerHTML = `$${mountMaxG}`
+        }
+    }
+}
+
+const listReportFact = (array) => {
+    for (const { mount, category } of array) {
+        mountMaxF = mount > mountMaxF ? mountMaxF = mount : mountMaxF
+        if (mount === mountMaxF) {
+            $pCatFact.innerHTML = `${category}`
+            $pFact.innerHTML = `$${mountMaxF}`
+        }
+    }
+}
+
+//creo objeto de meses cons sus montos
+const monthsReport = operations.reduce((acc, operation) =>{
+    const dates = new Date(operation.dateOp)
+    const dateFormat = `${dates.getMonth()+1} / ${dates.getFullYear()}`;
+    if (!acc[dateFormat]) {
+        
+    acc [dateFormat] = {
+            gain:0,
+            factures:0,
+            balance:0                
+        }
+    }
+    acc [dateFormat][operation.typeOp]  += operation.amountOp
+    acc [dateFormat]["balance"] = acc[dateFormat]["gain"] -acc[dateFormat]["factures"]
+    return acc
+}, {})
+
+//creo objeto de categoria cons sus montos
+const categoryReport = operations.reduce((acc, operation) =>{
+    const category_name = operation.categOp
+    if (!acc[category_name]) {
+        
+        acc[category_name] = {
+            gain:0,
+            factures:0,
+            balance:0                
+        }
+    }
+
+        
+    acc[category_name][operation.typeOp] += operation.amountOp
+    acc[category_name]["balance"] = acc[category_name]["gain"] -acc[category_name]["factures"]
+    return acc
+}, {})
+
+
+//llena vista de repotes
+
+//x mes
+const months = Object.keys(monthsReport)
+const listReportMonth = () => {
+    $monthXmount.innerHTML +=``
+    $gainXmount.innerHTML +=`` 
+    $factureXmount.innerHTML =`` 
+    $balanceXmount.innerHTML =`` 
+
+    for (const month of months ) {    
+        $monthXmount.innerHTML +=`${month}`
+        $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
+        $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
+        $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
+        }
+}
+
+//x categoria
+const categoriesReport = Object.keys(categoryReport)
+
+const listReportCategory = () => {
+    $categoryXmonth .innerHTML=``
+    $categoryGain .innerHTML=``
+    $categoryFacture.innerHTML=``
+    $categoryBalance.innerHTML=``
+    for (const category of categoriesReport) {
+    $categoryXmonth .innerHTML=`${category}`
+    $categoryGain .innerHTML=`${categoryReport[category]["gain"]}`
+    $categoryFacture.innerHTML=`${categoryReport[category]["factures"]}`
+    $categoryBalance.innerHTML=`${categoryReport[category]["balance"]}`
+    }
+}
+    
 // // //agregar id de actegoria a cada operacion
 // const idCategoryOp = ({id, value}) => {
 // console.log(value)
@@ -671,7 +799,6 @@ const addCategories = () => {
     localSCategory()
     addCAtegory()
     addSelect()
-
 }
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
@@ -682,6 +809,8 @@ const openApp = () => {
     addCAtegory()
     addSelect()
     addHtmlBlc(operations)
+    listReportMonth()
+    listReportCategory()
 }
 openApp()
 
@@ -707,156 +836,4 @@ $btnFilterHidden.addEventListener("click", filterClose)
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
-//*********REPORT FUNCIONES */
-let mountMaxG = 0
-let mountMaxF = 0
 
-let mountMin = 0
-let balanceMax = 0
-
-//doy valor a array de ganancias y gastos para reporte
-const reportCategories = () => {
-    for (const op of operations) {
-        if (op.typeOp === "gain") {
-            infoReportCatG.push({
-                mount: op.amountOp,
-                category: op.categOp,
-                month: op.dateOp,
-                balance: ttlAmount
-            })
-        }
-        else {
-            infoReportCatF.push({
-                mount: op.amountOp,
-                category: op.categOp,
-                month: op.dateOp,
-                balance: ttlAmount
-            })
-        }
-    }
-}
-const $pCatGain = $("#cat-gain")
-const $pGain = $("#max-gain")
-const $pCatFact = $("#cat-fact")
-const $pFact = $("#max-fact")
-const $pCatBlc = $("#cat-blc")
-const $pBlc = $("#max-blc")
-
-const listReportGain = (array) => {
-    for (const { mount, category } of array) {
-        mountMaxG = mount > mountMaxG ? mountMaxG = mount : mountMaxG
-        if (mount === mountMaxG) {
-            $pCatGain.innerHTML = `$${category}`
-            $pGain.innerHTML = `$${mountMaxG}`
-        }
-    }
-}
-
-const listReportFact = (array) => {
-    for (const { mount, category } of array) {
-        mountMaxF = mount > mountMaxF ? mountMaxF = mount : mountMaxF
-        if (mount === mountMaxF) {
-            $pCatFact.innerHTML = `${category}`
-            $pFact.innerHTML = `$${mountMaxF}`
-        }
-    }
-}
-
-
-// const listReportBlc = () => {
-
-//     for (const { mount, category } of array) {
-//         if (mount === balanceMax) {
-//             $pCatBlc.innerHTML = `$${balanceMax}`
-//             $pBlc.innerHTML = `${category}`
-//         }
-//     }
-// }
-
-
-
-
-// let list_report = []
-// let list_category_G =[]
-// let list_category_F =[]
-
-// const categoryListReport = () =>{
-//     for (const {name, amountOp, categoryOp, typeOp} of operations ) {
-//         list_category_F=(operations.filter(operation => operation.typeOp === "factures"))
-//         list_category_G=(operations.filter(operation => operation.typeOp !== "factures"))
-//     }
-//     for
-      
-// }
-// categoryListReport([...operations])
-
-// const reportMonths = () =>{
-const monthsReport = operations.reduce((acc, operation) =>{
-    const dates = new Date(operation.dateOp)
-    const dateFormat = `${dates.getMonth()+1} / ${dates.getFullYear()}`;
-    if (!acc[dateFormat]) {
-        
-    acc [dateFormat] = {
-            gain:0,
-            factures:0,
-            balance:0                
-        }
-    }
-    acc [dateFormat][operation.typeOp]  += operation.amountOp
-    acc [dateFormat]["balance"] = acc[dateFormat]["gain"] -acc[dateFormat]["factures"]
-    return acc
-}, {})
-
-const categoryReport = operations.reduce((acc, operation) =>{
-    const category_name = operation.categOp
-    if (!acc[category_name]) {
-        
-        acc[category_name] = {
-            gain:0,
-            factures:0,
-            balance:0                
-        }
-    }
-
-        
-    acc[category_name][operation.typeOp] += operation.amountOp
-    acc[category_name]["balance"] = acc[category_name]["gain"] -acc[category_name]["factures"]
-    return acc
-}, {})
-
-const months = Object.keys(monthsReport)
-
-
-const listReportMonth = () => {
-    $monthXmount.innerHTML +=``
-    $gainXmount.innerHTML +=`` 
-    $factureXmount.innerHTML =`` 
-    $balanceXmount.innerHTML =`` 
-
-    for (const month of months ) {    
-        $monthXmount.innerHTML +=`${month}`
-        $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
-        $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
-        $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
-            
-        }
-    }
-const categoriesReport = Object.keys(categoryReport)
-
-const listReportCategory = () => {
-    $categoryXmonth .innerHTML=``
-    $categoryGain .innerHTML=``
-    $categoryFacture.innerHTML=``
-    $categoryBalance.innerHTML=``
-    for (const category of categoriesReport) {
-    $categoryXmonth .innerHTML=`${category}`
-    $categoryGain .innerHTML=`${categoryReport[category]["gain"]}`
-    $categoryFacture.innerHTML=`${categoryReport[category]["factures"]}`
-    $categoryBalance.innerHTML=`${categoryReport[category]["balance"]}`
-        
-    }
-    
-}
-    
-listReportMonth()
-listReportCategory()
