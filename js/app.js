@@ -59,11 +59,11 @@ const $btnFilterHidden = $("#filter-hidden")
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
 const $categoryNewI = $("#new-name-category")
-const $listNameCateg =$("#list-name-category")
-const  editOpCategoryFilter = $("#edit-op-category-filter") 
+const $listNameCateg = $("#list-name-category")
+const editOpCategoryFilter = $("#edit-op-category-filter")
 const $modalEditCategory = $("#modal-edit-category")
 const $editNameCategoryI = $("#edit-name-category")
-const $btnCancelName = $ ("#btn-cancel-name")
+const $btnCancelName = $("#btn-cancel-name")
 const $editNameOk = $("#btn-edit-name")
 
 //variables datos categorias nuevas
@@ -82,7 +82,7 @@ let ttlF = [];
 let ttlG = [];
 
 let operations = dateLocalSt || [];
-let idOP = ''
+let idOp = ''
 let operation = {
     nameOp: "",
     amountOp: 0,
@@ -91,11 +91,11 @@ let operation = {
     dateOp: "",
     colorAmount: "",
     id: "",
-    datesOp:"",
+    datesOp: "",
     // dateMonth:"",
     // dateYear: ""
 };
-let $$category = categoryLocalSt || [] 
+let $$category = categoryLocalSt || []
 
 //array de operaciones para filtros
 let list = []
@@ -104,9 +104,9 @@ let list = []
 let opXfilter = [...operations]
 
 //reporte
-let infoReportCatF=[];
-let infoReportCatG=[];
-let infoRportBlc=[]
+let infoReportCatF = [];
+let infoReportCatG = [];
+let infoRportBlc = []
 
 /************FUNCIONES*****************/
 
@@ -123,8 +123,8 @@ const viewsReport = () => {
     $viewReport.classList.remove("is-hidden");
     $viewCategory.classList.add("is-hidden");
     reporList()
-    operations===[] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
-    operations===[] ?  $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
+    operations === [] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
+    operations === [] ? $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
 }
 
 const reporList = () => {
@@ -183,26 +183,21 @@ const addLocalStorage = () => {
     inputsValues.typeOp = typeOp;
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
-    inputsValues.datesOp = new Date (dateOp);
-    inputsValues.idOP=self.crypto.randomUUID()
-    operations.push(inputsValues); 
-    console.log(idOP);  
+    inputsValues.datesOp = new Date(dateOp);
+    inputsValues.idOp = self.crypto.randomUUID()
+    operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
 //eliminar ooperacion
-const deleteOp = () =>{
-    dlt(idOP)
-   console.log("delete");
-}
-
-const dlt = (idX) =>{
-    return operations = operations.filter((op)=>op.id!==idX)
-    //no elimina :-(
+const deleteOp = (idX) => {
+    operations = operations.filter(operation => operation.idOp !== idX)
+    localStorage.setItem("operationsOB", JSON.stringify(operations))
+    openApp()
 }
 
 // btn cancelar ediciion de operaciones
-const cancelEditOP = () =>{
+const cancelEditOP = () => {
     $boxEditOp.classList.add("is-hidden")
     $balance.classList.remove("is-hidden")
 }
@@ -210,47 +205,47 @@ const cancelEditOP = () =>{
 //añade info a vista de operaciones en balance
 const addHtmlBlc = (listOperations) => {
     $modalListBlc.innerHTML = ``
-        
+
     $viewListOp.classList.remove("is-hidden");
     $contInnerOp.classList.add("is-hidden");
-        
-    for (const operation of listOperations) {
+
+    for (const {idOp, nameOp, categOp, typeOp, amountOp, dateOp}of listOperations) {
         const divContainer = document.createElement("div")
-        divContainer.className ="columns container"   
+        divContainer.className = "columns container"
         divContainer.innerHTML += `      
             <div class="column is-3">
                 <p id="desc-blc">
-                    ${operation.nameOp}        
+                    ${nameOp}        
                 </p>
             </div>
             <div class="column is-3">
                 <p id="categ-blc">
-                    ${operation.categOp} 
+                    ${categOp} 
                 </p>
             </div>
             <div class="column is-2">
-                <p id="amount-blc" class= ${operation.typeOp === "new-op-factures" ? "has-text-danger" : "has-text-primary"} >
-                    $${operation.amountOp} 
+                <p id="amount-blc" class= ${typeOp === "new-op-factures" ? "has-text-danger" : "has-text-primary"} >
+                    $${amountOp} 
                 </p>
             </div>
             <div class="column is-2">
                 <p id="date-blc">
-                    ${operation.dateOp} 
+                    ${dateOp} 
                 </p>
             </div>          
-            <button id="${operation.id}" class="button btn-edit is-small is-ghost">Editar</button>
-            <button id="${operation.id}" class="button btn-dlt is-small is-ghost">Eliminar</button> `
+            <button class="button btn-edit is-small is-ghost">Editar</button>
+            <button class="button btn-dlt is-small is-ghost">Eliminar</button> `
 
         const buttonDlt = divContainer.querySelector(".btn-dlt");
-        buttonDlt.onclick = function ()  {
-            deleteOp()
-        } 
+        buttonDlt.onclick = function () {
+            deleteOp(idOp)
+        }
         const buttonEdit = divContainer.querySelector(".btn-edit");
         buttonEdit.onclick = function () {
-            editOp()
-        } 
+            editOp(idOp)
+        }
         $modalListBlc.appendChild(divContainer)
-    } 
+    }
 }
 
 // btn editar operation
@@ -272,7 +267,7 @@ const $btnEditOpCancel = $("#btn-canc-edit-op")
 //     dateOp = $IEditOpDate.value || dateOp
 // }
 
-editOp = () =>{
+editOp = () => {
     $boxEditOp.classList.remove("is-hidden")
     $balance.classList.add("is-hidden")
     // InputsEditOp()
@@ -309,9 +304,9 @@ const mountFact = () => {
 const ttlViewBalance = () => {
     $ttlFact.innerHTML = `$ -${ttlFact}`;
     $ttlGain.innerHTML = `$ +${ttlGain}`;
-    $ttl.innerHTML = ttlAmount 
+    $ttl.innerHTML = ttlAmount
     $ttl.classList.add(ttlFact > ttlGain ? "has-text-danger" : "has-text-primary")
-  }
+}
 
 //filtro el array de operaciones segun gasto / ganancia
 const valueList = () => {
@@ -324,7 +319,6 @@ const valueList = () => {
     else {
         list = [...operations]
     }
-
 }
 
 //filtro segun categoria
@@ -332,30 +326,30 @@ const categoryFilter = (type) => {
     return operations.filter(operation => operation.categOp === type)
 }
 
-const categoryList = () =>{
-    if  ($categoryFilterI.value !== "Todas") {
-        list = categoryFilter($categoryFilterI.value)      
+const categoryList = () => {
+    if ($categoryFilterI.value !== "Todas") {
+        list = categoryFilter($categoryFilterI.value)
     }
-    else{
+    else {
         list = [...operations]
     }
 }
 
 //ordena montos mayor a menor  
 const ordenFilterMax = () => {
-    opXfilter.sort((x, y) => (y.amountOp - x.amountOp))    
+    opXfilter.sort((x, y) => (y.amountOp - x.amountOp))
 }
 
 //ordena montos  menor a mayor
-const ordenFilterMin = () => {  
-    opXfilter.sort((x, y) => (x.amountOp - y.amountOp))    
+const ordenFilterMin = () => {
+    opXfilter.sort((x, y) => (x.amountOp - y.amountOp))
 }
 
 //ordena alfabeticamente segun categoria
-const ordenFilterAZ = () => {  
-    opXfilter.sort((x, y)=> {
-        const categoryX = x.categOp.replace(/\s+/g,'').toLowerCase()
-        const categoryY = y.categOp.replace(/\s+/g,'').toLowerCase()
+const ordenFilterAZ = () => {
+    opXfilter.sort((x, y) => {
+        const categoryX = x.categOp.replace(/\s+/g, '').toLowerCase()
+        const categoryY = y.categOp.replace(/\s+/g, '').toLowerCase()
         if (categoryX < categoryY) {
             return -1
         }
@@ -368,10 +362,10 @@ const ordenFilterAZ = () => {
 }
 
 //ordena alfabeticamente segun categoria
-const ordenFilterZA = () => {  
-    opXfilter.sort((x, y)=> {
-        const categoryX = x.categOp.replace(/\s+/g,'').toLowerCase()
-        const categoryY = y.categOp.replace(/\s+/g,'').toLowerCase()
+const ordenFilterZA = () => {
+    opXfilter.sort((x, y) => {
+        const categoryX = x.categOp.replace(/\s+/g, '').toLowerCase()
+        const categoryY = y.categOp.replace(/\s+/g, '').toLowerCase()
         if (categoryX < categoryY) {
             return 1
         }
@@ -429,24 +423,25 @@ const orderFilterLessRecent = () => opXfilter.sort((x, y) => y.datesOp - x.dates
 //seccion nueva categorias
 
 //guardo datos de categorias  en local storage
-const localSCategory = () =>{   
+const localSCategory = () => {
     let newId = self.crypto.randomUUID()
-    const categoryValue=  $categoryNewI.value.replace(/\s+/g,'').toLowerCase()
-    if (categoryValue!=="" ){
+    const categoryValue = $categoryNewI.value.replace(/\s+/g, '').toLowerCase()
+    if (categoryValue !== "") {
         $$category.push(
-            {name: $categoryNewI.value ,
-                id:newId,
-                value:categoryValue,
-            })            
+            {
+                name: $categoryNewI.value,
+                id: newId,
+                value: categoryValue,
+            })
     }
-    localStorage.setItem("categories", JSON.stringify($$category));       
+    localStorage.setItem("categories", JSON.stringify($$category));
 }
 
-const addSelect = () =>{
-    $InewOpCategory.innerHTML = 
-    $categoryFilterI.innerHTML = '' 
+const addSelect = () => {
+    $InewOpCategory.innerHTML =
+        $categoryFilterI.innerHTML = ''
     editOpCategoryFilter.innerHTML = ''
-    for (const {id, name} of $$category) {
+    for (const { id, name } of $$category) {
         $InewOpCategory.innerHTML += `
         <option value="${name}">${name}</option>`
         $categoryFilterI.innerHTML += `
@@ -456,35 +451,35 @@ const addSelect = () =>{
     }
 }
 // lleno vistas de categorias y opciones a los select 
-const addCAtegory = () => {       
+const addCAtegory = () => {
     $listNameCateg.innerHTML = ''
-    for (const {id, name} of $$category) {
+    for (const { id, name } of $$category) {
         const nameCategoryNew = document.createElement("div")
-        nameCategoryNew.className ="container is-small"
-        idCategoryEdit=id
+        nameCategoryNew.className = "container is-small"
+        idCategoryEdit = id
 
         nameCategoryNew.innerHTML += `
         <p id=${id} class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
-        <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
+        <button class="button edit-categoryName is-small is-ghost">Editar</button>`
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
 
         //boton para editar
-        btnDltCategoryName.onclick  = function ()  {
+        btnDltCategoryName.onclick = function () {
             deleteCategoryName(id)
         }
         //boton para eliminar
-        btnEditCategoryName.onclick =  function ()  {
+        btnEditCategoryName.onclick = function () {
             openEditCategory()
             editCategoryName(id)
         }
-        $listNameCateg.appendChild(nameCategoryNew)   
-    }    
+        $listNameCateg.appendChild(nameCategoryNew)
+    }
 }
 
 //funcion para eliminar categoria en onclick
-const deleteCategoryName = (idX) =>{
+const deleteCategoryName = (idX) => {
     $$category = $$category.filter(category => category.id !== idX)
     localStorage.setItem("categories", JSON.stringify($$category));
     openApp()
@@ -497,21 +492,21 @@ const openEditCategory = () => {
 }
 
 const editCategoryName = (idX) => {
-    categoryEdit = $$category.find((category)=>category.id ===idX )
-    $editNameCategoryI.value=categoryEdit["name"]
+    categoryEdit = $$category.find((category) => category.id === idX)
+    $editNameCategoryI.value = categoryEdit["name"]
     console.log(categoryEdit);
 }
 
 //cancela edicion de categoria
-const cancelEdit = () =>{
+const cancelEdit = () => {
     $modalEditCategory.classList.add("is-hidden")
     $viewCategory.classList.remove("is-hidden")
 }
 
 //ejecuto funciones necasarias para btn ok edicion 
-const editNameOk = () =>{
+const editNameOk = () => {
     categoryEdit.name = $editNameCategoryI.value
-    categoryEdit.value = $editNameCategoryI.value.replace(/\s+/g,'').toLowerCase()
+    categoryEdit.value = $editNameCategoryI.value.replace(/\s+/g, '').toLowerCase()
     localSCategory()
     openApp()
     cancelEdit()
@@ -535,14 +530,14 @@ const addOp = () => {
 }
 
 //ejecuto funciones necesarias para mostrar balance segun filtros
-const filterClose = () =>{
+const filterClose = () => {
     $filterHidden.classList.toggle("is-hidden")
 }
 
 //gasto / ganancia
 const viewFylter = () => {
     valueList()
-    addHtmlBlc (list)
+    addHtmlBlc(list)
 }
 
 //categoria
@@ -555,35 +550,35 @@ const viewCategory = () => {
 /*mayor monto*/
 const viewOrdenMax = () => {
     ordenFilterMax()
-    addHtmlBlc (opXfilter)
+    addHtmlBlc(opXfilter)
 }
 
-/*menor monto*/ 
+/*menor monto*/
 const viewOrdenMin = () => {
     ordenFilterMin()
-    addHtmlBlc (opXfilter)
+    addHtmlBlc(opXfilter)
 }
 
 /* alfab a/z */
 const viewOrdenZA = () => {
     ordenFilterZA()
-    addHtmlBlc (opXfilter)
+    addHtmlBlc(opXfilter)
 }
 
 /* alfab a/z */
 const viewOrdenAZ = () => {
     ordenFilterAZ()
-    addHtmlBlc (opXfilter)
+    addHtmlBlc(opXfilter)
 }
 
 /*mas recientes*/
-const viewMoreRecent=() =>{
+const viewMoreRecent = () => {
     // orderFilterMoreRecent()
     // addHtmlBlc (opXfilter)
     console.log(opXfilter)
 
 }
-const viewLessRecent=() =>{
+const viewLessRecent = () => {
     // orderFilterLessRecent()
     // addHtmlBlc (opXfilter)
     console.log("menois")
@@ -593,7 +588,7 @@ const viewLessRecent=() =>{
 //segun valor select ejecuto la funcion
 const viewOrder = () => {
     let valueInput = $orderMI.value
-    if(valueInput ==="higher-amount"){
+    if (valueInput === "higher-amount") {
         viewOrdenMax()
     }
     else if (valueInput === "lower-amount") {
@@ -601,27 +596,25 @@ const viewOrder = () => {
     }
     else if (valueInput === "z-a") {
         viewOrdenZA()
-    } 
+    }
     else if (valueInput === "a-z") {
         viewOrdenAZ()
-    }  
-    else if (valueInput === "more-recent"){
+    }
+    else if (valueInput === "more-recent") {
 
         viewMoreRecent()
     }
-    else if (valueInput === "less-recent"){
+    else if (valueInput === "less-recent") {
         viewLessRecent()
     }
 }
 
 //ejecuto funciones necesarias para añadir categoria
-const addCategories = () =>{
+const addCategories = () => {
     localSCategory()
     addCAtegory()
     addSelect()
 }
-
-
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
 const openApp = () => {
@@ -630,6 +623,7 @@ const openApp = () => {
     ttlViewBalance()
     addCAtegory()
     addSelect()
+    addHtmlBlc(operations)
 }
 openApp()
 
@@ -648,37 +642,37 @@ $btnEditOpCancel.addEventListener("click", cancelEditOP)
 //Eventos filtros
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
-$orderMI.addEventListener("click",viewOrder)
+$orderMI.addEventListener("click", viewOrder)
 $btnFilterHidden.addEventListener("click", filterClose)
 //eventos categorias
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
 $editNameOk.addEventListener("click", editNameOk);
 //*********REPORT FUNCIONES */
-let mountMaxG =0
-let mountMaxF =0
+let mountMaxG = 0
+let mountMaxF = 0
 
-let mountMin =0
-let balanceMax=0
+let mountMin = 0
+let balanceMax = 0
 
 //doy valor a array de ganancias y gastos para reporte
-const reportCategories = () =>{
+const reportCategories = () => {
     for (const op of operations) {
-        if(op.typeOp === "new-op-gain"){
+        if (op.typeOp === "new-op-gain") {
             infoReportCatG.push({
-                mount:op.amountOp,
-                category:op.categOp,
-               month:op.dateOp,
-                balance:ttlAmount
+                mount: op.amountOp,
+                category: op.categOp,
+                month: op.dateOp,
+                balance: ttlAmount
             })
         }
-        else{
+        else {
             infoReportCatF.push({
-                mount:op.amountOp,
-                category:op.categOp,
-               month:op.dateOp,
-                balance:ttlAmount
-            })   
+                mount: op.amountOp,
+                category: op.categOp,
+                month: op.dateOp,
+                balance: ttlAmount
+            })
         }
     }
 }
@@ -690,28 +684,28 @@ const $pCatBlc = $("#cat-blc")
 const $pBlc = $("#max-blc")
 
 const listReportGain = (array) => {
-    for (const {mount, category} of array) {
-        mountMaxG =mount > mountMaxG ? mountMaxG =mount : mountMaxG
-        if (mount===mountMaxG) {
-            $pCatGain.innerHTML= `$${category}`
-            $pGain.innerHTML= `$${mountMaxG}`
-        }    
+    for (const { mount, category } of array) {
+        mountMaxG = mount > mountMaxG ? mountMaxG = mount : mountMaxG
+        if (mount === mountMaxG) {
+            $pCatGain.innerHTML = `$${category}`
+            $pGain.innerHTML = `$${mountMaxG}`
+        }
     }
 }
 
 const listReportFact = (array) => {
-    for (const {mount, category} of array) {
-        mountMaxF = mount > mountMaxF ? mountMaxF =mount : mountMaxF
-        if (mount===mountMaxF) {
-            $pCatFact.innerHTML= `${category}`
-            $pFact.innerHTML= `$${mountMaxF}`
-        } 
+    for (const { mount, category } of array) {
+        mountMaxF = mount > mountMaxF ? mountMaxF = mount : mountMaxF
+        if (mount === mountMaxF) {
+            $pCatFact.innerHTML = `${category}`
+            $pFact.innerHTML = `$${mountMaxF}`
+        }
     }
 }
 
 const listReportBlc = (array) => {
-    for (const {mount, category} of array) {
-        if (mount === balanceMax){
+    for (const { mount, category } of array) {
+        if (mount === balanceMax) {
             $pCatBlc.innerHTML = `$${balanceMax}`
             $pBlc.innerHTML = `${category}`
             console.log("balance");
