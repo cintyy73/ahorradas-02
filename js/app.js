@@ -70,7 +70,8 @@ const $editNameOk = $("#btn-edit-name")
 let idCategoryEdit;
 let categoryEdit = {}
 
-//variables datos 
+//variables datos edicion de categoria
+let editOperation = {}
 
 //montos ganancias / gastos /total
 let ttlGain = 0;
@@ -242,6 +243,7 @@ const addHtmlBlc = (listOperations) => {
         }
         const buttonEdit = divContainer.querySelector(".btn-edit");
         buttonEdit.onclick = function () {
+            openModalEdit()
             editOp(idOp)
         }
         $modalListBlc.appendChild(divContainer)
@@ -266,10 +268,19 @@ const $btnEditOpCancel = $("#btn-canc-edit-op")
 //     categOp = $IEditOpCategory.value || categOp
 //     dateOp = $IEditOpDate.value || dateOp
 // }
-
-editOp = () => {
+const openModalEdit = () => {
     $boxEditOp.classList.remove("is-hidden")
     $balance.classList.add("is-hidden")
+} 
+
+editOp = (idX) => {
+    editOperation = operations.find(operation => operation.idOp === idX)
+    console.log(editOperation)
+        $IEditOpDescrip.value = operation.nameOp
+        $IEditOpAmount.value = operation.amountOp
+        $IEditOpType.value = operation.typeOp
+        $IEditOpCategory.value = operation.categOp
+        $IEditOpDate.value = operation.dateOp
     // InputsEditOp()
 }
 
@@ -280,7 +291,6 @@ const typeFilter = (type) => {
 
 //sumo montos de ganancias
 const mountGain = () => {
-
     ttlG = typeFilter("new-op-gain")//filtro ganacias
     ttlGain = 0
     for (const operation of ttlG) {
