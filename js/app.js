@@ -27,7 +27,13 @@ const $InewOpType = $("#new-op-type-filter");
 const $ttlGain = $("#ttl-gain");
 const $ttlFact = $("#ttl-factures");
 const $ttl = $("#ttl");
+//Botones menu 
 
+const $$btnBalance = $("#balance");
+const $$btnReport = $("#report");
+const $$btnCategory = $("#category");
+const $viewImgSection = $("#cont-img-report")
+const $viewListSection = $("#complete-report")
 
 //vista de operaciones 
 const $modalListBlc = $("#modal-list-op")
@@ -49,6 +55,7 @@ const $categoryFilterI = $("#category-filter")
 const $orderMI = $("#sort-by")
 const $filterHidden = $(".filter-hidden")
 const $btnFilterHidden = $("#filter-hidden")
+
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
 const $categoryNewI = $("#new-name-category")
@@ -58,6 +65,7 @@ const $modalEditCategory = $("#modal-edit-category")
 const $editNameCategoryI = $("#edit-name-category")
 const $btnCancelName = $ ("#btn-cancel-name")
 const $editNameOk = $("#btn-edit-name")
+
 //variables datos categorias nuevas
 let idCategoryEdit;
 let categoryEdit = {}
@@ -89,12 +97,12 @@ let operation = {
 };
 let $$category = categoryLocalSt || [] 
 
-
 //array de operaciones para filtros
 let list = []
 
 //montos
 let opXfilter = [...operations]
+
 //reporte
 let infoReportCatF=[];
 let infoReportCatG=[];
@@ -109,16 +117,6 @@ const burgerActive = () => {
     $modalNav.classList.toggle("is-active");
 }
 
-//Botones menu 
-
-const $$btnBalance = $("#balance");
-const $$btnReport = $("#report");
-const $$btnCategory = $("#category");
-
-
-const $viewImgSection = $("#cont-img-report")
-
-const $viewListSection = $("#complete-report")
 //activa vistas y/o oculta segun btn
 const viewsReport = () => {
     $viewBalance.classList.add("is-hidden");
@@ -127,8 +125,6 @@ const viewsReport = () => {
     reporList()
     operations===[] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
     operations===[] ?  $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
-    
-
 }
 
 const reporList = () => {
@@ -169,7 +165,6 @@ const closeBoxNewOp = () => {
     openBalance()
 }
 
-
 // doy valor a las variables segun los inputs
 const inputsDate = (e) => {
     nameOp = $InewOpDescrip.value || "Sin descripción"
@@ -178,8 +173,6 @@ const inputsDate = (e) => {
     categOp = $InewOpCategory.value
     dateOp = $InewOpDate.value || "11/11/11"
     datesOp = new Date($InewOpDate)
-
-    console.log($InewOpDate.value)
 }
 
 //guarda datos en local storage
@@ -202,11 +195,10 @@ const deleteOp = () =>{
     dlt(idOP)
    console.log("delete");
 }
+
 const dlt = (idX) =>{
     return operations = operations.filter((op)=>op.id!==idX)
-    
     //no elimina :-(
-   
 }
 
 // btn cancelar ediciion de operaciones
@@ -223,7 +215,6 @@ const addHtmlBlc = (listOperations) => {
     $contInnerOp.classList.add("is-hidden");
         
     for (const operation of listOperations) {
-        
         const divContainer = document.createElement("div")
         divContainer.className ="columns container"   
         divContainer.innerHTML += `      
@@ -248,8 +239,8 @@ const addHtmlBlc = (listOperations) => {
                 </p>
             </div>          
             <button id="${operation.id}" class="button btn-edit is-small is-ghost">Editar</button>
-            <button id="${operation.id}" class="button btn-dlt is-small is-ghost">Eliminar</button>
-            `
+            <button id="${operation.id}" class="button btn-dlt is-small is-ghost">Eliminar</button> `
+
         const buttonDlt = divContainer.querySelector(".btn-dlt");
         buttonDlt.onclick = function ()  {
             deleteOp()
@@ -259,10 +250,9 @@ const addHtmlBlc = (listOperations) => {
             editOp()
         } 
         $modalListBlc.appendChild(divContainer)
-
     } 
-
 }
+
 // btn editar operation
 const $boxEditOp = $("#box-edit-op")
 const $IEditOpDescrip = $("#edit-op-desc");
@@ -315,9 +305,7 @@ const mountFact = () => {
     }
 }
 
-
 //muestra valores de gastos y ganancias en aside de balance
-
 const ttlViewBalance = () => {
     $ttlFact.innerHTML = `$ -${ttlFact}`;
     $ttlGain.innerHTML = `$ +${ttlGain}`;
@@ -332,7 +320,6 @@ const valueList = () => {
     }
     else if ($filterType.value === "new-op-factures") {
         list = typeFilter("new-op-factures")
-
     }
     else {
         list = [...operations]
@@ -341,7 +328,6 @@ const valueList = () => {
 }
 
 //filtro segun categoria
-
 const categoryFilter = (type) => {
     return operations.filter(operation => operation.categOp === type)
 }
@@ -379,7 +365,6 @@ const ordenFilterAZ = () => {
         return 0
     }
     )
-
 }
 
 //ordena alfabeticamente segun categoria
@@ -394,8 +379,7 @@ const ordenFilterZA = () => {
             return -1
         }
         return 0
-    }
-    )
+    })
 }
 //obtener mes y año
 // const dates = () =>{
@@ -457,6 +441,7 @@ const localSCategory = () =>{
     }
     localStorage.setItem("categories", JSON.stringify($$category));       
 }
+
 const addSelect = () =>{
     $InewOpCategory.innerHTML = 
     $categoryFilterI.innerHTML = '' 
@@ -464,10 +449,8 @@ const addSelect = () =>{
     for (const {id, name} of $$category) {
         $InewOpCategory.innerHTML += `
         <option value="${name}">${name}</option>`
-        
         $categoryFilterI.innerHTML += `
         <option value="${name}">${name}</option>`
-        
         editOpCategoryFilter.innerHTML += `
         <option value="${name}">${name}</option>`
     }
@@ -484,10 +467,9 @@ const addCAtegory = () => {
         <p id=${id} class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
         <button class="button edit-categoryName is-small is-ghost">Editar</button>` 
-        
-        //nameCategoryNew.appendChild(divBtnCateg)
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
+
         //boton para editar
         btnDltCategoryName.onclick  = function ()  {
             deleteCategoryName(id)
@@ -497,8 +479,7 @@ const addCAtegory = () => {
             openEditCategory()
             editCategoryName(id)
         }
-        
-         $listNameCateg.appendChild(nameCategoryNew)   
+        $listNameCateg.appendChild(nameCategoryNew)   
     }    
 }
 
@@ -513,7 +494,6 @@ const deleteCategoryName = (idX) =>{
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
     $viewCategory.classList.add("is-hidden")
-
 }
 
 const editCategoryName = (idX) => {
@@ -521,7 +501,6 @@ const editCategoryName = (idX) => {
     $editNameCategoryI.value=categoryEdit["name"]
     console.log(categoryEdit);
 }
-
 
 //cancela edicion de categoria
 const cancelEdit = () =>{
@@ -533,27 +512,10 @@ const cancelEdit = () =>{
 const editNameOk = () =>{
     categoryEdit.name = $editNameCategoryI.value
     categoryEdit.value = $editNameCategoryI.value.replace(/\s+/g,'').toLowerCase()
-    //     $$category = $$category.map((category) => {
-    //     if(category.id === categoryEdit.id){
-            
-    //         return categoryEdit
-    //     }
-    //     else{
-    //         return category
-    //     }
-    // })
-    // console.log($$category);
-    
     localSCategory()
     openApp()
     cancelEdit()
 }
-
-//ejecuto funciones necesarias para editar categoria
-// const editCategoryNameAll = () => {
-//     openEditCategory()
-// }
-
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 const addNewOp = () => {
@@ -573,11 +535,10 @@ const addOp = () => {
 }
 
 //ejecuto funciones necesarias para mostrar balance segun filtros
-
 const filterClose = () =>{
     $filterHidden.classList.toggle("is-hidden")
-    
 }
+
 //gasto / ganancia
 const viewFylter = () => {
     valueList()
@@ -608,8 +569,8 @@ const viewOrdenZA = () => {
     ordenFilterZA()
     addHtmlBlc (opXfilter)
 }
-/* alfab a/z */
 
+/* alfab a/z */
 const viewOrdenAZ = () => {
     ordenFilterAZ()
     addHtmlBlc (opXfilter)
@@ -627,9 +588,8 @@ const viewLessRecent=() =>{
     // addHtmlBlc (opXfilter)
     console.log("menois")
     console.log(opXfilter)
-
-
 }
+
 //segun valor select ejecuto la funcion
 const viewOrder = () => {
     let valueInput = $orderMI.value
@@ -670,7 +630,6 @@ const openApp = () => {
     ttlViewBalance()
     addCAtegory()
     addSelect()
-    
 }
 openApp()
 
@@ -720,10 +679,7 @@ const reportCategories = () =>{
                month:op.dateOp,
                 balance:ttlAmount
             })   
-
         }
-       
-
     }
 }
 const $pCatGain = $("#cat-gain")
@@ -736,12 +692,10 @@ const $pBlc = $("#max-blc")
 const listReportGain = (array) => {
     for (const {mount, category} of array) {
         mountMaxG =mount > mountMaxG ? mountMaxG =mount : mountMaxG
-
         if (mount===mountMaxG) {
             $pCatGain.innerHTML= `$${category}`
             $pGain.innerHTML= `$${mountMaxG}`
         }    
-
     }
 }
 
@@ -757,18 +711,10 @@ const listReportFact = (array) => {
 
 const listReportBlc = (array) => {
     for (const {mount, category} of array) {
-         
         if (mount === balanceMax){
             $pCatBlc.innerHTML = `$${balanceMax}`
             $pBlc.innerHTML = `${category}`
             console.log("balance");
-
         }
-
     }//falta ver id de categorias para poder hacer blc
 }
-//*******FUNCIONANDO */
-//*******FUNCIONANDO */
-//*******FUNCIONANDO */
-//*******FUNCIONANDO */
-//*******FUNCIONANDO */
