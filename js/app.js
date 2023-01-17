@@ -27,6 +27,17 @@ const $InewOpType = $("#new-op-type-filter");
 const $ttlGain = $("#ttl-gain");
 const $ttlFact = $("#ttl-factures");
 const $ttl = $("#ttl");
+
+// btn editar operation
+const $boxEditOp = $("#box-edit-op")
+const $IEditOpDescrip = $("#edit-op-desc");
+const $IEditOpCategory = $("#edit-op-category-filter");
+const $IEditOpDate = $("#edit-op-date");
+const $IEditOpAmount = $("#edit-op-amount");
+const $IEditOpType = $("#edit-op-type-filter");
+const $btnOK = $("#btn-ok")
+const $btnEditOpCancel = $("#btn-canc-edit-op")
+
 //Botones menu 
 
 const $$btnBalance = $("#balance");
@@ -66,6 +77,15 @@ const $editNameCategoryI = $("#edit-name-category")
 const $btnCancelName = $("#btn-cancel-name")
 const $editNameOk = $("#btn-edit-name")
 
+//reporte
+const $monthXmount = $("#month-x-mounth")
+const $gainXmount = $("#gain-x-mounth")
+const $factureXmount = $("#facture-x-mounth")
+const $balanceXmount = $("#balance-x-mounth")
+const $categoryXmonth = $("#category-x-category")
+const $categoryGain = $("#gain-x-category")
+const $categoryFacture = $("#facture-x-category")
+const $categoryBalance = $("#balance-x-category")
 //variables datos categorias nuevas
 let idCategoryEdit;
 let categoryEdit = {}
@@ -93,6 +113,7 @@ let operation = {
     colorAmount: "",
     id: "",
     datesOp: "",
+    idCategory:"",
     // dateMonth:"",
     // dateYear: ""
 };
@@ -172,9 +193,13 @@ const inputsDate = (e) => {
     amountOp = $InewOpAmount.value || 0
     typeOp = $InewOpType.value
     categOp = $InewOpCategory.value
-    dateOp = $InewOpDate.value || "11/11/11"
+    dateOp = $InewOpDate.value 
     datesOp = new Date($InewOpDate)
+    // dateYear = datesOp.getFullYear(),
+    // dateMonth = datesOp.getMonth()+1
+    
 }
+    
 
 //guarda datos en local storage
 const addLocalStorage = () => {
@@ -184,8 +209,10 @@ const addLocalStorage = () => {
     inputsValues.typeOp = typeOp;
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
-    inputsValues.datesOp = new Date(dateOp);
+   //inputsValues.datesOp = dateOp;
     inputsValues.idOp = self.crypto.randomUUID()
+    // inputsValues.dateYear = datesOp,
+    // inputsValues.dateMonth = datesOp
     operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
@@ -225,7 +252,7 @@ const addHtmlBlc = (listOperations) => {
                 </p>
             </div>
             <div class="column is-2">
-                <p id="amount-blc" class= ${typeOp === "new-op-factures" ? "has-text-danger" : "has-text-primary"} >
+                <p id="amount-blc" class= ${typeOp === "factures" ? "has-text-danger" : "has-text-primary"} >
                     $${amountOp} 
                 </p>
             </div>
@@ -249,17 +276,6 @@ const addHtmlBlc = (listOperations) => {
         $modalListBlc.appendChild(divContainer)
     }
 }
-
-// btn editar operation
-const $boxEditOp = $("#box-edit-op")
-const $IEditOpDescrip = $("#edit-op-desc");
-const $IEditOpCategory = $("#edit-op-category-filter");
-const $IEditOpDate = $("#edit-op-date");
-const $IEditOpAmount = $("#edit-op-amount");
-const $IEditOpType = $("#edit-op-type-filter");
-const $btnOK = $("#btn-ok")
-const $btnEditOpCancel = $("#btn-canc-edit-op")
-
 
 const openModalEdit = () => {
     $boxEditOp.classList.remove("is-hidden")
@@ -302,7 +318,7 @@ const typeFilter = (type) => {
 
 //sumo montos de ganancias
 const mountGain = () => {
-    ttlG = typeFilter("new-op-gain")//filtro ganacias
+    ttlG = typeFilter("gain")//filtro ganacias
     ttlGain = 0
     for (const operation of ttlG) {
         const { amountOp } = operation
@@ -312,7 +328,7 @@ const mountGain = () => {
 }
 //sumo montos de gastos
 const mountFact = () => {
-    ttlF = typeFilter("new-op-factures") //filtro gastos
+    ttlF = typeFilter("factures") //filtro gastos
     ttlFact = 0
     for (const operation of ttlF) {
         const { amountOp } = operation
@@ -331,11 +347,11 @@ const ttlViewBalance = () => {
 
 //filtro el array de operaciones segun gasto / ganancia
 const valueList = () => {
-    if ($filterType.value === "new-op-gain") {
-        list = typeFilter("new-op-gain")
+    if ($filterType.value === "gain") {
+        list = typeFilter("gain")
     }
-    else if ($filterType.value === "new-op-factures") {
-        list = typeFilter("new-op-factures")
+    else if ($filterType.value === "factures") {
+        list = typeFilter("factures")
     }
     else {
         list = [...operations]
@@ -399,7 +415,7 @@ const ordenFilterZA = () => {
 //obtener mes y año
 // const dates = () =>{
 //     for (const op of operations) {
-//         dateMonth = op.datesOp.getMonth()
+//         dateMonth = op.datesOp.getMonth()+1
 //         dateYear = op.datesOp.getFullYear()
 //         console.log(op.datesOp);  
 //         console.log(dateMonth);  
@@ -462,13 +478,14 @@ const addSelect = () => {
     $InewOpCategory.innerHTML =
         $categoryFilterI.innerHTML = ''
     editOpCategoryFilter.innerHTML = ''
-    for (const { id, name } of $$category) {
+    for (const {name} of $$category) {
         $InewOpCategory.innerHTML += `
         <option value="${name}">${name}</option>`
         $categoryFilterI.innerHTML += `
         <option value="${name}">${name}</option>`
         editOpCategoryFilter.innerHTML += `
         <option value="${name}">${name}</option>`
+
     }
 }
 // lleno vistas de categorias y opciones a los select 
@@ -480,7 +497,7 @@ const addCAtegory = () => {
         idCategoryEdit = id
 
         nameCategoryNew.innerHTML += `
-        <p id=${id} class="is-left">${name}<p>
+        <p class="is-left">${name}<p>
         <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
         <button class="button edit-categoryName is-small is-ghost">Editar</button>`
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
@@ -506,6 +523,25 @@ const deleteCategoryName = (idX) => {
     openApp()
 }
 
+// // //agregar id de actegoria a cada operacion
+// const idCategoryOp = ({id, value}) => {
+// console.log(value)
+//     operations.map((operation)=>{
+//         if (operation.categOp === value) {
+//            operation.idCategory = id
+//         }
+//         return operation
+//     })
+// }
+
+
+//eliminar operacion si se elimina la categoria
+// const deleteCategoryOp = (idX) =>{
+//     operations = operations.filter(operation => operation.categOp.idCategory !== idX)
+// localStorage.setItem("categories", JSON.stringify(operations));
+// openApp()
+// }
+ 
 // edita categoria
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
@@ -635,6 +671,7 @@ const addCategories = () => {
     localSCategory()
     addCAtegory()
     addSelect()
+
 }
 
 //ejecuto funciones necesarias para mostrar totales al abrir la pagina
@@ -680,7 +717,7 @@ let balanceMax = 0
 //doy valor a array de ganancias y gastos para reporte
 const reportCategories = () => {
     for (const op of operations) {
-        if (op.typeOp === "new-op-gain") {
+        if (op.typeOp === "gain") {
             infoReportCatG.push({
                 mount: op.amountOp,
                 category: op.categOp,
@@ -725,12 +762,101 @@ const listReportFact = (array) => {
     }
 }
 
-const listReportBlc = (array) => {
-    for (const { mount, category } of array) {
-        if (mount === balanceMax) {
-            $pCatBlc.innerHTML = `$${balanceMax}`
-            $pBlc.innerHTML = `${category}`
-            console.log("balance");
+
+// const listReportBlc = () => {
+
+//     for (const { mount, category } of array) {
+//         if (mount === balanceMax) {
+//             $pCatBlc.innerHTML = `$${balanceMax}`
+//             $pBlc.innerHTML = `${category}`
+//         }
+//     }
+// }
+
+
+
+
+// let list_report = []
+// let list_category_G =[]
+// let list_category_F =[]
+
+// const categoryListReport = () =>{
+//     for (const {name, amountOp, categoryOp, typeOp} of operations ) {
+//         list_category_F=(operations.filter(operation => operation.typeOp === "factures"))
+//         list_category_G=(operations.filter(operation => operation.typeOp !== "factures"))
+//     }
+//     for
+      
+// }
+// categoryListReport([...operations])
+
+// const reportMonths = () =>{
+const monthsReport = operations.reduce((acc, operation) =>{
+    const dates = new Date(operation.dateOp)
+    const dateFormat = `${dates.getMonth()+1} / ${dates.getFullYear()}`;
+    if (!acc[dateFormat]) {
+        
+    acc [dateFormat] = {
+            gain:0,
+            factures:0,
+            balance:0                
         }
-    }//falta ver id de categorias para poder hacer blc
+    }
+    acc [dateFormat][operation.typeOp]  += operation.amountOp
+    acc [dateFormat]["balance"] = acc[dateFormat]["gain"] -acc[dateFormat]["factures"]
+    return acc
+}, {})
+
+const categoryReport = operations.reduce((acc, operation) =>{
+    const category_name = operation.categOp
+    if (!acc[category_name]) {
+        
+        acc[category_name] = {
+            gain:0,
+            factures:0,
+            balance:0                
+        }
+    }
+
+        
+    acc[category_name][operation.typeOp] += operation.amountOp
+    acc[category_name]["balance"] = acc[category_name]["gain"] -acc[category_name]["factures"]
+    return acc
+}, {})
+
+const months = Object.keys(monthsReport)
+
+
+const listReportMonth = () => {
+    $monthXmount.innerHTML +=``
+    $gainXmount.innerHTML +=`` 
+    $factureXmount.innerHTML =`` 
+    $balanceXmount.innerHTML =`` 
+
+    for (const month of months ) {    
+        $monthXmount.innerHTML +=`${month}`
+        $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
+        $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
+        $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
+            
+        }
+    }
+const categoriesReport = Object.keys(categoryReport)
+
+const listReportCategory = () => {
+    $categoryXmonth .innerHTML=``
+    $categoryGain .innerHTML=``
+    $categoryFacture.innerHTML=``
+    $categoryBalance.innerHTML=``
+    for (const category of categoriesReport) {
+    $categoryXmonth .innerHTML=`${category}`
+    $categoryGain .innerHTML=`${categoryReport[category]["gain"]}`
+    $categoryFacture.innerHTML=`${categoryReport[category]["factures"]}`
+    $categoryBalance.innerHTML=`${categoryReport[category]["balance"]}`
+        
+    }
+    
 }
+    
+listReportMonth()
+listReportCategory()
