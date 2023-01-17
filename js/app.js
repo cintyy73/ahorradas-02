@@ -257,31 +257,42 @@ const $IEditOpCategory = $("#edit-op-category-filter");
 const $IEditOpDate = $("#edit-op-date");
 const $IEditOpAmount = $("#edit-op-amount");
 const $IEditOpType = $("#edit-op-type-filter");
-const $btnEditOpOK = $("#btn-add-edit-op")
+const $btnOK = $("#btn-ok")
 const $btnEditOpCancel = $("#btn-canc-edit-op")
 
-//doy valor a los nuevos inputs
-// const InputsEditOp = () =>{
-//     nameOp = $IEditOpDescrip.value || nameOp
-//     amountOp = $IEditOpAmount.value || amountOp
-//     typeOp = $IEditOpType.value || typeOp
-//     categOp = $IEditOpCategory.value || categOp
-//     dateOp = $IEditOpDate.value || dateOp
-// }
+
 const openModalEdit = () => {
     $boxEditOp.classList.remove("is-hidden")
     $balance.classList.add("is-hidden")
 } 
 
+//funcion para abrir modal y dar mismo valor a los inputs para editar 
 editOp = (idX) => {
     editOperation = operations.find(operation => operation.idOp === idX)
-    console.log(editOperation)
-        $IEditOpDescrip.value = operation.nameOp
-        $IEditOpAmount.value = operation.amountOp
-        $IEditOpType.value = operation.typeOp
-        $IEditOpCategory.value = operation.categOp
-        $IEditOpDate.value = operation.dateOp
-    // InputsEditOp()
+    $IEditOpDescrip.value = operation.nameOp
+    $IEditOpAmount.value = Number(operation.amountOp)
+    $IEditOpType.value = operation.typeOp
+    $IEditOpCategory.value = operation.categOp
+    $IEditOpDate.value = operation.dateOp
+}
+
+//funcion para dar valores nuevos en ok edicion
+const okEdit = () => {
+    operations = operations.map(operation=>{
+        if (operation.idOp === editOperation.idOp){
+            operation.nameOp = $IEditOpDescrip.value || "Sin descripción"
+            operation.amountOp = Number($IEditOpAmount.value )
+            operation.typeOp = $IEditOpType.value
+            operation.categOp = $IEditOpCategory.value
+            operation.dateOp = $IEditOpDate.value || 11/11/11
+            return operation
+        }
+        return operation
+    })
+    localStorage.setItem("operationsOB", JSON.stringify(operations));
+    openApp()
+    cancelEditOP()
+    editOperation = null;
 }
 
 //filtra las operaciones segun parametro 
@@ -647,8 +658,9 @@ $$btnBalance.addEventListener("click", viewsBalance);
 $btnNewOp.addEventListener("click", addNewOp);
 $btnCancNewOp.addEventListener("click", closeBoxNewOp);
 $btnAddNewOp.addEventListener("click", addOp);
-//editar opracion
+//editar operacion
 $btnEditOpCancel.addEventListener("click", cancelEditOP)
+$btnOK.addEventListener("click", okEdit)
 //Eventos filtros
 $filterType.addEventListener("click", viewFylter)
 $categoryFilterI.addEventListener("click", viewCategory)
