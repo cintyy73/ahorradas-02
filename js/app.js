@@ -52,7 +52,6 @@ const $btnBlc = $("#cont-btn")
 const $descrpBlc = $("#desc-blc")
 const $categBlc = $("#categ-blc")
 const $dateBlc = $("#date-blc")
-let $amountBlc = "";
 const $viewListOp = $("#view-list-op")
 
 // Secciones 
@@ -66,6 +65,7 @@ const $categoryFilterI = $("#category-filter")
 const $orderMI = $("#sort-by")
 const $filterHidden = $(".filter-hidden")
 const $btnFilterHidden = $("#filter-hidden")
+const $Isince = $("#since")
 
 //categorias
 const $btnNewCategory = $("#btn-new-categ")
@@ -96,6 +96,8 @@ const $mountFactures = $("#mount-factures")
 const $nameFactures = $("#name-factures")
 const $mountGain = $("#mount-gain")
 const $nameGain = $("#name-gain")
+const $category_blc = $("#cat-blc")
+const $Max_blc = $("#max-blc")
 
 //variables datos categorias nuevas
 let idCategoryEdit;
@@ -124,13 +126,12 @@ let operation = {
     colorAmount: "",
     id: "",
     datesOp: "",
-    idCategory:"",
-    // dateMonth:"",
-    // dateYear: ""
+    idCategory: "",
 };
+//categorias
 let $$category = categoryLocalSt || []
 
-//array de operaciones para filtros
+//operaciones para filtros
 let list = []
 
 //montos
@@ -140,6 +141,11 @@ let opXfilter = [...operations]
 let infoReportCatF = [];
 let infoReportCatG = [];
 let infoRportBlc = []
+
+let mountMaxG = 0
+let mountMaxF = 0
+let mountMin = 0
+let balanceMax = 0
 
 /************FUNCIONES*****************/
 
@@ -155,9 +161,9 @@ const viewsReport = () => {
     $viewBalance.classList.add("is-hidden");
     $viewReport.classList.remove("is-hidden");
     $viewCategory.classList.add("is-hidden");
-    reporList()
     operations === [] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
     operations === [] ? $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
+    reporList()
 }
 
 const reporList = () => {
@@ -166,6 +172,7 @@ const reporList = () => {
     listReportFact(infoReportCatF)
     listReportMonth()
     listReportCategory()
+    month_max(monthsReport)
 }
 
 const viewsCategory = () => {
@@ -206,13 +213,11 @@ const inputsDate = (e) => {
     amountOp = $InewOpAmount.value || 0
     typeOp = $InewOpType.value
     categOp = $InewOpCategory.value
-    dateOp = $InewOpDate.value 
+    dateOp = $InewOpDate.value
     datesOp = new Date($InewOpDate)
-    // dateYear = datesOp.getFullYear(),
-    // dateMonth = datesOp.getMonth()+1
-    
+
+
 }
-    
 
 //guarda datos en local storage
 const addLocalStorage = () => {
@@ -222,10 +227,7 @@ const addLocalStorage = () => {
     inputsValues.typeOp = typeOp;
     inputsValues.categOp = categOp;
     inputsValues.dateOp = dateOp;
-   //inputsValues.datesOp = dateOp;
     inputsValues.idOp = self.crypto.randomUUID()
-    // inputsValues.dateYear = datesOp,
-    // inputsValues.dateMonth = datesOp
     operations.push(inputsValues);
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
@@ -250,7 +252,7 @@ const addHtmlBlc = (listOperations) => {
     $viewListOp.classList.remove("is-hidden");
     $contInnerOp.classList.add("is-hidden");
 
-    for (const {idOp, nameOp, categOp, typeOp, amountOp, dateOp}of listOperations) {
+    for (const { idOp, nameOp, categOp, typeOp, amountOp, dateOp } of listOperations) {
         const divContainer = document.createElement("div")
         divContainer.className = "columns container"
         divContainer.innerHTML += `      
@@ -293,9 +295,9 @@ const addHtmlBlc = (listOperations) => {
 const openModalEdit = () => {
     $boxEditOp.classList.remove("is-hidden")
     $balance.classList.add("is-hidden")
-} 
+}
 
-//funcion para abrir modal y dar mismo valor a los inputs para editar 
+//abrir modal y dar mismo valor a los inputs para editar 
 editOp = (idX) => {
     editOperation = operations.find(operation => operation.idOp === idX)
     $IEditOpDescrip.value = operation.nameOp
@@ -305,15 +307,15 @@ editOp = (idX) => {
     $IEditOpDate.value = operation.dateOp
 }
 
-//funcion para dar valores nuevos en ok edicion
+// da valores nuevos en ok edicion
 const okEdit = () => {
-    operations = operations.map(operation=>{
-        if (operation.idOp === editOperation.idOp){
+    operations = operations.map(operation => {
+        if (operation.idOp === editOperation.idOp) {
             operation.nameOp = $IEditOpDescrip.value || "Sin descripción"
-            operation.amountOp = Number($IEditOpAmount.value )
+            operation.amountOp = Number($IEditOpAmount.value)
             operation.typeOp = $IEditOpType.value
             operation.categOp = $IEditOpCategory.value
-            operation.dateOp = $IEditOpDate.value || 11/11/11
+            operation.dateOp = $IEditOpDate.value || 11 / 11 / 11
             return operation
         }
         return operation
@@ -358,7 +360,7 @@ const ttlViewBalance = () => {
     $ttl.classList.add(ttlFact > ttlGain ? "has-text-danger" : "has-text-primary")
 }
 
-//filtro el array de operaciones segun gasto / ganancia
+//filtro segun gasto / ganancia
 const valueList = () => {
     if ($filterType.value === "gain") {
         list = typeFilter("gain")
@@ -425,26 +427,11 @@ const ordenFilterZA = () => {
         return 0
     })
 }
-//obtener mes y año
-// const dates = () =>{
-//     for (const op of operations) {
-//         dateMonth = op.datesOp.getMonth()+1
-//         dateYear = op.datesOp.getFullYear()
-//         console.log(op.datesOp);  
-//         console.log(dateMonth);  
-//         console.log(dateYear);  
-//     }
-// }
-// dates()
 
-//funciones para filtarr segun mas o menos recientes
-// const orderFilterMoreRecent = () => {opXfilter.sort((x, y) => new Date(x.datesOp) - new Date(y.datesOp))
-// const orderFilterLessRecent = () => opXfilter.sort((x, y) => new Date(x.datesOp) - new Date(x.datesOp))
-//********no ordena!!!!!!!!!! */
 const orderFilterMoreRecent = () => {
-    opXfilter.sort((x, y)=> {
-            const dateX = new Date(x.dateOp)
-            const dateY = new Date(y.dateOp)
+    opXfilter.sort((x, y) => {
+        const dateX = new Date(x.dateOp)
+        const dateY = new Date(y.dateOp)
         if (dateX < dateY) {
             return -1
         }
@@ -455,16 +442,15 @@ const orderFilterMoreRecent = () => {
     }
     )
 }
-const $Iday = $("#since")
-filterDate = () =>{
-    opXfilter = opXfilter.filter((op)=>new Date(op.dateOp)>=new Date($Iday.value))
-    addHtmlBlc (opXfilter)
+
+//filtrar desde
+filterDate = () => {
+    opXfilter = opXfilter.filter((op) => new Date(op.dateOp) >= new Date($Isince.value))
+    addHtmlBlc(opXfilter)
 }
 
-$Iday.addEventListener("change", filterDate)
-
-const orderFilterLessRecent = () =>{
-    opXfilter.sort((y, x)=> {
+const orderFilterLessRecent = () => {
+    opXfilter.sort((y, x) => {
         const dateY = new Date(y.dateOp)
         const dateX = new Date(x.dateOp)
         if (dateX < dateY) {
@@ -474,7 +460,7 @@ const orderFilterLessRecent = () =>{
             return 1
         }
         return 0
-        }
+    }
     )
 }
 
@@ -495,11 +481,12 @@ const localSCategory = () => {
     localStorage.setItem("categories", JSON.stringify($$category));
 }
 
+//lleno opciones de inputs
 const addSelect = () => {
     $InewOpCategory.innerHTML =
         $categoryFilterI.innerHTML = ''
     editOpCategoryFilter.innerHTML = ''
-    for (const {name} of $$category) {
+    for (const { name } of $$category) {
         $InewOpCategory.innerHTML += `
         <option value="${name}">${name}</option>`
         $categoryFilterI.innerHTML += `
@@ -509,7 +496,8 @@ const addSelect = () => {
 
     }
 }
-// lleno vistas de categorias y opciones a los select 
+
+// lleno vistas de categorias 
 const addCAtegory = () => {
     $listNameCateg.innerHTML = ''
     for (const { id, name } of $$category) {
@@ -537,7 +525,7 @@ const addCAtegory = () => {
     }
 }
 
-//funcion para eliminar categoria en onclick
+// eliminar categoria en onclick
 const deleteCategoryName = (idX) => {
     $$category = $$category.filter(category => category.id !== idX)
     localStorage.setItem("categories", JSON.stringify($$category));
@@ -545,11 +533,6 @@ const deleteCategoryName = (idX) => {
 }
 
 //*********REPORT FUNCIONES */
-let mountMaxG = 0
-let mountMaxF = 0
-
-let mountMin = 0
-let balanceMax = 0
 
 //doy valor a array de ganancias y gastos para reporte
 const reportCategories = () => {
@@ -594,48 +577,48 @@ const listReportFact = (array) => {
 }
 
 //creo objeto de meses cons sus montos
-const monthsReport = operations.reduce((acc, operation) =>{
+const monthsReport = operations.reduce((acc, operation) => {
     const dates = new Date(operation.dateOp)
     const monthName = dates.getMonth()
     const year = dates.getFullYear()
 
-    const dateFormat = `${dates.getMonth()+1} / ${year}`;
+    const dateFormat = `${dates.getMonth() + 1} / ${year}`;
     if (!acc[dateFormat]) {
-    acc [dateFormat] = {
-            gain:0,
-            factures:0,
-            balance:0 ,   
-            month_: monthName, 
-            year : year 
+        acc[dateFormat] = {
+            gain: 0,
+            factures: 0,
+            balance: 0,
+            month_: monthName,
+            year: year
         }
     }
-    acc [dateFormat][operation.typeOp]  += operation.amountOp
-    acc [dateFormat]["balance"] = acc[dateFormat]["gain"] -acc[dateFormat]["factures"]
+    acc[dateFormat][operation.typeOp] += operation.amountOp
+    acc[dateFormat]["balance"] = acc[dateFormat]["gain"] - acc[dateFormat]["factures"]
     return acc
 }, {})
 
 //creo objeto de categoria cons sus montos
-const categoryReport = operations.reduce((acc, operation) =>{
+const categoryReport = operations.reduce((acc, operation) => {
     const category_name = operation.categOp
     if (!acc[category_name]) {
-        
+
         acc[category_name] = {
-            gain:0,
-            factures:0,
-            balance:0,  
+            gain: 0,
+            factures: 0,
+            balance: 0,
         }
     }
     acc[category_name][operation.typeOp] += operation.amountOp
-    acc[category_name]["balance"] = acc[category_name]["gain"] -acc[category_name]["factures"]
+    acc[category_name]["balance"] = acc[category_name]["gain"] - acc[category_name]["factures"]
     return acc
 }, {})
 
 
 //llena vista de repotes
 
-//FUNCION PARA NOMBRAR MESES
-let MONTH=' '
-const list_Month = (date) =>{
+//NOMBRAR MESES
+let MONTH = ' '
+const list_Month = (date) => {
     if (date === 0) {
         MONTH = "Enero"
     }
@@ -643,103 +626,100 @@ const list_Month = (date) =>{
         MONTH = "Febrero"
     }
     else if (date === 2) {
-        MONTH =  "Marzo"
+        MONTH = "Marzo"
     }
     else if (date === 3) {
-        MONTH =  "Abril"
+        MONTH = "Abril"
     }
     else if (date === 4) {
-        MONTH =  "Mayo"
+        MONTH = "Mayo"
     }
     else if (date === 5) {
-        MONTH =  "Junio"
+        MONTH = "Junio"
     }
     else if (date === 6) {
-        MONTH =  "Julio" 
-    }    
+        MONTH = "Julio"
+    }
     else if (date === 7) {
-        MONTH =  "Agosto"
+        MONTH = "Agosto"
     }
     else if (date === 8) {
-        MONTH =  "Septiembre "    
-    } 
+        MONTH = "Septiembre "
+    }
     else if (date === 9) {
-        MONTH =  "Octubre"
+        MONTH = "Octubre"
     }
     else if (date === 10) {
-        MONTH = " Noviembre "      
-    } 
+        MONTH = " Noviembre "
+    }
     else if (date === 11) {
-        MONTH = " Diciembre "    
-    } 
+        MONTH = " Diciembre "
+    }
     return MONTH
 }
+
 //x mes
 const months = Object.keys(monthsReport)
 const listReportMonth = () => {
-    $monthXmount.innerHTML =``
-    $gainXmount.innerHTML =`` 
-    $factureXmount.innerHTML =`` 
-    $balanceXmount.innerHTML =`` 
-    
-    for (const month of months ) {  
+    $monthXmount.innerHTML = ``
+    $gainXmount.innerHTML = ``
+    $factureXmount.innerHTML = ``
+    $balanceXmount.innerHTML = ``
+
+    for (const month of months) {
         $monthXmount.innerHTML += `<li>${list_Month(monthsReport[month]["month_"])}/ ${monthsReport[month]["year"]}</li>`
-        $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
-        $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
-        $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
-    }     
+        $gainXmount.innerHTML += ` <li>$${monthsReport[month]["gain"]}</li>`
+        $factureXmount.innerHTML += `<li>$${monthsReport[month]["factures"]}</li>`
+        $balanceXmount.innerHTML += `<li>$${monthsReport[month]["balance"]}</li>`
+    }
 }
 
-
-
-const month_max = (monthsReport) =>{
-    let gain_max =  0
+//mayor gasto y ganancia
+const month_max = (monthsReport) => {
+    let gain_max = 0
     let factures_max = 0
-    
+
     for (const month of months) {
-        if (monthsReport[month]["gain"]>gain_max) {
+        if (monthsReport[month]["gain"] > gain_max) {
             gain_max = monthsReport[month]["gain"]
         }
         if (monthsReport[month]["factures"] > factures_max) {
-            factures_max =monthsReport[month]["factures"]
+            factures_max = monthsReport[month]["factures"]
         }
-    
-        if(monthsReport[month]["gain"]===gain_max){
-        $mountGain.innerHTML = `$${gain_max}`
-        $nameGain.innerHTML = `${list_Month(monthsReport[month]["month_"])}`
+
+        if (monthsReport[month]["gain"] === gain_max) {
+            $mountGain.innerHTML = `$${gain_max}`
+            $nameGain.innerHTML = `${list_Month(monthsReport[month]["month_"])}`
         }
-        if (monthsReport[month]["factures"]===factures_max) {
+        if (monthsReport[month]["factures"] === factures_max) {
             $mountFactures.innerHTML = `$${factures_max}`
             $nameFactures.innerHTML = `${list_Month(monthsReport[month]["month_"])}`
         }
-       
-}
-}
 
-month_max(monthsReport)
+    }
+}
 
 //x categoria
 const categoriesReport = Object.keys(categoryReport)
-const $category_blc = $("#cat-blc")
-const $Max_blc = $("#max-blc")
+
 const listReportCategory = () => {
-    $categoryXmonth .innerHTML=``
-    $categoryGain .innerHTML=``
-    $categoryFacture.innerHTML=``
-    $categoryBalance.innerHTML=``
+    $categoryXmonth.innerHTML = ``
+    $categoryGain.innerHTML = ``
+    $categoryFacture.innerHTML = ``
+    $categoryBalance.innerHTML = ``
     for (const category of categoriesReport) {
         let balance_max = categoryReport[category]["gain"] - categoryReport[category]["factures"]
-        $categoryXmonth.innerHTML+=`<li>${category}</li>`
-        $categoryGain.innerHTML+=`<li>$${categoryReport[category]["gain"]}</li>`
-        $categoryFacture.innerHTML+=`<li>$${categoryReport[category]["factures"]}</li>`
-        $categoryBalance.innerHTML+=`<li>$${categoryReport[category]["balance"]}</li>`
-        if(categoryReport[category]["balance"]===balance_max){
+        $categoryXmonth.innerHTML += `<li>${category}</li>`
+        $categoryGain.innerHTML += `<li>$${categoryReport[category]["gain"]}</li>`
+        $categoryFacture.innerHTML += `<li>$${categoryReport[category]["factures"]}</li>`
+        $categoryBalance.innerHTML += `<li>$${categoryReport[category]["balance"]}</li>`
+        if (categoryReport[category]["balance"] === balance_max) {
             $category_blc.innerHTML = `<li>${category}</li>`
             $Max_blc.innerHTML = `<li>$${categoryReport[category]["balance"]}</li>`
         }
     }
 }
-    
+
 // // //agregar id de actegoria a cada operacion
 // const idCategoryOp = ({id, value}) => {
 // console.log(value)
@@ -758,7 +738,7 @@ const listReportCategory = () => {
 // localStorage.setItem("categories", JSON.stringify(operations));
 // openApp()
 // }
- 
+
 // edita categoria
 const openEditCategory = () => {
     $modalEditCategory.classList.remove("is-hidden")
@@ -814,7 +794,6 @@ const viewFylter = () => {
     addHtmlBlc(list)
 }
 
-
 //categoria
 const viewCategory = () => {
     categoryList()
@@ -849,13 +828,11 @@ const viewOrdenAZ = () => {
 /*mas recientes*/
 const viewMoreRecent = () => {
     orderFilterMoreRecent()
-    addHtmlBlc (opXfilter)
-
+    addHtmlBlc(opXfilter)
 }
 const viewLessRecent = () => {
     orderFilterLessRecent()
-    addHtmlBlc (opXfilter)
-    
+    addHtmlBlc(opXfilter)
 }
 
 //segun valor select ejecuto la funcion
@@ -880,7 +857,7 @@ const viewOrder = () => {
     else if (valueInput === "less-recent") {
         viewLessRecent()
     }
-   
+
 }
 
 //ejecuto funciones necesarias para añadir categoria
@@ -914,15 +891,15 @@ $btnNewOp.addEventListener("click", addNewOp);
 $btnCancNewOp.addEventListener("click", closeBoxNewOp);
 $btnAddNewOp.addEventListener("click", addOp);
 //editar operacion
-$btnEditOpCancel.addEventListener("click", cancelEditOP)
-$btnOK.addEventListener("click", okEdit)
+$btnEditOpCancel.addEventListener("click", cancelEditOP);
+$btnOK.addEventListener("click", okEdit);
 //Eventos filtros
-$filterType.addEventListener("change", viewFylter)
-$categoryFilterI.addEventListener("change", viewCategory)
-$orderMI.addEventListener("change", viewOrder)
-$btnFilterHidden.addEventListener("change", filterClose)
+$filterType.addEventListener("change", viewFylter);
+$categoryFilterI.addEventListener("change", viewCategory);
+$orderMI.addEventListener("change", viewOrder);
+$btnFilterHidden.addEventListener("change", filterClose);
+$Isince.addEventListener("change", filterDate)
 //eventos categorias
-$btnNewCategory.addEventListener("click", addCategories)
-$btnCancelName.addEventListener("click", cancelEdit)
+$btnNewCategory.addEventListener("click", addCategories);
+$btnCancelName.addEventListener("click", cancelEdit);
 $editNameOk.addEventListener("click", editNameOk);
-
