@@ -92,6 +92,10 @@ const $pCatFact = $("#cat-fact")
 const $pFact = $("#max-fact")
 const $pCatBlc = $("#cat-blc")
 const $pBlc = $("#max-blc")
+const $mountFactures = $("#mount-factures")
+const $nameFactures = $("#name-factures")
+const $mountGain = $("#mount-gain")
+const $nameGain = $("#name-gain")
 
 //variables datos categorias nuevas
 let idCategoryEdit;
@@ -434,37 +438,45 @@ const ordenFilterZA = () => {
 // dates()
 
 //funciones para filtarr segun mas o menos recientes
-const orderFilterMoreRecent = () => opXfilter.sort((x, y) => x.datesOp - y.datesOp)
-const orderFilterLessRecent = () => opXfilter.sort((x, y) => y.datesOp - x.datesOp)
+// const orderFilterMoreRecent = () => {opXfilter.sort((x, y) => new Date(x.datesOp) - new Date(y.datesOp))
+// const orderFilterLessRecent = () => opXfilter.sort((x, y) => new Date(x.datesOp) - new Date(x.datesOp))
 //********no ordena!!!!!!!!!! */
-//{
-//         const dateX = x.datesOp
-//         const dateY = y.datesOp
-//         opXfilter.sort((x, y)=> {
-//         if (dateX < dateY) {
-//             return -1
-//         }
-//         if (dateX > dateY) {
-//             return 1
-//         }
-//         return 0
-//     }
-//     )
-// }
-// const orderFilterLessRecent = () =>{
-//     opXfilter.sort((x, y)=> {
-//         const dateX = x.datesOp
-//         const dateY = y.datesOp
-//         if (dateX < dateY) {
-//             return -1
-//         }
-//         if (dateX > dateY) {
-//             return 1
-//         }
-//         return 0
-//         }
-//     )
-// }
+const orderFilterMoreRecent = () => {
+    opXfilter.sort((x, y)=> {
+            const dateX = new Date(x.dateOp)
+            const dateY = new Date(y.dateOp)
+        if (dateX < dateY) {
+            return -1
+        }
+        if (dateX > dateY) {
+            return 1
+        }
+        return 0
+    }
+    )
+}
+const $Iday = $("#since")
+filterDate = () =>{
+    opXfilter = opXfilter.filter((op)=>new Date(op.dateOp)>=new Date($Iday.value))
+    addHtmlBlc (opXfilter)
+}
+
+$Iday.addEventListener("change", filterDate)
+
+const orderFilterLessRecent = () =>{
+    opXfilter.sort((y, x)=> {
+        const dateY = new Date(y.dateOp)
+        const dateX = new Date(x.dateOp)
+        if (dateX < dateY) {
+            return -1
+        }
+        if (dateX > dateY) {
+            return 1
+        }
+        return 0
+        }
+    )
+}
 
 //seccion nueva categorias
 
@@ -565,7 +577,7 @@ const listReportGain = (array) => {
     for (const { mount, category } of array) {
         mountMaxG = mount > mountMaxG ? mountMaxG = mount : mountMaxG
         if (mount === mountMaxG) {
-            $pCatGain.innerHTML = `$${category}`
+            $pCatGain.innerHTML = `${category}`
             $pGain.innerHTML = `$${mountMaxG}`
         }
     }
@@ -671,83 +683,60 @@ const listReportMonth = () => {
     $balanceXmount.innerHTML =`` 
     
     for (const month of months ) {  
-       
-            // if (monthsReport[month]["month_"] === 0) {
-            //     $monthXmount.innerHTML += `<li>Enero ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 1) {
-            //     $monthXmount.innerHTML += `<li>Febrero ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 2) {
-            //     $monthXmount.innerHTML += `<li>Marzo ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 3) {
-            //     $monthXmount.innerHTML += `<li>Abril ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 4) {
-            //     $monthXmount.innerHTML += `<li>Mayo ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 5) {
-            //     $monthXmount.innerHTML += `<li>Junio ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 6) {
-            //     $monthXmount.innerHTML += `<li>Julio ${monthsReport[month]["year"]}</li>`
-            // }    
-            // else if (monthsReport[month]["month_"] === 7) {
-            //     $monthXmount.innerHTML += `<li>Agosto ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 8) {
-            //     $monthXmount.innerHTML += `<li>Septiembre ${monthsReport[month]["year"]}</li>`
-            // } 
-            // else if (monthsReport[month]["month_"] === 9) {
-            //     $monthXmount.innerHTML += `<li>Octubre ${monthsReport[month]["year"]}</li>`
-            // }
-            // else if (monthsReport[month]["month_"] === 10) {
-            //     $monthXmount.innerHTML += `<li>Noviembre ${monthsReport[month]["year"]}</li>`
-                
-            // } 
-            // else if (monthsReport[month]["month_"] === 11) {
-            //     $monthXmount.innerHTML += `<li>Diciembre ${monthsReport[month]["year"]}</li>`
-            // } 
-            $monthXmount.innerHTML += `<li>${list_Month(monthsReport[month]["month_"])}/${monthsReport[month]["year"]}</li>`
+        $monthXmount.innerHTML += `<li>${list_Month(monthsReport[month]["month_"])}/ ${monthsReport[month]["year"]}</li>`
         $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
         $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
         $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
     }     
 }
 
-// const month_max= (monthsReport) =>{
-//     let gain_max =  0
-//     let factures_max = 0
-    
-//     for (const month of months) {
-//         if (monthsReport[month]["gain"]>gain_max) {
-//             gain_max = monthsReport[month]["gain"]
-//         }
-//         if (monthsReport[month]["factures"] > factures_max) {
-//             factures_max =monthsReport[month]["factures"]
-//         }
-//     }
-//     if(monthsReport[month]["factures"]===gain_max){
-//         `${gain_max}`
 
-//     }
-// }
-// month_max(monthsReport)
+
+const month_max = (monthsReport) =>{
+    let gain_max =  0
+    let factures_max = 0
+    
+    for (const month of months) {
+        if (monthsReport[month]["gain"]>gain_max) {
+            gain_max = monthsReport[month]["gain"]
+        }
+        if (monthsReport[month]["factures"] > factures_max) {
+            factures_max =monthsReport[month]["factures"]
+        }
+    
+        if(monthsReport[month]["gain"]===gain_max){
+        $mountGain.innerHTML = `$${gain_max}`
+        $nameGain.innerHTML = `${list_Month(monthsReport[month]["month_"])}`
+        }
+        if (monthsReport[month]["factures"]===factures_max) {
+            $mountFactures.innerHTML = `$${factures_max}`
+            $nameFactures.innerHTML = `${list_Month(monthsReport[month]["month_"])}`
+        }
+       
+}
+}
+
+month_max(monthsReport)
 
 //x categoria
 const categoriesReport = Object.keys(categoryReport)
-
+const $category_blc = $("#cat-blc")
+const $Max_blc = $("#max-blc")
 const listReportCategory = () => {
     $categoryXmonth .innerHTML=``
     $categoryGain .innerHTML=``
     $categoryFacture.innerHTML=``
     $categoryBalance.innerHTML=``
     for (const category of categoriesReport) {
-    $categoryXmonth .innerHTML+=`<li>${category}</li>`
-    $categoryGain .innerHTML+=`<li>$${categoryReport[category]["gain"]}</li>`
-    $categoryFacture.innerHTML+=`<li>$${categoryReport[category]["factures"]}</li>`
-    $categoryBalance.innerHTML+=`<li>$${categoryReport[category]["balance"]}</li>`
+        let balance_max = categoryReport[category]["gain"] - categoryReport[category]["factures"]
+        $categoryXmonth.innerHTML+=`<li>${category}</li>`
+        $categoryGain.innerHTML+=`<li>$${categoryReport[category]["gain"]}</li>`
+        $categoryFacture.innerHTML+=`<li>$${categoryReport[category]["factures"]}</li>`
+        $categoryBalance.innerHTML+=`<li>$${categoryReport[category]["balance"]}</li>`
+        if(categoryReport[category]["balance"]===balance_max){
+            $category_blc.innerHTML = `<li>${category}</li>`
+            $Max_blc.innerHTML = `<li>$${categoryReport[category]["balance"]}</li>`
+        }
     }
 }
     
@@ -825,6 +814,7 @@ const viewFylter = () => {
     addHtmlBlc(list)
 }
 
+
 //categoria
 const viewCategory = () => {
     categoryList()
@@ -858,16 +848,14 @@ const viewOrdenAZ = () => {
 
 /*mas recientes*/
 const viewMoreRecent = () => {
-    // orderFilterMoreRecent()
-    // addHtmlBlc (opXfilter)
-    console.log(opXfilter)
+    orderFilterMoreRecent()
+    addHtmlBlc (opXfilter)
 
 }
 const viewLessRecent = () => {
-    // orderFilterLessRecent()
-    // addHtmlBlc (opXfilter)
-    console.log("menois")
-    console.log(opXfilter)
+    orderFilterLessRecent()
+    addHtmlBlc (opXfilter)
+    
 }
 
 //segun valor select ejecuto la funcion
@@ -892,6 +880,7 @@ const viewOrder = () => {
     else if (valueInput === "less-recent") {
         viewLessRecent()
     }
+   
 }
 
 //ejecuto funciones necesarias para añadir categoria
@@ -928,10 +917,10 @@ $btnAddNewOp.addEventListener("click", addOp);
 $btnEditOpCancel.addEventListener("click", cancelEditOP)
 $btnOK.addEventListener("click", okEdit)
 //Eventos filtros
-$filterType.addEventListener("click", viewFylter)
-$categoryFilterI.addEventListener("click", viewCategory)
-$orderMI.addEventListener("click", viewOrder)
-$btnFilterHidden.addEventListener("click", filterClose)
+$filterType.addEventListener("change", viewFylter)
+$categoryFilterI.addEventListener("change", viewCategory)
+$orderMI.addEventListener("change", viewOrder)
+$btnFilterHidden.addEventListener("change", filterClose)
 //eventos categorias
 $btnNewCategory.addEventListener("click", addCategories)
 $btnCancelName.addEventListener("click", cancelEdit)
