@@ -584,13 +584,17 @@ const listReportFact = (array) => {
 //creo objeto de meses cons sus montos
 const monthsReport = operations.reduce((acc, operation) =>{
     const dates = new Date(operation.dateOp)
-    const dateFormat = `${dates.getMonth()+1} / ${dates.getFullYear()}`;
+    const monthName = dates.getMonth()
+    const year = dates.getFullYear()
+
+    const dateFormat = `${dates.getMonth()+1} / ${year}`;
     if (!acc[dateFormat]) {
-        
     acc [dateFormat] = {
             gain:0,
             factures:0,
-            balance:0                
+            balance:0 ,   
+            month_: monthName, 
+            year : year 
         }
     }
     acc [dateFormat][operation.typeOp]  += operation.amountOp
@@ -606,11 +610,9 @@ const categoryReport = operations.reduce((acc, operation) =>{
         acc[category_name] = {
             gain:0,
             factures:0,
-            balance:0                
+            balance:0,  
         }
     }
-
-        
     acc[category_name][operation.typeOp] += operation.amountOp
     acc[category_name]["balance"] = acc[category_name]["gain"] -acc[category_name]["factures"]
     return acc
@@ -619,21 +621,119 @@ const categoryReport = operations.reduce((acc, operation) =>{
 
 //llena vista de repotes
 
+//FUNCION PARA NOMBRAR MESES
+let MONTH=' '
+const list_Month = (date) =>{
+    if (date === 0) {
+        MONTH = "Enero"
+    }
+    else if (date === 1) {
+        MONTH = "Febrero"
+    }
+    else if (date === 2) {
+        MONTH =  "Marzo"
+    }
+    else if (date === 3) {
+        MONTH =  "Abril"
+    }
+    else if (date === 4) {
+        MONTH =  "Mayo"
+    }
+    else if (date === 5) {
+        MONTH =  "Junio"
+    }
+    else if (date === 6) {
+        MONTH =  "Julio" 
+    }    
+    else if (date === 7) {
+        MONTH =  "Agosto"
+    }
+    else if (date === 8) {
+        MONTH =  "Septiembre "    
+    } 
+    else if (date === 9) {
+        MONTH =  "Octubre"
+    }
+    else if (date === 10) {
+        MONTH = " Noviembre "      
+    } 
+    else if (date === 11) {
+        MONTH = " Diciembre "    
+    } 
+    return MONTH
+}
 //x mes
 const months = Object.keys(monthsReport)
 const listReportMonth = () => {
-    $monthXmount.innerHTML +=``
-    $gainXmount.innerHTML +=`` 
+    $monthXmount.innerHTML =``
+    $gainXmount.innerHTML =`` 
     $factureXmount.innerHTML =`` 
     $balanceXmount.innerHTML =`` 
-
-    for (const month of months ) {    
-        $monthXmount.innerHTML +=`${month}`
+    
+    for (const month of months ) {  
+       
+            // if (monthsReport[month]["month_"] === 0) {
+            //     $monthXmount.innerHTML += `<li>Enero ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 1) {
+            //     $monthXmount.innerHTML += `<li>Febrero ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 2) {
+            //     $monthXmount.innerHTML += `<li>Marzo ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 3) {
+            //     $monthXmount.innerHTML += `<li>Abril ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 4) {
+            //     $monthXmount.innerHTML += `<li>Mayo ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 5) {
+            //     $monthXmount.innerHTML += `<li>Junio ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 6) {
+            //     $monthXmount.innerHTML += `<li>Julio ${monthsReport[month]["year"]}</li>`
+            // }    
+            // else if (monthsReport[month]["month_"] === 7) {
+            //     $monthXmount.innerHTML += `<li>Agosto ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 8) {
+            //     $monthXmount.innerHTML += `<li>Septiembre ${monthsReport[month]["year"]}</li>`
+            // } 
+            // else if (monthsReport[month]["month_"] === 9) {
+            //     $monthXmount.innerHTML += `<li>Octubre ${monthsReport[month]["year"]}</li>`
+            // }
+            // else if (monthsReport[month]["month_"] === 10) {
+            //     $monthXmount.innerHTML += `<li>Noviembre ${monthsReport[month]["year"]}</li>`
+                
+            // } 
+            // else if (monthsReport[month]["month_"] === 11) {
+            //     $monthXmount.innerHTML += `<li>Diciembre ${monthsReport[month]["year"]}</li>`
+            // } 
+            $monthXmount.innerHTML += `<li>${list_Month(monthsReport[month]["month_"])}/${monthsReport[month]["year"]}</li>`
         $gainXmount.innerHTML +=` <li>$${monthsReport[month]["gain"]}</li>`
         $factureXmount.innerHTML +=`<li>$${monthsReport[month]["factures"]}</li>` 
         $balanceXmount.innerHTML +=`<li>$${monthsReport[month]["balance"]}</li>` 
-        }
+    }     
 }
+
+// const month_max= (monthsReport) =>{
+//     let gain_max =  0
+//     let factures_max = 0
+    
+//     for (const month of months) {
+//         if (monthsReport[month]["gain"]>gain_max) {
+//             gain_max = monthsReport[month]["gain"]
+//         }
+//         if (monthsReport[month]["factures"] > factures_max) {
+//             factures_max =monthsReport[month]["factures"]
+//         }
+//     }
+//     if(monthsReport[month]["factures"]===gain_max){
+//         `${gain_max}`
+
+//     }
+// }
+// month_max(monthsReport)
 
 //x categoria
 const categoriesReport = Object.keys(categoryReport)
@@ -644,10 +744,10 @@ const listReportCategory = () => {
     $categoryFacture.innerHTML=``
     $categoryBalance.innerHTML=``
     for (const category of categoriesReport) {
-    $categoryXmonth .innerHTML=`${category}`
-    $categoryGain .innerHTML=`${categoryReport[category]["gain"]}`
-    $categoryFacture.innerHTML=`${categoryReport[category]["factures"]}`
-    $categoryBalance.innerHTML=`${categoryReport[category]["balance"]}`
+    $categoryXmonth .innerHTML+=`<li>${category}</li>`
+    $categoryGain .innerHTML+=`<li>$${categoryReport[category]["gain"]}</li>`
+    $categoryFacture.innerHTML+=`<li>$${categoryReport[category]["factures"]}</li>`
+    $categoryBalance.innerHTML+=`<li>$${categoryReport[category]["balance"]}</li>`
     }
 }
     
