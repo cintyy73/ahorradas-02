@@ -300,11 +300,11 @@ const openModalEdit = () => {
 //abrir modal y dar mismo valor a los inputs para editar 
 editOp = (idX) => {
     editOperation = operations.find(operation => operation.idOp === idX)
-    $IEditOpDescrip.value = operation.nameOp
-    $IEditOpAmount.value = Number(operation.amountOp)
-    $IEditOpType.value = operation.typeOp
-    $IEditOpCategory.value = operation.categOp
-    $IEditOpDate.value = operation.dateOp
+    $IEditOpDescrip.value = editOperation["nameOp"]
+    $IEditOpAmount.value = Number(editOperation["amountOp"])
+    $IEditOpType.value = editOperation["typeOp"]
+    $IEditOpCategory.value = editOperation["categOp"]
+    $IEditOpDate.value = editOperation["dateOp"]
 }
 
 // da valores nuevos en ok edicion
@@ -315,11 +315,21 @@ const okEdit = () => {
             operation.amountOp = Number($IEditOpAmount.value)
             operation.typeOp = $IEditOpType.value
             operation.categOp = $IEditOpCategory.value
-            operation.dateOp = $IEditOpDate.value || 11 / 11 / 11
+            operation.dateOp = $IEditOpDate.value
+           
+            if ( operation.typeOp === "factures") {
+                $("#amount-blc").classList.remove( "has-text-primary")
+                $("#amount-blc").classList.add("has-text-danger")
+            }
+            else{
+                $("#amount-blc").classList.remove( "has-text-danger")
+                $("#amount-blc").classList.add( "has-text-primary")
+            }
             return operation
         }
         return operation
     })
+    
     localStorage.setItem("operationsOB", JSON.stringify(operations));
     openApp()
     cancelEditOP()
