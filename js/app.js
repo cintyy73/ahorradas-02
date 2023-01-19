@@ -506,9 +506,11 @@ const addCAtegory = () => {
         idCategoryEdit = id
 
         nameCategoryNew.innerHTML += `
-        <p class="is-left">${name}<p>
-        <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
-        <button class="button edit-categoryName is-small is-ghost">Editar</button>`
+        <li class="is-flex is-justify-content-space-between ml-2">
+            <p>${name}<p>
+            <button class="button dlt-categoryName is-small is-ghost">Eliminar</button>
+            <button class="button edit-categoryName is-small is-ghost">Editar</button>
+        </li>`
         const btnEditCategoryName = nameCategoryNew.querySelector(".edit-categoryName");
         const btnDltCategoryName = nameCategoryNew.querySelector(".dlt-categoryName");
 
