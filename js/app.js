@@ -253,30 +253,30 @@ const addHtmlBlc = (listOperations) => {
 
     for (const { idOp, nameOp, categOp, typeOp, amountOp, dateOp } of listOperations) {
         const divContainer = document.createElement("div")
-        divContainer.className = "columns container"
+        divContainer.className = "columns is-flex-mobile is-flex-tablet container"
         divContainer.innerHTML += `      
-            <div class="column is-3">
+            <div class="column is-3 is-hidden-tablet is-hidden-mobile ">
                 <p id="desc-blc">
                     ${nameOp}        
                 </p>
             </div>
-            <div class="column is-3">
+            <div class="column is-2  is-3-tablet">
                 <p id="categ-blc">
                     ${categOp} 
                 </p>
             </div>
-            <div class="column is-2">
+            <div class="column is-2  is-3-tablet">
                 <p id="amount-blc" class= ${typeOp === "factures" ? "has-text-danger" : "has-text-primary"} >
                     $${amountOp} 
                 </p>
             </div>
-            <div class="column is-2">
+            <div class="column is-hidden-mobile is-2 is-3-tablet">
                 <p id="date-blc">
                     ${dateOp} 
                 </p>
             </div>          
-            <button class="button btn-edit is-small is-ghost mt-2">Editar</button>
-            <button class="button btn-dlt is-small is-ghost mt-2 ">Eliminar</button> `
+            <button class="button column is-1 is-vcentered btn-edit is-small is-ghost mt-2">Editar</button>
+            <button class="button column is-1 btn-dlt is-small is-ghost mt-2 ">Eliminar</button> `
 
         const buttonDlt = divContainer.querySelector(".btn-dlt");
         buttonDlt.onclick = function () {
