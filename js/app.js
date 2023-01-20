@@ -90,7 +90,6 @@ const $pCatGain = $("#cat-gain")
 const $pGain = $("#max-gain")
 const $pCatFact = $("#cat-fact")
 const $pFact = $("#max-fact")
-const $pCatBlc = $("#cat-blc")
 const $pBlc = $("#max-blc")
 const $mountFactures = $("#mount-factures")
 const $nameFactures = $("#name-factures")
@@ -276,8 +275,8 @@ const addHtmlBlc = (listOperations) => {
                     ${dateOp} 
                 </p>
             </div>          
-            <button class="button btn-edit is-small is-ghost">Editar</button>
-            <button class="button btn-dlt is-small is-ghost">Eliminar</button> `
+            <button class="button btn-edit is-small is-ghost mt-2">Editar</button>
+            <button class="button btn-dlt is-small is-ghost mt-2 ">Eliminar</button> `
 
         const buttonDlt = divContainer.querySelector(".btn-dlt");
         buttonDlt.onclick = function () {
@@ -366,7 +365,7 @@ const mountFact = () => {
 const ttlViewBalance = () => {
     $ttlFact.innerHTML = `$ -${ttlFact}`;
     $ttlGain.innerHTML = `$ +${ttlGain}`;
-    $ttl.innerHTML = ttlAmount
+    $ttl.innerHTML = `$${ttlAmount}`
     $ttl.classList.add(ttlFact > ttlGain ? "has-text-danger" : "has-text-primary")
 }
 
@@ -726,8 +725,8 @@ const listReportCategory = () => {
         $categoryFacture.innerHTML += `<li>$${categoryReport[category]["factures"]}</li>`
         $categoryBalance.innerHTML += `<li>$${categoryReport[category]["balance"]}</li>`
         if (categoryReport[category]["balance"] === balance_max) {
-            $category_blc.innerHTML = `<li>${category}</li>`
-            $Max_blc.innerHTML = `<li>$${categoryReport[category]["balance"]}</li>`
+            $category_blc.innerHTML = `<p>${category}</p>`
+            $Max_blc.innerHTML = `<p>$${categoryReport[category]["balance"]}</p>`
         }
     }
 }
