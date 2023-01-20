@@ -255,22 +255,22 @@ const addHtmlBlc = (listOperations) => {
         const divContainer = document.createElement("div")
         divContainer.className = "columns is-flex-mobile is-flex-tablet container"
         divContainer.innerHTML += `      
-            <div class="column is-3 is-hidden-tablet is-hidden-mobile ">
+            <div class="column is-3 is-hidden-mobile">
                 <p id="desc-blc">
                     ${nameOp}        
                 </p>
             </div>
-            <div class="column is-2  is-3-tablet">
+            <div class="column is-2 is-4-mobile">
                 <p id="categ-blc">
                     ${categOp} 
                 </p>
             </div>
-            <div class="column is-2  is-3-tablet">
+            <div class="column is-2 is-4-mobile">
                 <p id="amount-blc" class= ${typeOp === "factures" ? "has-text-danger" : "has-text-primary"} >
                     $${amountOp} 
                 </p>
             </div>
-            <div class="column is-hidden-mobile is-2 is-3-tablet">
+            <div class="column is-2 is-hidden-mobile">
                 <p id="date-blc">
                     ${dateOp} 
                 </p>
