@@ -8,7 +8,9 @@
     <!-- Link iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- Link fav-icon -->
+    <link rel="shortcut icon" href="/assets/favicon.png" />
     <!-- Link librería css BULMA -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>AhorrADAS</title>
@@ -52,10 +54,10 @@
         <!-- ------- -->
 
         <!-- Main -->
-        <main>
+        <main class="container">
             <!-- Sección balance -->
-            <section id="cont-balance" class="container columns p-5 ">
-                <aside class="column is-3 p-3 ">
+            <section id="cont-balance" class="container columns ">
+                <aside class="column is-3 mt-4 ">
                     <!-- modal balance vista totales -->
                     <div id="modal-blc" class="box column">
                         <h1 class="title">Balance</h1>
@@ -138,9 +140,9 @@
                 <!-- --------------------- -->
 
                 <!-- modal operaciones balance -->
-                <div id="modal-operation-blc" class="box column is-9 has-text-centered ">
+                <div id="modal-operation-blc" class="box column is-9 has-text-centered mt-5">
                     <div class="field colums ">
-                        <div class="is-flex is-align-items-baseline p-4">
+                        <div class="is-flex is-align-items-baseline ">
                             <h1 class="column is-hidden-mobile has-text-left title">Operaciones</h1>
                             <div class="column is-right">
                                 <button id="btn-new-op" class="button is-small  is-warning is-light " type="button">+
@@ -323,7 +325,7 @@
     <!-- Sección reporte -->
 
     <section id="cont-report" class="container columns p-5  is-hidden">
-        <div id="modal-report" class="box column ">
+        <div id="modal-report" class="container column ">
             <h1 class="title">Reportes</h1>
             <div id="cont-img-report"
                 class="container is-flex is-justify-content-center is-centered is-flex-direction-column is-align-items-center">
@@ -333,7 +335,7 @@
                 <p class="subtitle has-text-center">Operaciones insuficientes</p>
                 <p class="subtitle has-text-center">Prueba agregando más operaciones</p>
             </div>
-            <div id="complete-report" class="is-hidden">
+            <div id="complete-report" class="container is-hidden">
 
                 <div id="report-resume" class="container pb-5 ">
                     <h3 class="subtitle">Resumen</h3>
