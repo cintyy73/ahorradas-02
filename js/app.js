@@ -253,24 +253,24 @@ const addHtmlBlc = (listOperations) => {
         const divContainer = document.createElement("div")
         divContainer.className = "columns is-flex-mobile is-flex-tablet container"
         divContainer.innerHTML += `      
-            <div class="column is-3 is-hidden-mobile">
+            <div class="column is-3 is-hidden-mobile ">
                 <p id="desc-blc">
                     ${nameOp}        
                 </p>
             </div>
-            <div class="column is-2 is-4-mobile">
+            <div class="column is-2  is-4-mobile">
                 <p id="categ-blc">
                     ${categOp} 
                 </p>
             </div>
             <div class="column is-2 is-4-mobile">
                 <p id="amount-blc" class= ${typeOp === "factures" ? "has-text-danger" : "has-text-primary"} >
-                    $${amountOp} 
+                    $${amountOp}
                 </p>
             </div>
             <div class="column is-2 is-hidden-mobile">
                 <p id="date-blc">
-                    ${month} 
+                    ${dateOp} 
                 </p>
             </div>          
             <button class="button column is-1 is-vcentered btn-edit is-small is-ghost mt-2">Editar</button>
@@ -451,7 +451,7 @@ const orderFilterMoreRecent = () => {
 }
 
 //filtrar desde
-filterDate = () => {
+ const filterDate = () => {
     opXfilter = opXfilter.filter((op) => new Date(op.dateOp) >= new Date($Isince.value))
     addHtmlBlc(opXfilter)
 }
@@ -729,24 +729,6 @@ const listReportCategory = () => {
     }
 }
 
-// // //agregar id de actegoria a cada operacion
-// const idCategoryOp = ({id, value}) => {
-// console.log(value)
-//     operations.map((operation)=>{
-//         if (operation.categOp === value) {
-//            operation.idCategory = id
-//         }
-//         return operation
-//     })
-// }
-
-
-//eliminar operacion si se elimina la categoria
-// const deleteCategoryOp = (idX) =>{
-//     operations = operations.filter(operation => operation.categOp.idCategory !== idX)
-// localStorage.setItem("categories", JSON.stringify(operations));
-// openApp()
-// }
 
 // edita categoria
 const openEditCategory = () => {
