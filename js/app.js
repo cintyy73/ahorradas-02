@@ -253,12 +253,12 @@ const addHtmlBlc = (listOperations) => {
         const divContainer = document.createElement("div")
         divContainer.className = "columns is-flex-mobile is-flex-tablet container"
         divContainer.innerHTML += `      
-            <div class="column is-3 is-hidden-mobile ">
+            <div class="column is-3 is-hidden-tablet is-hidden-mobile ">
                 <p id="desc-blc">
                     ${nameOp}        
                 </p>
             </div>
-            <div class="column is-2  is-4-mobile">
+            <div class="column is-2  is-3-tablet">
                 <p id="categ-blc">
                     ${categOp} 
                 </p>
@@ -800,23 +800,23 @@ const viewOrder = () => {
         //viewOrdenMax()
         ordenFilterMax()
     }
-    else if (valueInput === "lower-amount") {
+    if (valueInput === "lower-amount") {
         //viewOrdenMin()
         ordenFilterMin()
     }
-    else if (valueInput === "z-a") {
+    if (valueInput === "z-a") {
        // viewOrdenZA()
        ordenFilterZA()
     }
-    else if (valueInput === "a-z") {
+    if (valueInput === "a-z") {
        // viewOrdenAZ()
        ordenFilterAZ()
     }
-    else if (valueInput === "more-recent") {
+    if (valueInput === "more-recent") {
         orderFilterMoreRecent()
        // viewMoreRecent()
     }
-    else if (valueInput === "less-recent") {
+    if (valueInput === "less-recent") {
       orderFilterLessRecent()
     }
     addHtmlBlc(opXfilter)
