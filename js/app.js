@@ -201,7 +201,7 @@ const viewsBalance = () => {
 //Functions BALANCE
 
 const closeBoxNewOp = () => {
-    addHidden($boxNewOp)
+    addHidden($boxNewOp) 
     removeHidden($balance) 
 }
 
@@ -270,7 +270,7 @@ const addHtmlBlc = (listOperations) => {
             </div>
             <div class="column is-hidden-mobile is-2 is-3-tablet">
                 <p id="date-blc">
-                    ${dateOp} 
+                    ${month} 
                 </p>
             </div>          
             <button class="button column is-1 is-vcentered btn-edit is-small is-ghost mt-2">Editar</button>
@@ -810,64 +810,34 @@ const viewCategory = () => {
     addHtmlBlc(list)
 }
 
-//ordenar por:
-/*mayor monto*/
-const viewOrdenMax = () => {
-    ordenFilterMax()
-    addHtmlBlc(opXfilter)
-}
-
-/*menor monto*/
-const viewOrdenMin = () => {
-    ordenFilterMin()
-    addHtmlBlc(opXfilter)
-}
-
-/* alfab a/z */
-const viewOrdenZA = () => {
-    ordenFilterZA()
-    addHtmlBlc(opXfilter)
-}
-
-/* alfab a/z */
-const viewOrdenAZ = () => {
-    ordenFilterAZ()
-    addHtmlBlc(opXfilter)
-}
-
-/*mas recientes*/
-const viewMoreRecent = () => {
-    orderFilterMoreRecent()
-    addHtmlBlc(opXfilter)
-}
-const viewLessRecent = () => {
-    orderFilterLessRecent()
-    addHtmlBlc(opXfilter)
-}
 
 //segun valor select ejecuto la funcion
 const viewOrder = () => {
     let valueInput = $orderMI.value
     if (valueInput === "higher-amount") {
-        viewOrdenMax()
+        //viewOrdenMax()
+        ordenFilterMax()
     }
     else if (valueInput === "lower-amount") {
-        viewOrdenMin()
+        //viewOrdenMin()
+        ordenFilterMin()
     }
     else if (valueInput === "z-a") {
-        viewOrdenZA()
+       // viewOrdenZA()
+       ordenFilterZA()
     }
     else if (valueInput === "a-z") {
-        viewOrdenAZ()
+       // viewOrdenAZ()
+       ordenFilterAZ()
     }
     else if (valueInput === "more-recent") {
-
-        viewMoreRecent()
+        orderFilterMoreRecent()
+       // viewMoreRecent()
     }
     else if (valueInput === "less-recent") {
-        viewLessRecent()
+      orderFilterLessRecent()
     }
-
+    addHtmlBlc(opXfilter)
 }
 
 //ejecuto funciones necesarias para añadir categoria
@@ -908,7 +878,7 @@ $filterType.addEventListener("change", viewFylter);
 $categoryFilterI.addEventListener("change", viewCategory);
 $orderMI.addEventListener("change", viewOrder);
 $btnFilterHidden.addEventListener("change", filterClose);
-$Isince.addEventListener("change", filterDate);
+$Isince.addEventListener("change", filterDate)
 //eventos categorias
 $btnNewCategory.addEventListener("click", addCategories);
 $btnCancelName.addEventListener("click", cancelEdit);
