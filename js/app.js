@@ -451,7 +451,7 @@ const orderFilterMoreRecent = () => {
 }
 
 //filtrar desde
-filterDate = () => {
+ const filterDate = () => {
     opXfilter = opXfilter.filter((op) => new Date(op.dateOp) >= new Date($Isince.value))
     addHtmlBlc(opXfilter)
 }
