@@ -265,12 +265,12 @@ const addHtmlBlc = (listOperations) => {
             </div>
             <div class="column is-2  is-3-tablet">
                 <p id="amount-blc" class= ${typeOp === "factures" ? "has-text-danger" : "has-text-primary"} >
-                    $${amountOp} 
+                    $${amountOp}
                 </p>
             </div>
             <div class="column is-hidden-mobile is-2 is-3-tablet">
                 <p id="date-blc">
-                    ${month} 
+                    ${dateOp} 
                 </p>
             </div>          
             <button class="button column is-1 is-vcentered btn-edit is-small is-ghost mt-2">Editar</button>
@@ -729,24 +729,6 @@ const listReportCategory = () => {
     }
 }
 
-// // //agregar id de actegoria a cada operacion
-// const idCategoryOp = ({id, value}) => {
-// console.log(value)
-//     operations.map((operation)=>{
-//         if (operation.categOp === value) {
-//            operation.idCategory = id
-//         }
-//         return operation
-//     })
-// }
-
-
-//eliminar operacion si se elimina la categoria
-// const deleteCategoryOp = (idX) =>{
-//     operations = operations.filter(operation => operation.categOp.idCategory !== idX)
-// localStorage.setItem("categories", JSON.stringify(operations));
-// openApp()
-// }
 
 // edita categoria
 const openEditCategory = () => {
