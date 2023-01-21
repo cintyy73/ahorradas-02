@@ -127,6 +127,7 @@ let operation = {
     datesOp: "",
     idCategory: "",
 };
+
 //categorias
 let $$category = categoryLocalSt || []
 
@@ -148,20 +149,30 @@ let balanceMax = 0
 
 /************FUNCIONES*****************/
 
-//Funciones NAV
+const removeHidden = (element1) =>{
+    element1.classList.remove("is-hidden")  
+}
+
+const addHidden = (element1) =>{
+    element1.classList.add("is-hidden")  
+}
+
+//***********NAV
 // menu 
 const burgerActive = () => {
     $btnBurger.classList.toggle("is-active");
     $modalNav.classList.toggle("is-active");
 }
 
+
 //activa vistas y/o oculta segun btn
 const viewsReport = () => {
-    $viewBalance.classList.add("is-hidden");
-    $viewReport.classList.remove("is-hidden");
-    $viewCategory.classList.add("is-hidden");
-    operations === [] ? $viewListSection.classList.add("is-hidden") : $viewListSection.classList.remove("is-hidden")
-    operations === [] ? $viewImgSection.classList.remove("is-hidden") : $viewImgSection.classList.add("is-hidden")
+    addHidden( $viewBalance)
+    removeHidden($viewReport)
+    addHidden($viewCategory)
+    removeHidden($viewListSection)
+    operations === [] ? addHidden($viewListSection) : removeHidden($viewListSection)
+    operations === [] ? removeHidden($viewImgSection) : addHidden($viewImgSection)
     reporList()
 }
 
@@ -175,35 +186,23 @@ const reporList = () => {
 }
 
 const viewsCategory = () => {
-    $viewBalance.classList.add("is-hidden");
-    $viewReport.classList.add("is-hidden");
-    $viewCategory.classList.remove("is-hidden");
+    addHidden($viewBalance)
+    addHidden($viewReport)
+    removeHidden($viewCategory)
 }
 
 const viewsBalance = () => {
-    $viewBalance.classList.remove("is-hidden");
-    $viewReport.classList.add("is-hidden");
-    $viewCategory.classList.add("is-hidden");
+    addHidden($viewReport)
+    addHidden($viewCategory)
+    removeHidden($viewBalance)
+
 }
 
 //Functions BALANCE
 
-//oculta o muestra vistas segun btn nueva operacion
-const closeBalance = () => {
-    $balance.classList.add("is-hidden");
-}
-
-const openBalance = () => {
-    $balance.classList.remove("is-hidden");
-}
-
-const boxNewOp = () => {
-    $boxNewOp.classList.remove("is-hidden");
-}
-
 const closeBoxNewOp = () => {
-    $boxNewOp.classList.add("is-hidden");
-    openBalance()
+    addHidden($boxNewOp)
+    removeHidden($balance) 
 }
 
 // doy valor a las variables segun los inputs
@@ -231,25 +230,24 @@ const addLocalStorage = () => {
     localStorage.setItem("operationsOB", JSON.stringify(operations));
 }
 
-//eliminar ooperacion
+//eliminar operacion
 const deleteOp = (idX) => {
     operations = operations.filter(operation => operation.idOp !== idX)
     localStorage.setItem("operationsOB", JSON.stringify(operations))
     openApp()
 }
 
-// btn cancelar ediciion de operaciones
+// btn cancelar edicion de operaciones
 const cancelEditOP = () => {
-    $boxEditOp.classList.add("is-hidden")
-    $balance.classList.remove("is-hidden")
+   addHidden( $boxEditOp)
+   removeHidden($balance)
 }
 
 //añade info a vista de operaciones en balance
 const addHtmlBlc = (listOperations) => {
     $modalListBlc.innerHTML = ``
-
-    $viewListOp.classList.remove("is-hidden");
-    $contInnerOp.classList.add("is-hidden");
+    removeHidden($viewListOp)
+    addHidden($contInnerOp)
 
     for (const { idOp, nameOp, categOp, typeOp, amountOp, dateOp } of listOperations) {
         const divContainer = document.createElement("div")
@@ -292,8 +290,8 @@ const addHtmlBlc = (listOperations) => {
 }
 
 const openModalEdit = () => {
-    $boxEditOp.classList.remove("is-hidden")
-    $balance.classList.add("is-hidden")
+    removeHidden($boxEditOp)
+    addHidden($balance)
 }
 
 //abrir modal y dar mismo valor a los inputs para editar 
@@ -752,8 +750,8 @@ const listReportCategory = () => {
 
 // edita categoria
 const openEditCategory = () => {
-    $modalEditCategory.classList.remove("is-hidden")
-    $viewCategory.classList.add("is-hidden")
+    removeHidden($modalEditCategory)
+    addHidden($viewCategory)
 }
 
 const editCategoryName = (idX) => {
@@ -764,8 +762,8 @@ const editCategoryName = (idX) => {
 
 //cancela edicion de categoria
 const cancelEdit = () => {
-    $modalEditCategory.classList.add("is-hidden")
-    $viewCategory.classList.remove("is-hidden")
+   addHidden( $modalEditCategory)
+   removeHidden( $viewCategory)
 }
 
 //ejecuto funciones necasarias para btn ok edicion 
@@ -779,8 +777,9 @@ const editNameOk = () => {
 
 //ejecuto funciones necesarias para abrir modal btn nueva operacion
 const addNewOp = () => {
-    boxNewOp()
-    closeBalance()
+    removeHidden($boxNewOp)
+    addHidden($balance)
+
 }
 
 //ejecuto funciones necesarias añadir operacion
@@ -909,7 +908,7 @@ $filterType.addEventListener("change", viewFylter);
 $categoryFilterI.addEventListener("change", viewCategory);
 $orderMI.addEventListener("change", viewOrder);
 $btnFilterHidden.addEventListener("change", filterClose);
-$Isince.addEventListener("change", filterDate)
+$Isince.addEventListener("change", filterDate);
 //eventos categorias
 $btnNewCategory.addEventListener("click", addCategories);
 $btnCancelName.addEventListener("click", cancelEdit);
